@@ -1,0 +1,32 @@
+파이썬 자동화 (대량 처리)
+
+python
+import rawpy
+import imageio
+import os
+
+input_folder = "dng_files"
+output_folder = "jpg_files"
+os.makedirs(output_folder, exist_ok=True)
+
+for file in os.listdir(input_folder):
+    if file.lower().endswith(".dng"):
+        path = os.path.join(input_folder, file)
+        with rawpy.imread(path) as raw:
+            rgb = raw.postprocess()
+        out_path = os.path.join(output_folder, file.replace(".dng", ".jpg"))
+        imageio.imsave(out_path, rgb)
+        print(f"변환 완료: {out_path}")
+pip install rawpy imageio 필요.
+
+수십~수백 장도 자동 변환 가능.
+
+⚠️ 주의할 점
+JPG는 손실 압축 → 원본 DNG보다 동적 범위가 줄어듭니다. 원본은 반드시 보관하세요.
+
+대량 변환 시 로컬 툴이 안정적이고 빠릅니다.
+
+온라인 변환기는 간단하지만 업로드 제한과 개인정보 이슈가 있을 수 있습니다.
+
+👉 추천: 대량 변환 + 품질 유지가 목적이라면 RawTherapee/Darktable 또는 Python + rawpy 자동화가 가장 적합합니다.
+혹시 원하시는 건 간단히 몇 장만 변환인지, 아니면 수백 장 이상 대량 변환인지 알려주시면 더 맞춤형으로 방법을 정리해 드릴 수 있습니다.

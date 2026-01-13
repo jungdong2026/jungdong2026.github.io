@@ -1,0 +1,367 @@
+﻿<link href="css/IP.css" rel="stylesheet" type="text/css" />
+<div id="subChapter">
+        <b>Fourier transform theory (edit 98/8/29 by jjd)</b>
+
+    </div>
+    <div id="subChapterChild">
+
+        <pre>
+
+                        ▪Important properties of the Fourier transform
+                        ▪Two dimensional Fourier transforms
+                        ▪The discrete Fourier transform
+                                                                             Robyn Owens(10/29/1997)
+        
+    So far we have been processing images by looking at the grey level at each point in the image. 
+    These methods are known as spatial methods.
+        
+    However, there are many ways of transforming image data into alternative representations 
+    that are more amenable for certain types of analysis. 
+    The most common image transform takes spatial data and transforms it into frequency data. 
+    This is done using the Fourier transform.
+        
+    The Fourier transform is simply a method of expressing a function 
+    (which is a point in some infinite dimensional vector space of functions) 
+    in terms of the sum of its projections onto a set of basis functions. 
+    Since an image is only defined on a closed and bounded domain (the image window),
+    we can assume that the image is defined as being zero outside this window. In other words, 
+    we can assume that the image function is integrable over the real line.
+        
+    To see how the Fourier transform works, 
+    we will begin with a one-dimensional signal and consider a simple step function. 
+    This is equivalent to taking a horizontal slice through an image 
+    that is black on its left half and white on its right half,
+        
+    as shown in figure 1. Now, a step function (or a square wave form) 
+    can be represented as a sum of sine waves of frequency
+    ω, 3ω, 5ω where ω is the frequency of the square wave, 
+    and we recall that frequency = 1/wavelength.
+        
+    Normally, frequency refers to the rate of repetitions per unit time, 
+    that is, the number of cycles per second (Hertz). 
+    In images we are concerned with spatial frequency, 
+    that is, the rate at which brightness in the image varies across the image, 
+    or varies with viewing angle.
+        
+    Figure 2 shows the sum of the first few terms in a sine wave decomposition of a square wave. 
+    This sum converges to the square wave as the number of terms tends to infinity.
+        
+            <img src="img/fourier/image003.png" />
+            Figure 1: A step function as a slice through an image.
+
+            <img src="img/fourier/image004.png" />
+            Figure 2: A step function is the sum of an infinite number of sine waves.
+        
+    From the decomposition of the signal into varying sinusoidal components 
+    we can construct a diagram displaying the amplitudes of all the sinusoids for all the frequencies. 
+    A graph of such a diagram is given in figure 3 below for the square wave.
+        
+    Note that we have to consider negative frequencies (whatever that might actually mean) 
+    so the sinusoidal component of frequency f and amplitude A1 has to be split into
+    two components of amplitude A1/2 at the frequencies +f and -f. 
+    A graph of the amplitude of the Fourier components is known as the spectrum of the wave form.
+        
+            <img src="img/fourier/image005.png" />
+            Figure 3: The amplitude of the sine waves at each frequency for a square wave.
+       
+    So what does the Fourier transform really mean? 
+    When we calculate the Fourier transform of an image, 
+    we treat the intensity signal across the image as a function, not just an array of values. 
+    The Fourier transform describes a way of decomposing 
+    a function into a sum of orthogonal basis functions 
+    in just the same way as we decompose a point in Euclidean space 
+    into the sum of its basis vector components.
+        
+    For example, a vector v in 3-space is described in terms of 3 orthogonal unit vectors i, j and k, 
+    and we can write v as the sum of its projections onto these 3 basis vectors:
+        
+    <em>v = xi + yj + zk </em>
+        
+    Given the vector v, we can calculate the components of v in each of the i, j, and k 
+    directions by calculating the dot product 
+    (or inner product or projection) of v and each of these basis vectors. 
+    Thus <em>x = v • i, y = v • j, and x = v  • k </em>
+        
+    A similar process is used to calculate the Fourier transform of a function. 
+    The function is just, conceptually, 
+    a point in some vector space (although now the vector space is infinitely dimensional). 
+
+    Given our orthogonal basis functions, 
+    we calculate the component of our given function in each of the basis functions 
+    by calculating the inner product between the two. 
+    The standard basis functions used for Fourier transform are <em>{sin(2πax),cos(2πax),ω∈R}</em> , 
+    or equivalently <em>{e<sup>-iwk</sup>,ω∈R }</em>
+        
+    It is the frequency ω that varies over the set of all real numbers 
+    to give us an infinite collection of basis functions. 
+    Since <em>e<sup>-2πax</sup> = cos(2πax) + i sin(2πax)</em>we see that the Fourier transform has real 
+    and imaginary components. Moreover, 
+    the exponential form of basis function allows us to represent both real 
+    and complex valued functions by their Fourier transform.
+        
+    We can show that any two basis functions of different frequencies are 
+    orthogonal by calculating their inner product and howing that it is 0. 
+    For example, for the real case and considering only the cosine terms,
+        
+            <i>∫cos(2πω<sub>1</sub>x)cos(2πω<sub>2</sub>x)dx = 0</i>
+        
+    for <em>ω<sub>1</sub> ≠ ω<sub>2</sub></em> , 
+    because the function being integrated is actually 
+    a cosine function itself <em>2cosAcosB = cos(A+B)+cos(A-B)</em> 
+    and so it has equal areas above and below the x-axis.
+        
+        
+    Thus, we project our given function f onto our basis functions <em>e<sup>-2πax</sup></em> to get 
+    the Fourier amplitudes <em>Fω</em> for each frequency <em>ω</em>:
+        
+            <i>￡(f(x)) = F(ω) = ∫f(x)e<sup>-2πωx</sup>dx</i>
+
+        
+    In general, <em>Fω</em> will be complex, 
+    say of the form <em>a(ω)+ib(ω)</em>.  
+    We often express F in polar form though:
+        
+        <i>F(ω) = |F(ω)|e<sup>2π(ω)</sup></i>
+
+    where
+        <i>|F(ω) = √(a<sup>2</sup>+b<sup>2</sup>)</i>
+        
+    and
+        <i> Φ(ω) = tan<sup>-1</sup>(a/b)</i>
+        
+            <img src="img/fourier/image021.png" />
+            Figure 4: The amplitude and phase angle of a sine wave at a particular frequency.
+        
+    The norm of the amplitude, |<em>Fω</em>| is called the <em>Fourier spectrum of f</em>, 
+    and the exponent  <em>ΦFω</em> is called the <em>phase angle</em>.
+    The square of the amplitude is just <em>P(ω)=a<sup>2</sup>(ω)+b<sup>2</sup>(ω)</em> 
+    and is called the power spectrum of f.
+        
+    In many applications only the amplitude information is needed and the phase information is discarded. 
+    However, despite this common practice, phase information should not be ignored. 
+    In images, as in sound signals, phase carries considerable information [3]. 
+    Openheim and Lim have shown 
+    that if we construct synthetic images made from the amplitude information of one image 
+    and the phase information of another, 
+    it is the image corresponding to the phase data that we perceive, if somewhat degraded.
+        
+            <img src="img/fourier/image023.jpg" /><img src="img/fourier/image024.gif" /><img src="img/fourier/image026.gif" />
+            Figure 5: The amplitude data are taken from the vdu image 
+                        and the phase data are taken from the face image.
+            Figure 6: The phase data dominates our perception.
+        
+    Now, having generated the Fourier transform of a function, 
+    we want to be able to reconstruct the original function from its Fourier components. 
+    This is simply done by summing up all the Fourier components multiplied 
+    by their corresponding basis function, that is,
+        
+        <i>f(x) = ∫F(ω)e<sup>2πωx</sup>dω</i>
+        
+    This is analogous to expressing the vector v as the sum of its projections onto the basis vectors. 
+    Note that the inverse Fourier transform uses the basis functions <em>e<sup>2πax</sup></em>, 
+            
+    whilst the Fourier transform uses the basis functions <em>e<sup>-2πax</sup></em>. 
+    This prevents a sign change occurring in the reconstruction process, since <em>iⅹi = -1, -iⅹi = 1</em>.
+        
+    Example : Consider again the square wave form shown in the figure below.
+        
+    Figure 7: A square wave form and its Fourier spectrum.
+        
+        <img src="img/fourier/image031.png" />
+
+    now
+        
+
+    <i>F(ω) = ∫f(x)e<sup>-2πωx</sup>dx
+            = ∫<sup>x</sup><sub>0</sub>Ae<sup>-2πωx</sup>dx
+            = -A/(2πω)e<sup>-2πωx</sup>|<sup>x</sup><sub>0</sub>
+            = -A/(2πω)[e<sup>-2πωx-1</sup>]
+            = A/(2πω)sin(πωX)e<sup>-πωx</sup>
+            = A/(πω)[e<sup>πωx</sup> - e<sup>-πωx</sup>]e<sup>-πωx</sup></i>
+        
+    This is a complex-values quantity, and the Fourier spectrum is given by its modulus, 
+        
+        <i>Ax sin(πωX)/(πωX)</i>
+
+<b>Important properties of the Fourier transform</b>
+        
+    Suppose we are given two functions <i> f</i> and <i> g</i>, 
+    with Fourier transforms <i> F </i>and <i> G </i>, and suppose that <i> a</i> and <i> b</i> are constants. Then
+        
+            ▪The Fourier transform is linear, that is,
+            <i>￡(af(x)+bg(y)) = aF(ω)+bG(ω)</i>
+        
+            ▪Changing spatial scale inversely affects frequency and amplitude, that is,
+            <i>￡(af(x)) = (1/a)F(ω/a)</i>
+        
+            ▪Shifting the function only changes the phase of the spectrum, that is,
+            <i>￡(f(x-a)) = -F(ω)e<sup>2πωa</sup></i>
+        
+    We can also take advantage of symmetries in the spatial and frequency domains as follows:
+        
+            if f(x) is real, then
+        
+                <i>F(-ω) = F(ω)•</i>
+        
+            if f(x) is imaginary, then
+        
+                <i>F(-ω) = -F(ω)•</i>
+        
+            if f(x) is even, then
+        
+                <i>F(-ω) = F(ω)</i>
+       
+            if f(x) is odd, then .
+        
+                <i>F(-ω) = -F(ω)</i>
+        
+    Here, the notation * indicates the complex conjugate operation. 
+    Thus, if <i>f(x)</i> is real and even,
+    then <em>F(ω)</em> is real and even, 
+    and if <i>f(x)</i>) is real and odd, then <em>F(ω)</em> is imaginary and odd.
+        
+    The Convolution Theorem tells us that convolution in the spatial domain corresponds to 
+    multiplication in the frequency domain, and vice versa. That is,
+        
+            <i>f(x)⊗g(x) ⇔ F(ω)G(ω)</i>
+     
+    and equivalently
+        
+            <i>f(x)g(x) ⇔ F(ω)⊗G(ω)</i>
+
+
+
+<b>Two dimensional Fourier transforms</b>
+        
+    Now an image is thought of as a two dimensional function 
+    and so the Fourier transform of an image is a two dimensional object. 
+    Thus, if <i>f</i> is an image, then
+        
+            <i>F(ω,v) = ∫∫f(x,y)e<sup>-2π(vx+vy)</sup>)dxdy</i>
+        
+    Fortunately, it is possible to calculate this integral in two stages, 
+    since the 2D Fourier transform is separable. 
+    Thus, we first form the Fourier transform with respect to <i>x</i>:
+        
+            <i>F(ω,y) = ∫f(x,y)e<sup>-2πωx</sup>dx</i>
+        
+    and then we calculate the Fourier transform of this function of <i>y</i>:
+        
+            <i>F(ω,v) = ∫F(ω,y)e<sup>-2πvy</sup>dy</i>
+
+<b>The discrete Fourier transform</b>
+        
+    So far, we have been considering functions defined on the continuous line. 
+    In digital images we can only process a function defined on a discrete set of points. 
+    This leads us to the <i>discrete Fourier transform</i>(DFT), 
+    whose equations are very similar to those for the continuous Fourier transform.
+        
+    The DFT provides information over a discrete number of frequencies, 
+    so we need to determine precisely which frequencies these are. To do this, 
+    we sample a continuous function <i>f</i> at intervals of △ , 
+    generating a sequence of sampled values
+        
+            <i>f<sub>k</sub> = f(k△)</i>
+        
+    where <i>k = ..., -2,-1,0,1,2,...,</i> The reciprocal of △ is the sampling rate, or frequency. 
+    For any sampling interval , there is a special frequency <i>ω<sub>f</sub></i> 
+    called the Nyquist critical frequency:
+        
+            <i>ω = 1/2△</i>
+   
+    The Nyquist frequency represents the highest frequency 
+    that can be represented by something sampled at intervals of △, 
+    that is, a frequency having wavelength of 2△. 
+    Alternatively, if one is seeking to describe a function by a set of discrete values, 
+    we must sample the function at 2 times the highest frequency in the function.
+        
+    For example, critical sampling of a sine wave is at 2 sample points per cycle; 
+    sampling at any slower rate will "miss" the sine wave.
+        
+            <img src="img/fourier/image056.png" />
+            Figure 8: Critical sampling of a sine wave. 
+                Sampling at a slower rate will miss the structure of the particular sine wave.
+        
+    If we wish to take the Fourier transform of N sampled values of a function 
+    <i>{f<sub>k</sub>, k = 0,1,....}</i> with <i>N</i> items of input, 
+    then we will not be able to produce more than N<i>N</i> independent items of output.
+        
+    We generate the Fourier transform at discrete frequencies
+        
+            <i>ω<sub>n</sub> = n/(N△)</i>
+        
+    where <i>n = -N/2, (-N/2)+1, ....., N/2</i>
+     
+    Thus, convolution with large masks in the spatial domain can often be done more efficiently 
+    as multiplication in the frequency domain. 
+    Likewise, division in the frequency domain corresponds to deconvolution in the spatial domain. 
+    This is the basis by which image restoration for blur due to focus or motion is done.
+        
+    These limits correspond to the upper and lower Nyquist frequencies.
+        
+    We now approximate the integral equation for the Fourier transform by a discrete summation:
+        
+            <i>F(ω<sub>n</sub>) = ∫f(x)e<sup>-2πωa<sup>x</sup></sup>dx</i>
+            <i>≈ Σ<sub>k=0</sub><sup>N-1</sup>f<sub>k</sub>e<sup>-2πωak△</sup>△</i>
+            <i>= △Σ<sub>k=0</sub><sup>N-1</sup>f<sub>k</sub>e<sup>-2πk(ω/N)</sup></i>
+        
+    Typically, the sampling distance △ is set to 1, so the discrete Fourier transform is given by
+        
+            <i>F<sub>n</sub> = Σ<sub>k=0</sub><sup>N-1</sup>f<sub>k</sub>e<sup>-2πkn/N</sup></i>
+        
+    The inverse discrete Fourier transform is given by 
+
+            <i>f<sub>k</sub> = 1/N Σ<sub>n=0</sub><sup>N-1</sup>F<sub>n</sub>e<sup>-2πkn/N</sup></i>
+      
+    Note that the only differences between the forward and inverse transforms 
+    are (i) changing the sign in the exponential, and (ii) dividing the answer by <i>N</i>.
+        
+    So far, we are considering <i>N</i> to vary from <i>-N/2 to N/2</i> as <i>k</i> varies from <i>0</i> to <i>N-1</i>. 
+    However, our equation for the DFT is periodic in n with period N, that is , 
+    Thus, if we let <i>n</i> vary from <i>0</i> to <i>N-1</i> (which is a complete period) we will cover all the frequencies 
+    and <i>n</i> will vary in exact correspondence to <i>k</i>. Thus
+        
+            ▪ <i>n = 0</i> corresponds to the zero frequency component,
+            ▪ <i>1 ≤ n ≤ (N/2)-1</i> corresponds to the frequencies <i>0 < ω < ω<sub>e</sub></i>
+            ▪ <i>(2/N)+1 ≤ n ≤ N-1</i> corresponds to the frequencies , and
+                <i>-ω<sub>e</sub> < ω < 0</i>
+            ▪ <i>n = N/2</i> corresponds to both <i>-ω<sub>c</sub></i>and <i>ω<sub>c</sub></i>.
+            ▪ All standard implementations of the FFT produce data in this form.
+        
+    The DFT needs <i>N</i> complex multiplications of <i>fk</i> by  
+    and <i>N-1</i> additions of the resulting values to transform <i>N</i> values; 
+    its complexity is thus proportional to <i>N2</i>, 
+    thus justifying its nickname of the Slow Fourier Transform.
+        
+    The Fast Fourier Transform (FFT) is an ingenious algorithm which exploits various properties of 
+    the Fourier transform to enable the transformation to be done in <i>O(N log2 N)</i> operations. 
+    However, the FFT requires the size of the input data to be a power of 2; if this is not the case, 
+    the data are either truncated or padded out with zeros.
+
+<b>References</b>
+        1 R. Bracewell. The Fourier Transform and its Applications. McGraw Hill, 1965.
+        2 Rafael C. Gonzalez and Richard E. Woods. 
+            Digital Image Processing. Addison-Wesley Publishing Company, 1992, chapter 3.
+        3 A. V. Openheim and J. S. Lim. The importance of phase in signals. 
+            Proceedings of the IEEE 69:529-541, 1981.
+        4 William H. Press, Brian P. Flannery, Saul A. Teukolsky, and William T. Vetterling. Numerical Recipes: 
+            The Art of Scientific Computing. Cambridge University Press, 1986, chapter 12.
+        
+</pre> 
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

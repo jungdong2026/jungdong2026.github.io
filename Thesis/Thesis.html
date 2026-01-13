@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Color and Light</title>
+    <link href="Document/css/Psy.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="chapterAll"> 
+    <div id="chapterAllList"> 
+    <b>Thesis</b>
+    <button class="section-title">📘 Ⅰ. 博士學位論文</button> 
+    <ul class="section-content"> 
+        <li><a href="Thesis/PhdThesisKnowledgement.pdf" target="frameRight" class="focus">博士學位(감사의 글)</a></li>
+        <li><a href="Thesis/PhdThesisAbstractEnglish.pdf" target="frameRight" class="focus">博士學位(영문초록)</a></li>
+        <li><a href="Thesis/PhdThesisAbstractKorea.pdf" target="frameRight" class="focus">博士學位(국문초록)</a></li>
+        <li><a href="Thesis/ThesisColorSpatial.pdf" target="frameRight" class="focus">색상-공간정보 고려 내용기반 영상검색</a></li>
+        <li><a href="Thesis/ThesisDistanceHistogram.pdf" target="frameRight" class="focus">색상분할영역과 거리 히스토그램</a></li>
+        <li><a href="Thesis/ThesisContent-based Image Retrieval.pdf" target="frameRight" class="focus">Content-based Image Retrieval</a></li>
+        <li><a href="Thesis/ThesisImage Retrieval Using.pdf" target="frameRight" class="focus">Image Retrieval Using</a></li>
+     </ul>
+   
+    <button class="section-title">📘 Ⅱ. 碩士學位論文</button> 
+    <ul class="section-content"> 
+        <li><a href="Thesis/MSThesisKnowledgement.pdf" target="frameRight" class="focus">碩士學位論文(감사의 글)</a></li>
+        <li><a href="Thesis/MSThesisAbstract.pdf" target="frameRight" class="focus">碩士學位論文(영문초록)</a></li>
+        <li><a href="Thesis/MSThesisFullText.pdf" target="frameRight" class="focus">碩士學位論文(전문)</a></li>
+     </ul>
+     </div>
+    <div id="chapterAllContent">
+        <iframe name="frameRight" width="1200" height="1000" scrolling="auto" frameborder="0" src="Thesis/MSThesisKnowledgement.pdf"></iframe>
+    </div>
+</div>
+
+    <script>
+    // 아코디언 기능 
+        document.querySelectorAll(".section-title").forEach(button => {
+        button.addEventListener("click", () => { 
+        button.classList.toggle("active"); 
+        }); 
+    }); 
+    </script> 
+  </body> 
+</html>
+
+
+
+

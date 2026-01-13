@@ -1,0 +1,69 @@
+﻿<link href="css/IP.css" rel="stylesheet" type="text/css" />
+     <div id="subChapter">
+        <b>Smoothing Operations (edit 03/12/17 by jjd)</b>
+
+    </div>
+    <div id="subChapterChild">
+    
+        <pre>
+
+<b>Non-Linear Filters</b>
+    A variety of smoothing filters have been developed that are not linear.
+    While they cannot, in general, be submitted to Fourier analysis,
+    their properties and domains of application have been studied extensively.
+
+    * <i>Median filter </i>- 
+    The median statistic was described in Section 3.5.2.
+    A median filter is based upon moving a window over an image (as in a convolution)
+    and computing the output pixel as the median value of the brightnesses within the input window.
+
+    If the window is <i>J Χ K</i> in size we can order the <i>J * K</i> pixels in brightness value
+    from smallest to largest. 
+
+    If <i>J</i>*<i>K </i>is odd then the median will be
+    the (<i>J</i>*<i>K</i>+1)/2 entry in the list of ordered brightnesses. 
+
+    Note that the value selected will be exactly equal to one of the existing brightnesses so that 
+    no roundoff error will be involved if we want to work exclusively with integer brightness values.
+    
+    The algorithm as it is described above has a generic complexity per pixel of <i>O(J*K*log(J*K))</i>.
+    
+    Fortunately, a fast algorithm (due to uang et al. ) exists that 
+    reduces the complexity to <i>O(K) assuming J ≥ K</i>.
+    
+    A useful variation on the theme of the median filter is the <i>percentile filter</i>.
+
+    Here the center pixel in the window is replaced not by the 50%
+    (median) brightness value but rather by the <i>p</i>% brightness value where
+    <i>p</i>% ranges from 0% (the <i>minimum filter</i>) to 100% (the <i>maximum filter</i>).
+    Values other then (<i>p</i>=50)% do not, in general, correspond to smoothing filters.
+
+    * <i>Kuwahara filter </i>- 
+    Edges play an important role in our perception ofimages (see Figure 15) 
+    as well as in the analysis of images. 
+
+    As such it isimportant to be able to smooth images without disturbing the sharpness and,
+    if possible, the position of edges.
+
+    A filter that accomplishes this goal is termed an <i>edge-preserving filter</i> 
+    and one particular example is the Kuwahara filter .
+    
+    Although this filter can be implemented for a variety of different window shapes, 
+    the algorithm will be described for a square window of size <i>J = K = 4L + 1 where L</i> is an integer. 
+    The window is partitioned into four regions as shown in Figure 29.
+    
+            <img src="img/Smoothing/fip185.gif">
+
+            Figure 29: Four, square regions defined for the Kuwahara filter. In
+            this example <i>L</i>=1 and thus <i>J</i>=<i>K</i>=5. Each region is [(<i>J+1)/2] Χ [(K+1)/2].</i>
+            
+    In each of the four regions (<i>i=1,2,3,4)</i>, the mean brightness,
+    <i>m<sub>i</sub></i> in eq. , and the <i>variance<sub>i</sub></i>,
+    <i>s<sub>i</sub><sup>2</sup></i> in eq. , are measured. 
+
+    The output value of the center pixel in the window is the mean value of that 
+    region that has the smallest variance.
+    
+        </pre>
+
+    </div>

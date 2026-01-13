@@ -1,0 +1,45 @@
+<!-- 첫 번째 이미지 -->
+<a href="images/photo1_large.jpg" data-lightbox="trip" data-title="첫 번째 사진">
+  <img src="images/photo1_thumb.jpg" alt="첫 번째 썸네일">
+</a>
+
+<!-- 두 번째 이미지 -->
+<a href="images/photo2_large.jpg" data-lightbox="trip" data-title="두 번째 사진">
+  <img src="images/photo2_thumb.jpg" alt="두 번째 썸네일">
+</a>
+
+<!-- 세 번째 이미지 -->
+<a href="images/photo3_large.jpg" data-lightbox="trip" data-title="세 번째 사진">
+  <img src="images/photo3_thumb.jpg" alt="세 번째 썸네일">
+</a>
+<script>
+  lightbox.option({
+    'wrapAround': true,              // 마지막 → 첫 번째 순환
+    'showImageNumberLabel': true,    // "이미지 1 of 3" 표시
+    'disableScrolling': true,        // 배경 스크롤 방지
+    'positionFromTop': 50            // 상단 여백(px)
+  });
+</script>
+
+<!-- 썸네일은 작은 파일, href는 큰 원본 -->
+<a href="images/photo1_large.jpg" data-lightbox="gallery" data-title="사진 1">
+  <img src="thumbs/photo1_small.jpg" alt="사진 1 썸네일">
+</a>
+
+<!-- 공통 그룹 이름: gallery -->
+<a href="images/photo1_large.jpg" data-lightbox="gallery" data-title="사진 1 설명">
+  <img src="images/photo1_thumb.jpg" alt="사진 1 썸네일">
+</a>
+
+<a href="images/photo2_large.jpg" data-lightbox="gallery" data-title="사진 2 설명">
+  <img src="images/photo2_thumb.jpg" alt="사진 2 썸네일">
+</a>
+
+<a href="images/photo3_large.jpg" data-lightbox="gallery" data-title="사진 3 설명">
+  <img src="images/photo3_thumb.jpg" alt="사진 3 썸네일">
+</a>
+
+<a href="images/photo4_large.jpg" data-lightbox="gallery" data-title="사진 4 설명">
+  <img src="images/photo4_thumb.jpg" alt="사진 4 썸네일">
+</a>
+

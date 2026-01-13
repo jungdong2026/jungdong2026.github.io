@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <style>
+        /* 전체 컨테이너를 가로 배치 */
+        #profilrAll {
+            display: flex;              /* 가로 배치 */
+            align-items: stretch;       /* 같은 높이로 맞춤 */
+            gap: 20px;                  /* 간격 */
+        }
+
+        /* 왼쪽 텍스트 영역 */
+        #profileAllList {
+            flex: 1;                    /* 비율 */
+            padding: 10px;
+            background-color: #f9f9f9;  /* 확인용 배경색 */
+        }
+
+        /* 오른쪽 사진 영역 */
+        #profileContent {
+            flex: 1;                    /* 비율 */
+            display: flex;
+            justify-content: center;    /* 가로 중앙 */
+            align-items: center;        /* 세로 중앙 */
+        }
+
+        ul.profilecontent {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        img {
+            width: 80%;                /* 부모 너비에 맞춤 */
+            height: 80%;               /* 부모 높이에 맞춤 */
+            object-fit: contain;        /* 잘리지 않고 비율 유지 */
+        }
+    </style>
+</head>
+<body> 
+    <b>Profile</b>
+    <hr />
+
+    <div id="profilrAll"> 
+        <div id="profileAllList"> 
+            <ul class="profilecontent"> 
+                <p>현재는 과거의 반영이며, 미래의 거울이다.</p>
+                <li>○ 공학박사 : 영남대학교 대학원 정보통신공학전공</li>
+                <li>○ 발표논문</li>
+                <li style="padding-left: 30px;">▷ Content-based Image Retrieval considering Color and Spatial Information</li>
+                <li style="padding-left: 30px;">▷ Digital Image Restoration using Combined Filter</li>
+                <li>○ 수필가 : 영남문학 등단</li>
+                <li>○ 디지털사진가협회 사진작가</li>
+                <li>○ 1952년 2월 11일생</li>
+            </ul>                       
+        </div> 
+        <div id="profileContent">
+            <img src="Image/박사.jpg" alt="Self Portrait">
+        </div>
+    </div>
+</body> 
+</html>

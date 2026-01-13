@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+
+
+<!--<html>
+<head>
+    <style>
+        input[value="1"]:checked ~ div[id="1"] {
+            display: none;
+        }
+
+        input[value="2"]:checked ~ div[id="2"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <input type="radio" name="hider" value="1">
+    <input type="radio" name="hider" value="2">
+    <div id="1">div 1</div>
+    <div id="2">div 2</div>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        li {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+
+    <p>Display a list of links as a horizontal menu:</p>
+    <ul>
+        <li><a href="/html/default.asp" target="_blank">HTML</a></li>
+        <li><a href="/css/default.asp" target="_blank">CSS</a></li>
+        <li><a href="/js/default.asp" target="_blank">JavaScript</a></li>
+    </ul>
+
+</body>
+</html>
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Using a DOM function</title>
+    <script>
+
+  
+    </script>
+
+    <style>
+        a {
+            background-color: #eee;
+        }
+
+            a:hover {
+                background: #ff0;
+            }
+
+        #toggleMe {
+            background: #cfc;
+            display: none;
+            margin: 30px 0;
+            padding: 1em;
+        }   
+            #toggleMe2 {
+            background: #cfc;
+            display: none;
+            margin: 30px 0;
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Using a DOM function</h1>
+
+    <h2><a id="showhide" href="#">Show paragraphShow paragraph</a></h2>
+
+    <p id="toggleMe">This is the paragraph that is only displayed on request.</p>
+
+    <p>The general flow of the document continues.</p>
+
+
+
+    <script>
+        changeDisplayState = function (id) {
+            var d = document.getElementById('showhide'),
+                 e = document.getElementById(id);
+            if (e.style.display === 'none' || e.style.display === '') {
+                e.style.display = 'block';
+                d.innerHTML = 'Hide paragraph';
+            }
+            else {
+                e.style.display = 'none';
+                d.innerHTML = 'Show paragraph';
+            }
+        };
+        document.getElementById('showhide').onclick = function () {
+            changeDisplayState('toggleMe');
+            return false;
+        };
+    </script>
+
+
+
+
+
+
+</body>
+</html>
+  
+  
+<html>
+<head>
+    <title>Show and hide div with JavaScript</title>
+    <script>
+        function showhide() {
+            var div = document.getElementById(name);
+            if (div.style.display !== "none") {
+                div.style.display = "none";
+            }
+            else {
+                div.style.display = "block";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="newpost">
+        <p>This div will be show and hide on button click</p>
+    </div>
+    <button id="button" onclick="showhide('newpost')">Click Me</button>
+</body>
+</html>
+
+                <div class="fakelink" id="show_p"
+                     onclick="this.style.display = 'none';
+                     document.getElementById('hide_p').style.display = 'block';
+                     document.getElementById('photos').style.display = 'inline';">
+                    &raquo; 요약문 더보기.
+                </div>
+                <div class="fakelink" id="hide_p"
+                     onclick="this.style.display = 'none';
+                        document.getElementById('show_p').style.display = 'block';
+                        document.getElementById('photos').style.display = 'none';">
+                    &raquo;  요약문숨기기.
+                </div>
+               
+                <div id="photos">
+                    <embed src="영문(2단).PDF" width="1200" height="1200" alt="pdf"> 
+                </div>
+
+                <div id="photos" style="margin-left:80px";>
+                    <pre style="text-align:justify">
+                    내용기반 영상검색 기법의 연구 중에서 가장 많이 사용되고 있는 히스토그램 방법은 영상이 다르더라도
+    </div>
+
+<html>
+<head>
+    
+        <title>Simple jQuery: Hide/Show divs with .toggle() and .slidetoggle()</title>
+      
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+        
+ 
+
+
+    </head>
+<body>
+    <p>
+        <script type="text/javascript">
+    $(function () {
+        $('#toggle2').click(function () {
+            $('.toggle2').toggle();
+            return false;
+        });
+    });
+        </script>
+
+    </p>
+    <p><a href="#" id="toggle2">Switch Text Toggle</a></p>
+    <p class="toggle2">I&#8217;m visible on load!</p>
+   <!--// <p class="toggle2" style="display:none;">I&#8217;m hidden on load!</p>
+    <p></p>
+</html>
+</body>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Case</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">WebSiteName</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Page 1-1</a></li>
+                            <li><a href="#">Page 1-2</a></li>
+                            <li><a href="#">Page 1-3</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Page 2</a></li>
+                    <li><a href="#">Page 3</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h3>Navbar With Dropdown</h3>
+        <p>This example adds a dropdown menu for the "Page 1" button in the navigation bar.</p>
+    </div>
+
+</body>
+</html>
+
+
+

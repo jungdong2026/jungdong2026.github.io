@@ -1,0 +1,63 @@
+﻿<link href="css/IP.css" rel="stylesheet" type="text/css" />
+<div id="subChapter">
+    <b>이진영상처리(Noise Reduction)</b>
+    <hr />
+</div>
+<div id="subChapterChild">
+
+    <pre>
+
+<b>Difference of Gaussians</b> 
+    LoG 연산자의 계산 시간이 상당하기 때문에 
+    가우시안에 대한 차 연산자(Difference of Gaussians)를
+    LoG의 근사한 값으로 대신 사용 할 수 있다. 
+    DoG는 다음식에 의해서 계산된다.
+
+        <i>DoG(x,y) = eΔ<sub>1</sub>/2πσ<sub>1</sub><sup>2</sup> - eΔ<sub>2</sub>/2πσ<sub>2</sub><sup>2</sup> </i> 
+        <i>여기에서 Δ<sub>1</sub> = -(x<sup>2</sup>+y<sup>2</sup>)/2σ<sub>1</sub><sup>2</sup>이고, Δ<sub>2</sub> = -(x<sup>2</sup>+y<sup>2</sup>)/2σ<sub>2</sub><sup>2</sup></i>이다.
+
+    DoG 연산자는 다른 σ 를 가진 두 개의 가우시안 마스크를 차 연산한 마스크로 
+    영상을 회선함으로서 수행된다.
+    DoG 연산자의 장점은 σ1과 σ2의 값을 변화 시킴으로써 
+    검출할 에지의 넓이를 조절할 수 있다는 것이다.
+
+                %  DoG  연산자를 이용한 에지검출 프로그램(Matlab)
+
+                %  orginal source URL : http://sys.gsnu.ac.kr/
+                %  Modify Jang Jung Dong
+
+                clear all;
+                close all;
+
+                % 임의의 그림 파일을 선택
+                [file1, path1] = uigetfile('*.*', 'Open File');
+
+                % 지정된 파일과 경로를 사용하여 그림 파일을 읽어 들인다
+                RGB = imread(strcat(path1, file1));
+
+                gray_image = rgb2gray(RGB);
+                [R,C] = size(gray_image);
+                g_img = double(gray_image);
+
+                h1 = fspecial('gaussian',3,1.6);
+                h2 = fspecial('gaussian',3,1.0);
+
+                gaussian_img1 = conv2(g_img,h1);
+                gaussian_img2 = conv2(g_img,h2);
+
+                new_image = gaussian_img1 - gaussian_img2;
+
+                % 결과 영상
+                figure(1);
+                subplot(1,2,1); imshow(gray_image);title('Input Image');
+                % DoG 연산자에 의한 에지 추출
+                subplot(1,2,2); imshow(mat2gray(new_image));title
+                axis off
+                axis equal
+                axis image
+
+                set(gcf, 'color', 'w')
+
+
+    </pre>
+</div>

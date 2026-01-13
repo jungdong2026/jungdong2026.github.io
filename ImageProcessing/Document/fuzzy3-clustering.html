@@ -1,0 +1,79 @@
+﻿<link href="css/IP.css" rel="stylesheet" type="text/css" />
+<div id="subChapter">
+    <b>FUZZY THEORY</b>
+
+</div>
+<div id="subChapterChild">
+
+    <pre>
+
+<b>퍼지 군집화(FUZZY CLUSTERING)</b>
+        Identifying the number of sub-classes of "c" clusters in a data universe X comprised
+        of n data samples, and partitioning X into c clusters.
+
+        • how to measure the similarity
+        • how to evaluate the partition once they are formed
+
+<b>Mathematical Representation:</b>
+
+        X= {x1, x2, x3, ….xn} n: number of samples
+        xi= (fi1, fi2, ……..fim) m: number of features
+
+                            <img src="img/fuzzy/fuzz011.gif" />
+                            figure 1: the problem of clustering
+
+    <b>Hard C-Means: introductory conditions</b>
+
+                            <img src="img/fuzzy/fuzz012.gif" />
+        
+        • How can we select U?
+
+                            <img src="img/fuzzy/fuzz013.gif" />
+
+<b>Hard C-Means Algorithm:</b>
+
+                            <img src="img/fuzzy/fuzz014.gif" />
+
+<b>Fuzzy C-Means: introductory conditions</b>
+
+                            <img src="img/fuzzy/fuzz015.gif" />       
+        • Selection of U?
+                            <img src="img/fuzzy/fuzz016.gif" />
+  
+<b>Fuzzy C-Means Algorithm (Bezdek, 1981):</b>
+
+                            <img src="img/fuzzy/fuzz017.gif" />
+
+<b>Graphic Example of the Fuzzy-C Means Algorithm</b>
+
+                           <img src="img/fuzzy/fuzz018.gif" />
+                figure 2 : Fuzzy C-Means Clustering, c=3
+                           <img src="img/fuzzy/fuzz019.gif" />
+                figure 3: membership function of a cluster see also figure 4
+
+<b>Classification Metric</b>
+
+        <i>How fuzzy is the fuzzy partition?</i>
+        Fuzzy partition coefficient:<i>F<sub>C</sub>(U)=tr(U<sup>*</sup>U<sup>t</sup>)/n</i>
+
+<b>Defuzzification of the Fuzzy Partition U</b>
+
+        Max-Membership Method
+        Nearest Center Classifier
+
+<b>Similarity Relations from Clustering</b>
+
+        clustering U similarity relation:
+        <img src="img/fuzzy/fuzz020.gif" />
+
+<b>Fuzzy Clusters and Fuzzy Rules</b>
+
+        <i>
+        fuzzy rules: consequences of the projection over the "fiZ"(e.g., YZ) axes of the membership
+        functions of a cluster. (fi: feature I of the vector x)
+        </i>
+                            <img src="img/fuzzy/fuzz021.gif" />
+                            <img src="img/fuzzy/fuzz022.gif" />
+                figure 4: projection of the cluster membership function over the YZ (see figure 3 )
+    </pre>
+</div>

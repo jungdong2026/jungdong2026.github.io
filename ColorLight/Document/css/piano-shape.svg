@@ -1,0 +1,4 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 600">
+  <!-- 좌측 직선, 상단 곡선, 우측 직선, 하단 직선 -->
+  <path d="M0,0 H180 Q250,0 250,120 V600 H0 Z" fill="black"/>
+</svg>

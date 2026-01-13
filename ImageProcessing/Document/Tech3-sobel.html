@@ -1,0 +1,95 @@
+﻿<link href="css/IP.css" rel="stylesheet" type="text/css" />
+
+<div id="subChapter">
+
+    <!--Sobel Edge Detector///////////////////////////////////////////////////////////////////-->
+    <b>Sobel Edge Detector</b>
+</div>
+<div id="subChapterChild">
+    <pre>
+
+<b>Brief Description</b>
+    The Sobel operator performs a 2-D spatial gradient measurement on an image 
+    and so emphasizes regions of high spatial frequency that correspond to edges.
+    Typically it is used to find the approximate absolute gradient magnitude at each point 
+    in an input grayscale image.
+    
+<b>How It Works</b>
+    In theory at least, the operator consists of a pair of 3Χ3 convolution kernels as shown in Figure 1.
+    One kernel is simply the other rotated by 90°. This is very similar to the Roberts Cross operator.
+    
+    <img src="img/sobel/sb01.png"><br>
+                    Figure 1 Sobel convolution kernels
+    
+    
+    These kernels are designed to respond maximally to edges running vertically and horizontally relative to 
+    the pixel grid, one kernel for each of the two perpendicular orientations. 
+    The kernels can be applied separately to the input image, to produce separate measurements
+    of the gradient component in each orientation (call these Gx and Gy). 
+    These can then be combined together to find the absolute magnitude of
+    the gradient at each point andthe orientation of that gradient. 
+    The gradient magnitude is given by:
+    
+        <i>|G| = √Gx<sup>2</sup>Gy<sup>2</sup></i>
+
+    Typically, an approximate magnitude is computed using:
+    
+        <i>|G| = |Gx| = |Gy|</i>
+   
+    which is much faster to compute.
+    
+    The angle of orientation of the edge (relative to the pixel grid) giving rise 
+    to the spatial gradient is given by:
+    
+        θ = arctan(Gy/Gx)
+    
+    In this case, orientation 0 is taken to mean that the direction of maximum contrast 
+    from black to white runs from left to right on the image,
+    and other angles are measured anti-clockwise from this.
+    
+    Often, this absolute magnitude is the only output the user
+    sees --- the two components of the gradient are conveniently computed 
+    and added in a single pass over the input image using the
+    pseudo-convolution operator shown in Figure 2.
+    
+            <img src="img/sobel/sb05.png">
+    
+    Figure 2 Pseudo-convolution kernels used to quickly compute approximate gradient magnitude
+    Using this kernel the approximate magnitude is given by:
+    
+        <i>|G| = |(P<sub>1</sub>+2×P<sub>2</sub>+P<sub>3</sub>| - (P<sub>7</sub>+2×P<sub>8</sub>+P<sub>9</sub>)| + |(P<sub>3</sub>+2×P<sub>6</sub>+P<sub>9</sub>| - (P<sub>1</sub>+2×P<sub>4</sub>+P<sub>7</sub>)|</i>
+
+<b>uidelines for Use</b>
+    The Sobel operator is slower to compute than the Roberts Cross operator,
+    but its larger convolution kernel smooths the input image to a greater extent and so makes 
+    the operator less sensitive to noise.
+    The operator also generally produces considerably higher output values for similar edges, 
+    compared with the Roberts Cross.
+    
+    
+    As with the Roberts Cross operator, output values from the operator can easily overflow 
+    the maximum allowed pixel value for image types that
+    only support smallish integer pixel values (e.g. 8-bit integer images).
+    When this happens the standard practice is to simply set overflowing output pixels 
+    to the maximum allowed value.
+    The problem can be avoided by using an image type 
+    that supports pixel values with a larger range.
+    
+    Natural edges in images often lead to lines in the output image that are several pixels wide 
+    due to the smoothing effect of the Sobel operator.
+     Some thinning may be desirable to counter this. Failing that, 
+    some sort of hysteresis ridge tracking could be used as in the Canny operator.
+
+<b>Common Variants</b>
+    A related operator is the Prewitt gradient edge detector 
+    (not to be confused with the Prewitt compass edge detector).
+    This works in a very similar way to the Sobel operator but uses slightly different kernels, 
+    as shown in Figure 3.
+    
+    This kernel produces similar results to the Sobel, but is not as isotropic in its response.
+    
+    <img src="img/sobel/sb07.png">
+                Figure 3 Masks for the Prewitt gradient edge detector.
+    
+</pre>
+</div>

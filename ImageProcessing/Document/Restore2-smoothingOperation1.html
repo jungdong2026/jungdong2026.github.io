@@ -1,0 +1,184 @@
+﻿<link href="css/IP.css" rel="stylesheet" type="text/css" />
+     <div id="subChapter">
+        <b>Smoothing Operations (edit 03/12/17 by jjd)</b>
+
+    </div>
+    <div id="subChapterChild">
+        <pre>
+    These algorithms are applied in order to reduce noise and/or to
+    prepare images for further processing such as segmentation. 
+
+    We distinguish between linear and non- linear algorithms where the former are amenable to
+    analysis in the Fourier domain and the latter are not. We also distinguish
+    between implementations based on a rectangular support for the filter and
+    implementations based on a circular support for the filter.
+
+<b>Linear Filters</b>
+
+    Several filtering algorithms will be presented together with the most useful supports.
+        
+    * <i>Uniform filter </i>-
+    The output image is based on a local averaging of the input filter where all of
+    the values within the filter support have the same weight.
+
+    In the continuous spatial domain (<i>x,y</i>) the <i>PSF</i> and
+    transfer<i> </i>function are given in Table 4-T.1 for the rectangular case and
+    in Table 4-T.3 for the circular (pill box) case.
+
+    For the discrete spatial domain [<i>m,n</i>] the filter values
+    are the samples of the continuous domain case.
+
+    Examples for the rectangular case (<i>J=K</i>=5) and the circular
+    case (<i>R</i>=2.5) are shown in Figure 26.
+        
+
+            <img src="img/Smoothing/fip171.gif">
+            <img src="img/Smoothing/fip172.gif">
+            (a) Rectangular filter (<i>J</i>=<i>K</i>=5) (b) Circular filter (<i>R</i>=2.5)
+                Figure 26 : Uniform filters for image smoothing
+        
+    Note that in both cases the filter is normalized so that <i>Σh[j,k]=1</i>
+    This is done so that if the input <i>a[m,n] </i>is a constant then the output image <i>c[m,n]</i> is the same constant.
+    The justification can be found in the Fourier transform property described in eq. .
+
+    As can be seen from Table 4, both of these filters have transfer<i> </i>functions
+    that have negative lobes and can, therefore, lead to phase reversal as seen in Figure 23.
+
+    The square implementation of the filter is separable and incremental; the circular
+    implementation is incremental .
+        
+        
+    * <i>Triangular filter </i>- 
+    The output image is based on a local averagingo f the input filter where the values within the filter
+    support have differing weights.
+
+    In general, the filter can be seen as the convolution of two (identical) uniform filters either rectangular 
+    or circular and this has direct consequences for the computational complexity . (See Table 13.) 
+    
+    In the continuous spatial domain the <i>PSF</i> and transfer<i> </i>function are given in Table 4-T.2 
+    for the rectangular support case and in Table 4-T.4 for the circular (pill box) support case.
+ 
+    As seen in Table 4 the transfer<i></i> functions of these filters do not have negative lobes and 
+    thus do not exhibit phase reversal.
+        
+    Examples for the rectangular support case <i>(J=K=5)</i> and the
+    circular support case <i>(R=2.5)</i> are shown in Figure 27. 
+
+    The filter is again normalized so that <i>Σ[j,k]=1</i>.
+           
+            <img src="img/Smoothing/fip173.gif">    <img src="img/Smoothing/fip174.gif">
+            
+                (a) Pyramidal filter <i>(J=K=5)</i>      (b) Cone filter <i>(R=2.5)</i> 
+                Figure 27: Triangular filters for image smoothing
+
+    * <i>Gaussian filter </i>- 
+    The use of the Gaussian kernel for smoothing hasbecome extremely popular. 
+    This has to do with certain properties of the Gaussian
+    (e.g. the central limit theorem, minimum space-bandwidth product) as well as
+    several application areas such as edge finding and scale space analysis. 
+
+    The <i>PSF</i> and transfer function for the continuous space Gaussian are
+    given in Table 4-T6. The Gaussian filter is separable:
+        
+            <img src="img/Smoothing/fip175.gif">
+
+    There are four distinct ways to implement the Gaussian:
+        
+    - Convolution using a finite number of samples <i>(N<sub>o</sub>)</i> of the
+    Gaussian as the convolution kernel. It is common to choose <i>N<sub>o</sub></i>=&lceil;3σ&rceil; or &lceil;5σ&rceil;.
+        
+            <img src="img/Smoothing/fip176.gif">
+
+    - Repetitive convolution using a uniform filter as the convolution kernel.
+
+            <i>g<sub>1D</sub>[n] ≈ u[n]⊗u[n]⊗u[n]
+            u[n] = ｛1/(2N<sub>0</sub>+1)            |n|≤N<sub>0</sub>
+                       ｛0                        |n|>N<sub>0</sub> </i> 
+
+    The actual implementation (in each dimension) is usually of the form:
+
+            <i>c[n] = ((a[n]⊗u[n])⊗u[n])⊗u[n]</i>
+        
+    This implementation makes use of the approximation afforded by the central limit theorem.
+
+    For a desired σ with eq. , we use <i>N<sub>o</sub></i>=⌈σ⌉
+    although this severely restricts our choice of σ's to integer values.
+        
+    - Multiplication in the frequency domain.
+    As the Fourier transform of a Gaussian <i>is</i> a Gaussian (see Table -T.6),
+    this means that it is straightforward to prepare a filter ( Ω, Ψ) = <i>G<sub>2D</sub></i>( Ω, Ψ) for use with eq. . 
+    To avoid truncation effects in the frequency domain due to the infinite extent of the Gaussian 
+    it is important to choose a σ that is sufficiently large. 
+
+    Choosing σ> <i>k</i>/π  where <i>k</i> = 3 or 4 will usually be sufficient.
+        
+    - Use of a recursive filter implementation. 
+    A recursive filter has an infinite impulse response and thus an infinite support. 
+    The separable Gaussian filter can also be implemented by 
+    applying the following recipe in each dimension when σ ≥ 0.5.
+    
+                <i>i)</i> Choose the σ based on the desired goal of the filtering;
+                <i>ii)</i> Determine the parameter <i>q</i> based on eq. ; 
+                <i>iii)</i> Use eq. to determine the filter coefficients {<i>b<sub>0</sub>,b<sub>1</sub>,b<sub>2</sub>,b<sub>3</sub>,B</i>};
+                <i>iv)</i> Apply the forward difference equation, eq. ; 
+                <i>v)</i> Apply the backward difference equation, eq. ;                
+        
+    The relation between the desired σ and <i>q</i> is given by:
+        
+        <i>q = {<sup>0.98711σ-0.96330                           σ≥2.5         </sup>
+              {<sub>3.97156-4.14554√(1-0.26891σ)        0.5≤σ≤2.5</sub></i>
+
+    The <i>filter coefficients</i> {<i>b<sub>0</sub>,b<sub>1</sub>,b<sub>2</sub>,b<sub>3</sub>,B</i>} are defined by:
+        
+            <i>b<sub>0</sub> = 1.57825 + (2.44413q) + (1.4281q<sup>2</sup>) + (0.422205q<sup>3</sup>)
+           b<sub>1</sub> = (2.44413q) + (2.85619q<sup>2</sup>) + (1.26661q<sup>3</sup>)
+           b<sub>2</sub> = -(1.4281q<sup>2</sup>) - (1.26661q<sup>3</sup>)
+           b<sub>3</sub> = 0.422205q<sup>3</sup>
+           B = 1- (b<sub>1</sub> + b<sub>2</sub> + b<sub>3</sub>)/b<sub>0</sub></i> 
+        
+    The one-dimensional <i>forward difference equation </i>takes an input row (or column) <i>a[n]</i>
+    and produces an intermediate output result <i>w<[>n]</i> given by:
+        
+            <i>w[n] = Ba[n]+(b<sub>1</sub>w[n-1]+b<sub>2</sub>q[n-2]+b<sub>3</sub>w[n-3])/b<sub>0</sub></i>
+        
+    The one-dimensional <i>backward difference equation</i> takes the intermediate result <i>w</i>[<i>n</i>] and
+    produces the output <i>c</i>[<i>n</i>] given by:
+        
+            <i>c[n] = Bw[n]+(b<sub>1</sub>c[n+1]+b<sub>2</sub>c[n+2]+b<sub>3</sub>c[n-3])/b<sub>0</sub></i>
+
+    The forward equation is applied from <i>n </i>= 0 <i>up</i> to <i>n </i>=<i>N </i>- 1
+    while the backward equation is applied from <i>n </i>= <i>N</i> - 1 <i>down</i> to <i>n</i> = 0.
+        
+    The relative performance of these various implementation of the Gaussian filter can be described as follows. 
+    Using the <i>root-square error</i> 
+    between a true, infinite-extent Gaussian, <i>g[n]σ</i>,
+    and an approximated Gaussian, <i>h</i>[<i>n</i>], as a measure of accuracy, the
+    various algorithms described above give the results shown in Figure. 28a. The
+    relative speed of the various algorithms in shown in Figure 28b.
+        
+    The root-square error measure is extremely conservative and thus all filters,
+    with the exception of "Uniform 3<sub>x</sub>" for large σ, are sufficiently accurate. 
+    The recursive implementation is the fastest independent of σ; 
+    the other implementations can be significantly slower.
+    The FFT implementation, for example, is 3.1 times slower for <i>N</i>=256 . 
+    
+    Further, the FFT requires that <i>N</i> be a highly composite number.
+        
+            <img src="img/Smoothing/fip184.gif"><br />
+                a) Accuracy comparison b) Speed comparison<br />
+                Figure 28: Comparison of various Gaussian algorithms with
+            <i>N</i>=256. The legend is spread across both graph
+        
+* <i>Other </i>- 
+    The Fourier domain approach offers the opportunity to implement a variety of smoothing algorithms. 
+    The smoothing filters will then be <i>lowpass</i> <i>filters</i>. 
+    In general it is desirable to use a low pass filter 
+    that has zero phase so as not to produce phase distortion 
+    when filtering the image. The importance of phase was illustrated in Figures 5 and 23. 
+    When the frequency domain characteristics can be represented in an analytic form, 
+    then this can lead to relatively straightforward implementations of (Ω , Ψ).
+    Possible candidates include the lowpass filters "Airy" and "Exponential Decay"
+    found in Table 4-T.5 and Table 4-T.8, respectively.
+ </pre>
+        
+    </div>

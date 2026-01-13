@@ -1,0 +1,268 @@
+﻿<link href="css/IP.css" rel="stylesheet" type="text/css" />
+<div id="subChapter">
+    <b>Image Compression</b>
+    <hr />
+</div>
+<div id="subChapterChild">
+    <b>Differential Pulse Coded Modulation(DPCM)</b>
+    <hr />
+    <p>
+        예측부호화(DPCM)의 방법은 "근접한 화소는 서로 간에 거의 같은 값을 지니고 있다"고 하는 성질을 이용하여 압축하는 것을 골자로 한다.
+        DPCM에서는 그 작은 차이의 정보를 바켓 릴레이(운동회에서 400M계주를 연상하면 쉽게 이해가 갈 것이다)와 같이 차례로 넘어가는 부호화를 행한다.
+        영상의 DPCM은 아래 [그림 1]과 같이 영상의 각점을 순서대로 주사하면서, 주변의 화소값(A,B,C,D,E등)을 이용하여 다음에 오는 X위치의 화소값을 예측한다.
+    </p>
+    <pre>
+                    <img src="img/compression/dpcm01.gif" />
+                                [그림 1] 예측부호에 이용되는 주변 화소들
+    </pre>
+    <p>
+        DPCM에서는 예측한 값 X와 실제의 값 x와의 차(X-x)를 부호화하므로,
+        이 간격이 적을수록 실제의 값에 가까운 값을 예측할 수 있다. 보통 어느 화소값을 예측하는데 이용하는 화소는 여러개인 경우가 많다.
+        예를 들면, 외쪽의 화소값(B), 위쪽의 화소값(E)을 더한 값을 2로 나눈 값을 예측값으로 사용할 수가 있다. 자주 사용되는 예측값들은 다음과같다.
+    </p>
+    <pre>
+                    1. X = B
+                    2. X = (B + E) / 2
+                    3. X = (E - D + B)
+                    4. X = (B + F) / 2
+                    5. X = 2B - A
+    </pre>
+    <p>
+        이 중에서, 어떤 예측 방법을 이용할 것인가는 영상의 종류, 처리의 내용에 따라 다르지만,
+        1과 같이 바로 전(좌)의 화소값을 이용하는 방법으로도 충분한 효과를 얻을 수 있다. 그러면 각 예측 방법에 대한 프로그램을 살펴보자.
+    </p>
+    <pre>
+                            ¡ 1. X = B
+                            /**** function for forward DPCM (부호화하는 함수)*****/
+                            void dpcm1(int line,short int bank[SIZE]){
+                            int buf,cnt;
+                            buf = LEVEL;
+                            for(cnt = 0; cnt < SIZE; cnt++) {
+                            /* current value is differential value between
+                            current data and previous data(subtraction) */
+                            bank[cnt] = (int)image_in[line][cnt] - buf;
+                            buf = (int)image_in[line][cnt];
+                            }}
+
+
+
+                            /** function for inverse DPCM(복호화하는 함수)******/
+                            void inv_dpcm1(int line, short int bank[SIZE]){
+                            int cnt;
+                            unsigned char buf;
+                            buf = (unsigned char) LEVEL;
+                            for(cnt = 0; cnt < SIZE; cnt++) {
+                            /* current value is differential value between
+                            current data and previous data(addition) */
+                            image_out[line][cnt] = (unsigned char)(bank[cnt] + buf);
+                            buf = image_out[line][cnt];
+                            }}
+
+
+
+
+                            ¡ 2. X = (B + E) / 2
+                            /** function for forward DPCM(부호화하는 함수)****/
+                            void dpcm2(int line,short int bank[SIZE]){
+                            int buf,cnt;
+
+                            if(line == 0) /* if first line */    {
+                            buf = VAL; /* initialize */
+                            for(cnt = 0; cnt < SIZE; cnt++)         {
+                            /* current value is differential value between
+                            current data and previous data(subtraction) */
+                            bank[cnt] = (int)image_in[line][cnt] - buf;
+                            buf = ((int)image_in[line][cnt] + VAL)/2;
+                            }    }
+                            else    {
+                            for(cnt = 0; cnt < SIZE; cnt++)         {
+                            if(cnt == 0) /* if first column */
+                            buf = (VAL + (int)image_in[line-1][cnt])/2;
+                            else
+                            buf = (int)(image_in[line][cnt-1]
+                            + image_in[line-1][cnt])/2;
+                            bank[cnt] = (int)image_in[line][cnt] - buf;
+                            }     }}
+
+
+
+                            /** function for inverse DPCM(복호화하는 함수)****/
+                            void inv_dpcm2(int line, short int bank[SIZE]){
+                            unsigned char buf;
+                            int cnt;
+                            if(line == 0) /* if first line, */      {
+                            buf = (unsigned char)VAL;
+                            for(cnt = 0; cnt < SIZE; cnt++)          {
+                            /* current value is differential value between
+                            current data and previous data(addition) */
+                            image_out[line][cnt] = (unsigned char)bank[cnt] + buf;
+                            buf = (image_out[line][cnt] + (unsigned char)VAL)/2;
+                            }       }       else       {
+                            for(cnt = 0; cnt < SIZE; cnt++)         {
+                            if(cnt == 0) /* if first line, */
+                            buf = ((unsigned char)VAL
+                            + image_out[line -1][cnt])/2;
+                            else buf = (image_out[line][cnt-1]
+                            + image_out[line-1][cnt])/2;
+                            image_out[line][cnt] = (unsigned char) bank[cnt] + buf;
+                            }        }}
+
+
+
+
+                            /**function for forward DPCM(부호화하는 함수)*******/
+                            void dpcm3(int line,short int bank[SIZE]){
+                            int buf,cnt;
+                            if(line == 0) /* if first line */       {
+                            for(cnt = 0; cnt < SIZE; cnt++)      {
+                            if(cnt == 0) /* if first column */
+                            buf = VAL;
+                            else
+                            buf = (int)image_in[line][cnt-1];
+                            bank[cnt] = (int)image_in[line][cnt] - buf;
+                            }
+                            }        else        {
+                            /* current value is differential value between
+                            current data and previous data(subtraction) */
+                            for(cnt = 0; cnt < SIZE; cnt++)
+                            {
+                            if(cnt == 0) /* if first column */
+                            buf = (int)image_in[line-1][cnt] ;
+                            else
+                            buf = (int)( image_in[line-1]
+                            [cnt]-image_in[line-1][cnt-1]
+                            +image_in[line][cnt-1]);
+                            bank[cnt] = (int)image_in[line][cnt] - buf;
+                            }        }}
+
+
+
+                            /**function for inverse DPCM(복호화하는 함수) ****/
+                            void inv_dpcm3(int line, short int bank[SIZE]){
+                            int buf;
+                            int cnt;
+                            if(line == 0) /* if first line */       {
+                            for(cnt = 0; cnt < SIZE; cnt++)
+                            {
+                            if(cnt == 0) /* if first column */
+                            buf = VAL;
+                            else
+                            buf = (int)image_out[line][cnt-1];
+                            image_out[line][cnt] = (unsigned char)
+                            (bank[cnt] + buf);
+                            }        }
+                            else        {
+                            /* current value is differential value between
+                            current data and previous data(addition) */
+                            for(cnt = 0; cnt < SIZE; cnt++)
+                            {
+                            if(cnt == 0) /* if first column */
+                            buf = (int)image_out[line-1][cnt];
+                            else
+                            buf = (int)( image_out[line-1][cnt]
+                            - image_out[line-1][cnt-1]
+                            + image_out[line][cnt-1]);
+                            image_out[line][cnt] = (unsigned char)
+                            (bank[cnt] + buf);
+                            }         }}
+
+
+
+                            ¡ 4. X = (B + F) / 2
+                            /** function for forward DPCM(부호화하는 함수)*****/
+                            void dpcm4(int line,short int bank[SIZE]){
+                            int buf,cnt;
+                            if(line == 0) /* if first line */
+                            {
+                            buf = VAL;
+                            for(cnt = 0; cnt < SIZE; cnt++)
+                            {
+                            bank[cnt] = (int)image_in[line][cnt] - buf;
+                            buf = ((int)image_in[line][cnt-1] + VAL)/2;
+                            }
+                            }
+                            else
+                            { /* current value is differential value between
+                            current data and previous data(subtraction) */
+                            buf = (VAL + (int)image_in[line-1][cnt])/2;
+                            for(cnt = 0; cnt < SIZE; cnt++)
+                            {
+                            bank[cnt] = (int)image_in[line][cnt] - buf;
+                            buf = (int)(image_in[line][cnt-1] +
+                            image_in[line-1][cnt+1])/2;
+                            }        } }
+
+
+
+                            /**function for inverse DPCM(복호화하는 함수)****/
+                            void inv_dpcm4(int line, short int bank[SIZE]){
+                            unsigned char buf;
+                            int cnt;
+                            if(line == 0) /* if first line */
+                            {
+                            buf = (unsigned char)VAL;
+                            for(cnt = 0; cnt < SIZE; cnt++)
+                            {
+                            image_out[line][cnt] =
+                            (unsigned char)bank[cnt] + buf;
+                            buf = (image_out[line][cnt]
+                            + (unsigned char)VAL)/2;
+                            }        }
+                            else        {
+                            buf = ((unsigned char)VAL
+                            + image_out[line -1][cnt])/2;
+                            /* current value is differential value between
+                            current data and previous data(addition) */
+                            for(cnt = 0; cnt < SIZE; cnt++)
+                            {
+                            image_out[line][cnt] =
+                            (unsigned char) bank[cnt] + buf;
+                            buf = (image_out[line][cnt-1]
+                            + image_out[line-1][cnt+1])/2;
+                            }         }}
+
+
+
+
+                            ¡ 5. X = 2B - A
+                            /** function for forward DPCM(부호화하는 함수)****/
+                            void dpcm5(int line,short int bank[SIZE]){
+                            int buf,cnt;
+                            /* current value is differential value between
+                            current data and previous data(subtraction) */
+                            for(cnt = 0; cnt < SIZE; cnt++)        {
+                            if(cnt == 0) /* if first column */
+                            buf = VAL;
+                            else if(cnt == 1) /* if second column */
+                            buf = 2*(int)image_in[line][cnt-1] - VAL;
+                            else
+                            buf = 2*(int)image_in[line][cnt-1] -
+                            (int)image_in[line][cnt-2];
+                            bank[cnt] = (int)image_in[line][cnt] - buf;
+                            }}
+
+
+
+                            /**function for inverse DPCM(복호화하는 함수)******/
+                            void inv_dpcm5(int line, short int bank[SIZE]){
+                            int buf,cnt;
+                            /* current value is differential value between
+                            current data and previous data(addition) */
+                            for(cnt = 0; cnt < SIZE; cnt++)        {
+                            if(cnt == 0) /* if first column */
+                            buf = VAL;
+                            else if(cnt == 1) /* if second column */
+                            buf = 2*(int)image_out[line][cnt-1] - VAL;
+                            else
+                            buf = 2*(int)image_out[line][cnt-1]-
+                            (int)image_out[line][cnt-2];
+                            image_out[line][cnt] = (unsigned char)(bank[cnt]+buf);
+                            }}
+
+
+                    <img src="img/IP/lena.jpg" />       <img src="img/compression/dpcm02.gif" />
+    
+                            (a) 원영상             (b) DPCM처리 영상
+                                          [그림] DPCM
+    </pre>
+</div>

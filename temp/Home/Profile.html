@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Image Processing Lab.</title>
+    <!-- 구 버전의 인터넷 익스플로러에서 HTML5 태그를 인식하게 합니다. -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- 초기화 -->
+    <meta charset="utf-8"> 
+    <style>
+        * {
+            margin: 0; padding: 0;
+            font:bold 12px arial,verdana;
+        }
+        a { text-decoration: none; }
+        img { border: 0; }
+        ul { list-style: none; }
+        li { line-height: 20px; }
+
+        body {
+            width: 1190px;
+            margin: 0 auto;
+            background-color:#031f2b; 
+        }
+    </style>
+
+<!-- 헤더 -->
+        <style>
+        #main_header {
+            position: relative; 
+            height: 100px;
+        }
+
+        #main_header > h1.logo {
+            position: absolute;
+            left: 0px; top: 0px;
+        }
+
+        #main_header > div.login_menu {
+            position: absolute;
+            top: 0px; right: 0px;
+        }
+    </style>
+
+<!-- 네비게이션 -->
+    <style>
+        #top_gnb {
+            overflow: hidden; 
+        }
+
+        #top_gnb > div.menu {
+            float: left; 
+            width: 170px; height: 50px;
+            background: url('Icon/Menu-Group.png');
+        }
+     
+        #top_gnb > div.item_1 { background-position: 0px 0px; }
+        #top_gnb > div.item_2 { background-position: 0px -50px; }
+        #top_gnb > div.item_3 { background-position: 0px -100px; }
+        #top_gnb > div.item_4 { background-position: 0px -150px; }
+        #top_gnb > div.item_5 { background-position: 0px -200px; }
+        #top_gnb > div.item_6 { background-position: 0px -250px; }
+        #top_gnb > div.item_7 { background-position: 0px -300px; }
+
+        #top_gnb > div.item_1:hover { background-position: 0px -350px; }
+        #top_gnb > div.item_2:hover { background-position: 0px -400px; }
+        #top_gnb > div.item_3:hover { background-position: 0px -450px; }
+        #top_gnb > div.item_4:hover { background-position: 0px -500px; }
+        #top_gnb > div.item_5:hover { background-position: 0px -550px; }
+        #top_gnb > div.item_6:hover { background-position: 0px -600px; }
+        #top_gnb > div.item_7:hover { background-position: 0px -650px; }
+        
+        #top_gnb > div.item_1.active { background-position: 0px -350px; }
+        #top_gnb > div.item_2.active { background-position: 0px -400px; }
+        #top_gnb > div.item_3.active { background-position: 0px -450px; }
+        #top_gnb > div.item_4.active { background-position: 0px -500px; }
+        #top_gnb > div.item_5.active { background-position: 0px -550px; }
+        #top_gnb > div.item_6.active { background-position: 0px -600px; }
+        #top_gnb > div.item_7.active { background-position: 0px -650px; }
+    </style>        
+   
+    
+<!-- 본문 -->
+    <style>
+        #profile_image {
+            padding: 0px;
+            margin-bottom: 0px;
+         }
+    
+       
+        p.article {
+            text-indent: 30px;
+            line-height: 20PX;
+            border-radius:15px;
+            border-style: solid;
+            border-width: thin;
+            border-color: white;
+            margin-top: 40px;
+            margin-left: 40px;
+            margin-right: 350px;
+            background: #9C9C9C;
+        }
+        
+        ul.a {
+            list-style-type: square;
+            margin-left: 100px;
+            margin-top: 50px;
+        }
+
+        
+        .profile {
+            position: relative;
+            width: 100%;
+        }
+
+        .profile-right {
+            position: absolute;
+            border-radius:15px;
+            right:0px;
+            width: 70%;
+            height: 400px;
+            background-color: #b0e0e6;
+        }
+        .profile-left {
+            position: absolute;
+
+            left: 0px;
+            width: 347px;
+            height: 400px;
+            background-color: #ff0000;
+        }
+    </style>
+ 
+<!-- 푸터 -->
+    <style>
+        #footer {
+            padding-top: 400px;
+            margin-bottom: 0px;
+            border-radius: 0px;
+       }
+     
+    </style>
+</head>
+<body>
+    <header id="main_header">
+        <h1 class="logo">
+            <a href="#"><img src="Icon/Title-logo.jpg" width="1190" /></a>
+        </h1>
+        <div class="login_menu">
+            <span><a href="Home.html"><img src="Icon/go-Home.png" title="홈" /></a></span>
+            <span><a href="https://www.facebook.com/"><img src="Icon/go-Facebook.png" title="페이스북" /></a></span>
+            <span><a href="https://twitter.com/"><img src="Icon/go-Twitter.png" title="트위터" /></a></span>
+            <span><a href="http://blog.naver.com/dong3640"><img src="Icon/go-Blog.png" title="블로그" /></a></span>
+            <span><a href="http://mail2.daum.net/hanmailex/Top.daum"><img src="Icon/go-Mail.png" title="메일" /></a></span>
+        </div>
+    </header>
+ 
+    <nav id="top_gnb">
+        <div class="menu item_1"><ul><li><a href="Profile.html" title="profile"><image src="Icon/Menu-blank.png" /></a></li></ul></div>           
+        <div class="menu item_2"><ul><li><a href="Thesis.html" title="Thesis"><image src="Icon/Menu-blank.png" /></a></li></ul></div>
+        <div class="menu item_3"><ul><li><a href="Image Processing.html" title="Image Processing"><image src="Icon/Menu-blank.png" /></a></li></ul></div>
+        <div class="menu item_4"><ul><li><a href="Gallery.html" title="Gallery"><image src="Icon/Menu-blank.png" /></a></li></ul></div>
+        <div class="menu item_5"><ul><li><a href="Color&Light.html" title="Color&Light"><image src="Icon/Menu-blank.png" /></a></li></ul></div>
+        <div class="menu item_6"><ul><li><a href="PhotoIssue.html" title="PhotoIssue"><image src="Icon/Menu-blank.png" /></a></li></ul></div>
+        <div class="menu item_7"><ul><li><a href="GuestBook.html" title="GuestBook"><image src="Icon/Menu-blank.png" /></a></li></ul></div> 
+    </nav>
+   
+    <div id="profile_image">
+       <img src="Profile/Profile-Life.jpg" />
+    </div>
+    <div class="profile">
+        <div class="profile-left">
+            <img src="Profile/SelfPotrait.jpg" />
+        </div>
+     
+        <div class="profile-right" style="font-family:'Haan Sollip B'; font-size:11pt; color:white; ">
+            <p class="article">현재는 과거의 반영이며, 미래의 거울이다.</p>
+            <ul class="a">
+                
+                <li>공학박사 : 영남대학교 대학원 정보통신공학전공</li>
+                <li>발표논문</li>
+                <li style="margin-left: 30px; list-style-type: circle;">Content-based Image Retrieval considering Color and Spatial Information</li>
+                <li style="margin-left: 30px; list-style-type: circle;">Digital Image Restoration using Combined Filter</li>
+                <li>수필가 : 영남문학 등단</li>
+                <li>디지털사진가협회 사진작가</li>
+                <li>1952년 2월 11일생</li>
+            </ul>
+        </div>
+    </div>    
+
+    <footer id="footer">
+        <div>
+            <img src="Icon/Foot2.png" />
+        </div>
+        <div style="font-size:12pt; font-family:Verdana; height:30pt; color:white">
+            <center>
+                <script language="JAVASCRIPT">
+			<!--
+			document.write("Last Modified on ")
+			document.write(document.lastModified)
+			//-->
+                </script>
+
+            </center>    
+            <iframe scrolling=no frameborder=1 width=110 height=16 marginwidth=0 marginheight=0 hspace=0 vspace=0 src="http://db.blueweb.co.kr/counter/counter20.php?dbname=dong36400&img=14&bgcolor=#ffffee"></iframe><br>
+            <iframe scrolling=no frameborder=0 width=0 height=0 src=" http://db.blueweb.co.kr/counter/count.php?dbname=dong36400"></iframe>
+            <font size=12 type=arial color=white>
+                Since Dec. 3rd, 2002
+            </font>
+        </div>
+    </footer>
+</body>
+</html>

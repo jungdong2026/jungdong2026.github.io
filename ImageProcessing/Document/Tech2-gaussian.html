@@ -1,0 +1,130 @@
+﻿<link href="css/IP.css" rel="stylesheet" type="text/css" />
+<div id="subChapter">
+    <b>Gaussian Smoothing</b>
+
+</div>
+<div id="subChapterChild">
+
+<pre>
+    
+<b>Brief Description</b>
+    The Gaussian smoothing operator is a 2-D convolution operator 
+    that is used to `blur' images and remove detail and noise.
+    In this sense it is similar to the mean filter, 
+    but it uses a different kernel that represents the shape of a Gaussian
+    (`bell-shaped') hump. This kernel has some special properties which are detailed below.
+
+<b>How It Works</b>
+    The Gaussian distribution in 1-D has the form:
+    
+        <img src="img/gaus/gaus01.png" alt="Illustrate convolution of functions">
+    
+    where  <i>σ</i> is the standard deviation of the distribution. 
+    We have also assumed that the distribution has a mean of
+    zero <i>(i.e. it is centered on the line x=0)</i>. 
+    The distribution is illustrated in Figure 1.
+
+        <img src="img/gaus/gaus02.png" alt="Illustrate Gaussian Smoothing of functions">
+                figure 1 1-d gaussian distribution with mean><i>0</i> and <i>σ=1</i>
+    
+    In 2-D, an isotropic <i>(i.e. circularly symmetric)</i> Gaussian has the form:
+
+        <img src="img/gaus/gaus03.png" alt="Illustrate convolution of functions">
+    
+    This distribution is shown in Figure 2.
+
+        <img src="img/gaus/gaus04.png" alt="Illustrate convolution of functions">
+                  Figure 2 2-D Gaussian distribution with mean (0,0) and  σ=1
+    
+    The idea of Gaussian smoothing is to use this 2-D distribution 
+    as a `point-spread' function, and this is achieved by convolution.
+    Since the image is stored as a collection of discrete pixels 
+    we need to produce a discrete approximation to the Gaussian
+    function before we can perform the convolution.
+    
+    In theory, the Gaussian distribution is non-zero everywhere,
+    which would require an infinitely large convolution kernel, 
+    but in practice it is effectively zero more than about three standard
+    deviations from the mean, and so we can truncate the kernel at this point. 
+    Figure 3 shows a suitable integer-valued
+    convolution kernel that approximates a Gaussian with a  σof 1.4.
+    
+        <img src="img/gaus/gaus05.png">
+                Figure 3 Discrete approximation to Gaussian function with σ=1.4
+    
+    Once a suitable kernel has been calculated, 
+    then the Gaussian smoothing can be performed using standard convolution methods.
+    The convolution can in fact be performed fairly quickly 
+    since the equation for the 2-D isotropic Gaussian shown
+    above is separable into <i>x</i> and <i>y</i> components.
+    
+    Thus the 2-D convolution can be performed by first convolving
+    with a 1-D Gaussian in the <i>x</i> direction, 
+    and then convolving with another 1-D Gaussian in the <i>y</i> direction.
+    (The Gaussian is in fact the only completely circularly symmetric operator 
+    which can be decomposed in such a way.)
+    
+    Figure 4 shows the 1-D x component kernel 
+    that would be used to produce the full kernel shown in Figure 3.
+    The <i>y</i> component is exactly the same but is oriented vertically.
+
+        <img src="img/gaus/gaus06.png">
+
+    Figure 4 One of the pair of 1-D convolution kernels used to calculate
+    the full kernel shown in Figure 3 more quickly.
+
+    A further way to compute a Gaussian smoothing with a large standard deviation is to convolve
+    an image several times with a smaller Gaussian. 
+    While this is computationally complex, it can have applicability
+    if the processing is carried out using a hardware pipeline.
+    
+    The Gaussian filter not only has utility in engineering applications.
+    It is also attracting attention from computational biologists 
+    because it has been attributed with some amount of biological plausibility,
+    e.g. some cells in the visual pathways of the brain often have an approximately Gaussian response.
+    
+    The effect of Gaussian smoothing is to blur an image, in a similar fashion to the mean filter.
+    The degree of smoothing is determined by the standard deviation of the Gaussian.
+    (Larger standard deviation Gaussians, of course, 
+    require larger convolution kernels in order to be accurately represented.)
+    
+    The Gaussian outputs a `weighted average' of each pixel's neighborhood, 
+    with the average weighted more towards the value of the central pixels.
+    This is in contrast to the mean filter's uniformly weighted average. Because of this,
+    a Gaussian provides gentler smoothing and preserves edges better than a similarly sized mean filter.
+    
+    One of the principle justifications for using the Gaussian as a smoothing filter is due to its frequency response.
+    Most convolution-based smoothing filters act as lowpass frequency filters. T
+    his means that their effect is to remove low spatial frequency components from an image. 
+    The frequency response of a convolution filter, i.e. its effect on different spatial frequencies,
+    can be seen by taking the Fourier transform of the filter.
+    
+    Figure 5 shows the frequency responses of a 1-D mean filter with width 7 and
+    also of a Gaussian filter with  <i>σ= 3</i>.
+
+        <img src="img/gaus/gaus07.png">
+    
+    Figure 5 Frequency responses of Box <i>(i.e. mean)</i> filter (width 7 pixels)
+    and Gaussian filter <i>( σ= 3 pixels)</i>.
+    The spatial frequency axis is marked in cycles per pixel, 
+    and hence no value above 0.5 has a real meaning.
+
+<b>Guidelines for Use</b>
+    Both filters attenuate high frequencies more than low frequencies, 
+    but the mean filter exhibits oscillations in its frequency response.
+    The Gaussian on the other hand shows no oscillations. 
+
+    In fact, the shape of the frequency response curve is itself (half a) Gaussian.
+    So by choosing an appropriately sized Gaussian filter we can be fairly confident 
+    about what range of spatial frequencies are still
+    present in the image after filtering, which is not the case of the mean filter.
+ 
+    This has consequences for some edge detection techniques,
+    as mentioned in the section on zero crossings. 
+    (The Gaussian filter also turns out to be very similar to the optimal
+    smoothing filter for edge detection under the criteria used to derive the Canny edge detector.)
+    
+
+</pre>
+</div>
+

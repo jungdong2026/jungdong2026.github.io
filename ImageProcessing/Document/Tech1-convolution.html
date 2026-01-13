@@ -1,0 +1,158 @@
+﻿<link href="css/IP.css" rel="stylesheet" type="text/css" />
+<div id="subChapter">
+    <b>Convolution</b>
+
+</div>
+<div id="subChapterChild">
+    <pre>
+
+<img src="img/convolution/convrect.gif"><img src="img/convolution/convgaus.gif">
+
+    The animations left graphically illustrate the convolution of two boxcar functions (left)
+    and two Gaussians (right). In the plots, the green curve shows the convolution of the blue
+    and red curves as a function of <i>t</i>, the position indicated by the vertical green line.
+    The gray region indicates the product <i>g(τ)f(t-&τ)</i> as a function of <i>t</i>,
+    so its area as a function of <i>t</i> is precisely the convolution.
+
+    One feature to emphasize and which is not conveyed by these illustrations
+    (since they both exclusively involve symmetric functions) is that the function <i>g</i>
+    must be mirrored before lagging it across <i>f</i> and integrating.
+    
+    Convolutes two images. Convolution is the same as multiplication in the frequency domain.
+    Therefore, the resultant image will have the characteristics of both images.
+    In the simplest possible example, a sharp image convolved with an image of a blurred point
+    will become blurry. An image convolved with a single point is unchanged.
+    
+    Convolution is a simple mathematical operation 
+    which is fundamental to many common image processing operators.
+
+    Convolution provides a way of <i>`multiplying together'</i> two arrays of numbers, 
+    generally of different sizes,
+    but of the same dimensionality, to produce a third array of numbers of the same dimensionality.
+
+    This can be used in image processing to implement operators whose output pixel values are simple
+    linear combinations of certain input pixel values.
+    
+    In an image processing context, one of the input arrays is normally 
+    just a graylevel image. The second array is usually much smaller,
+    and is also two-dimensional (although it may be just a single pixel thick), and is known as the kernel.
+    Figure 1 shows an example image and kernel that we will use to illustrate convolution.
+
+                <img src="img/convolution/con01.png">
+    
+    Figure 1 An example small image (left) and kernel (right) to illustrate convolution.<br>
+    The labels within each grid square are used to identify each square.
+    
+    The convolution is performed by sliding the kernel over the image,
+    generally starting at the top left corner, so as to move the kernel
+    through all the positions where the kernel fits entirely within the
+    boundaries of the image. 
+
+    (Note that implementations differ in what they
+    do at the edges of images, as explained below.)Each kernel position
+    corresponds to a single output pixel, the value of which is calculated by
+    multiplying together the kernel value and the underlying image pixel
+    value for each of the cells in the kernel, and then adding all these
+    numbers together.
+
+    So, in our example, the value of the bottom
+    right pixel in the output image will be given by:
+    
+        <i>O57 = 57K11 + I58K12 + I59K13 + I67K21 + I68K22 +I69K23</i>
+
+    If the image has <i>M</i> rows and <i>N</i> columns, and the kernel has <i>m</i> rows and <i>n</i> columns,
+    then the size of the output image will have <i>M-m+1</i> rows, and <i>N - n + 1</i> columns.
+    
+    Mathematically we can write the convolution as:
+    
+        <i>O(i, j) = Σk=1,m Σl=1,n, I(i+k-1, j+l-1) K(k, l)</i>
+    
+    where <i>i</i> runs from <i>1</i> to <i>M - m + 1</i> and <i>j</i> runs from <i>1</i> to <i>N - n + 1</i>.
+    
+    Note that many implementations of convolution produce a larger output image 
+    than this because they relax the constraint that the kernel can only
+    be moved to positions where it fits entirely within the image.
+    
+    Instead, these implementations typically slide the kernel
+    to all positions where just the top left corner of the kernel is within the image. 
+    Therefore the kernel `overlaps' the image on the bottom and right edges.
+
+    One advantage of this approach is that the output image is the same size as the input image.
+    Unfortunately, in order to calculate the output pixel values for the bottom and right edges of the image,
+    it is necessary to invent input pixel values for places where the kernel extends off the end of the image.
+    
+    Typically pixel values of zero are chosen for regions outside the true image, but this can often distort
+    the output image at these places.
+    
+    Therefore in general if you are using a convolution implementation that does this,
+    it is better to clip the image to remove these spurious regions.
+    
+    Removing <i>n - 1</i> pixels from the right hand side
+    and <i>m - 1</i> pixels from the bottom will fix things.
+    
+    Convolution can be used to implement many different operators,
+    particularly spatial filters and feature detectors. 
+    Examples include Gaussian smoothing and the Sobel edge detector.
+
+<b>Convolution Theorem</b>
+    Let <i>f(x, y)</i>
+    and <i>g(x, y)</i> be two continuous functions. Denote the Fourier transform of these functions by
+    <i>F(fx: fy)</i> and  <i>G(fx: fy)</i> .
+    The convolution of the two Fourier transforms  <i>F(fx: fy)</i>
+    and  <i>G(fx: fy)</i> ,
+    <i>F(fx: fy)</i>∗<i>G(fx: fy)</i>is defined as:
+
+            <i>F(f<sub>x</sub>:f<sub>y</sub>)∗ G(f<sub>x</sub>:f<sub>y</sub>) = ∫<sub>-∞</sub><sup>∞</sup>∫<sub>∞</sub><sup>-∞</sup>F(f<sup>'</sup><sub>x</sub>:f<sup>'</sup><sub>y</sub>)G(f<sub>x</sub>-f<sup>'</sup><sub>x</sub>:f<sub>y</sub>-f<sup>'</sup><sub>y</sub>)df<sup>'</sup><sub>x</sub>df<sup>'</sup><sub>y</sub></i>            (4.8)
+
+    According to the convolution theorem the Fourier transform of the product of the two functions,
+    <i>f(x, y)</i> and <i>g(x, y)</i>, equals the convolution of the Fourier transform of the two functions:
+    
+            <i>F[f(x:y)g(x:y)] = F(f<sub>x</sub>:f<sub>y</sub>)∗ G(f<sub>x</sub>:f<sub>y</sub>)</i>                                   (4.9)
+
+<b>Discrete-Convolution</b>
+    The behavior of a linear, time-invariant discrete-time system with input signal <i>x[n]</i>
+    and output signal <i>y[n]</i> is described by the convolution sum
+
+            <i>y[n] = Σ<sub>k=-∞</sub><sup>∞</sup>h[k] x[n-k] </i>
+
+    The signal h[n], assumed known, is the response of the system to a unit-pulse input.
+    
+    The convolution summation has a simple graphical interpretation. 
+    First, plot h[k] and the "flipped and shifted"
+    x[n - k] on the k axis, where n is fixed. 
+
+    Second, multiply the two signals to obtain a plot of the summand sequence indexed by k.
+    Summing the values of this sequence with respect to k yields y[n]. 
+    These operations can be repeated for every value of n of interest.
+
+<b>Continuous-Convolution</b>
+    The behavior of a linear, continuous-time, time-invariant system with
+    input signal <i>x(t)</i> and output signal <i>y(t)</i> is described by the convolution integral
+    
+            <i>y(t) = ∫<sub>-∞</sub><sup>∞</sup>h[v]x[t-v]dv</i>
+
+    The signal <i>h(t)</i>, assumed known, is the response of the system to a unit impulse input.
+    To compute the output <i>y(t)</i> at a specified t, first the integrand <i>h(v) x(t - v)</i> is computed as a function of <i>v</i>.
+    
+    Then integration with respect to <i>v</i> is performed, resulting in <i>y(t)</i>. These mathematical operations
+    have simple graphical interpretations. First, plot <i>h(v)</i> and the "flipped and shifted" <i>x(t - v)</i>
+    on the <i>v</i> axis,
+    
+    where <i>t</i> is fixed. Second, multiply the two signals and 
+    compute the signed area of the resulting function of <i>v</i> to obtain <i>y(t)</i>.
+    These operations can be repeated for every value of <i>t</i> of interest.
+    
+    <b>Properties of Convolution </b>
+    There are a number of important mathematical properties associated with convolution. 
+
+    ∗Convolution is commutative
+
+        <i>c=a⊗b=b⊗a</i> ∗ Convolution is associative.
+        <i>c=a⊗(b⊗c)=(a⊗b)⊗c=a⊗b⊗c</i> ∗ Convolution is distributive.
+        <i>c=a⊗(b+d)=(a⊗b)+(a⊗d)</i>
+   
+    where <i>a, b, c, </i> and <i>d</i> are all images, either continuous or discrete.
+</pre>
+
+</div>
+

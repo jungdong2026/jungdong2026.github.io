@@ -1,0 +1,103 @@
+﻿<link href="css/IP.css" rel="stylesheet" type="text/css" />
+     <div id="subChapter">
+        <b>Smoothing Operations (edit 03/12/17 by jjd)</b>
+
+    </div>
+    <div id="subChapterChild">
+     
+        <pre>
+            
+<b>Summary of Smoothing Algorithms</b>
+    The following table summarizes the various properties of the smoothing algorithms presented above.
+    The filter size is assumed to be bounded by a rectangle of <i>J Χ K</i> where,
+    without loss of generality, <i>J ≥ K</i>. The image size is <i>N Χ N</i>.
+        </pre>
+
+        <table>
+            <tr>
+                <th>Algorithm</th>
+                <th>Domain</th>
+                <th>Type</th>
+                <th>Support</th>
+                <th>Separable / Incremental</th>
+                <th>Complexity/pixel</th>
+            </tr>
+            <tr>
+                <td>Uniform</td>
+                <td>Space</td>
+                <td>Linear</td>
+                <td>Square</td>
+                <td>Y / Y</td>
+                <td><i>O(constant)</i></td>
+            </tr>
+            <tr>
+                <td>Uniform</td>
+                <td>Space</td>
+                <td>Linear</td>
+                <td>Circular</td>
+                <td>N / Y</td>
+                <td><i>O(K)</i></td>
+            </tr>
+            <tr>
+                <td>Triangle</td>
+                <td>Space</td>
+                <td>Linear</td>
+                <td>Square</td>
+                <td>Y / N</td>
+                <td><i>O(constant)</i><sup>a</sup></td>
+            </tr>
+            <tr>
+                <td>Triangle</td>
+                <td>Space</td>
+                <td>Linear</td>
+                <td>Circular</td>
+                <td>N / N</td>
+                <td><i>O(K)</i> <sup>a</sup></td>
+            </tr>
+            <tr>
+                <td>Gaussian</td>
+                <td>Space</td>
+                <td>Linear</td>
+                <td> ∞ ?</td>
+                <td>Y / N</td>
+                <td><i>O(constant)</i> <sup>a</sup></td>
+            </tr>
+            <tr>
+                <td>Median</td>
+                <td>Space</td>
+                <td>Non-Linear</td>
+                <td>Square</td>
+                <td>N / Y</td>
+                <td><i>O(K)</i><sup> a</sup></td>
+            </tr>
+            <tr>
+                <td>Kuwahara</td>
+                <td>Space</td>
+                <td>Non-Linear</td>
+                <td>Square <sup>a</sup></td>
+                <td>N / N</td>
+                <td><i>O(J*K)</i></td>
+            </tr>
+            <tr>
+                <td>Other</td>
+                <td>Frequency</td>
+                <td>Linear</td>
+                <td>--</td>
+                <td>-- / --</td>
+                <td><i>O(logN)</i></td>
+            </tr>
+        </table>
+
+        <pre>
+            Table 13>: Characteristics of smoothing filters. See text for additional explanation.
+       
+    Examples of the effect of various smoothing algorithms are shown in Figure 30.
+
+            <img src="img/Smoothing/fip186.gif"><img src="img/Smoothing/fip187.gif"><img src="img/Smoothing/fip188.gif">
+                    a) Original b) Uniform 5 × 5 c) Gaussian (σ= 2.5)
+
+            <img src="img/Smoothing/fip189.gif"><img src="img/Smoothing/fip190.gif">
+                    d) Median 5 × 5 e) >Kuwahara 5 × 5
+            Figure 30: Illustration of various linear and non-linear smoothing filters
+        </pre>
+    </div>

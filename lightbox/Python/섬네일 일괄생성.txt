@@ -1,0 +1,152 @@
+폴더 준비
+
+C:\project\images_original 폴더에 원본 이미지를 넣습니다.
+
+C:\project\images_thumbs 폴더는 자동으로 생성됩니다.
+
+스크립트 작성
+
+메모장 또는 VS Code를 열고 아래 코드를 붙여 넣습니다.
+
+파일 이름을 make_thumbs.py로 저장합니다.
+
+python
+from PIL import Image
+import os
+
+input_folder = "images_original"
+output_folder = "images_thumbs"
+thumbnail_size = (300, 300)
+
+os.makedirs(output_folder, exist_ok=True)
+
+for filename in os.listdir(input_folder):
+    if filename.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
+        img_path = os.path.join(input_folder, filename)
+        img = Image.open(img_path)
+        img.thumbnail(thumbnail_size)
+        save_path = os.path.join(output_folder, filename)
+        img.save(save_path, optimize=True, quality=85)
+        print(f"썸네일 생성 완료: {save_path}")
+실행
+
+명령 프롬프트(검색창에 cmd 입력) 실행.
+
+프로젝트 폴더로 이동:
+
+bash
+cd C:\project
+Pillow 설치:
+
+bash
+pip install pillow
+스크립트 실행:
+
+bash
+python make_thumbs.py
+결과 확인
+images_thumbs 폴더에 원본과 같은 이름의 작은 이미지 파일들이 생성됩니다.
+
+HTML에서 <img src="images_thumbs/파일명">을 썸네일로, <a href="images_original/파일명">을 원본으로 연결하면 라이트박스 갤러리 완성입니다.
+
+👉 이렇게 하면 수십 장도 한 번에 처리할 수 있습니다.
+혹시 원본 이미지가 JPG만 있는지, 아니면 PNG/WebP 등 다양한 포맷도 섞여 있나요?
+
+raw,PNG/WebP 등 다양한 포맷등 다양한 포멧입니다
+좋습니다 👍 다양한 포맷(raw, PNG, WebP 등)을 한꺼번에 처리하려면 몇 가지 주의가 필요합니다.
+
+📌 RAW 파일 처리
+Pillow 기본 지원: JPG, PNG, WebP는 바로 처리 가능합니다.
+
+RAW 포맷: 카메라 RAW(.CR2, .NEF, .ARW 등)는 Pillow만으로는 직접 열 수 없습니다.
+
+해결 방법:
+
+dcraw, RawTherapee, Darktable 같은 툴로 먼저 JPG/PNG로 변환
+
+변환된 파일을 Pillow 스크립트로 썸네일 생성
+
+📜 개선된 파이썬 스크립트 예시
+python
+from PIL import Image
+import os
+
+input_folder = "images_original"
+output_folder = "images_thumbs"
+thumbnail_size = (300, 300)
+
+os.makedirs(output_folder, exist_ok=True)
+
+for filename in os.listdir(input_folder):
+    # 처리 가능한 확장자 목록
+    if filename.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
+        img_path = os.path.join(input_folder, filename)
+        try:
+            img = Image.open(img_path)
+            img.thumbnail(thumbnail_size)
+            # 확장자는 그대로 유지
+            save_path = os.path.join(output_folder, filename)
+            # PNG/WebP도 그대로 저장 가능
+            img.save(save_path, optimize=True, quality=85)
+            print(f"썸네일 생성 완료: {save_path}")
+        except Exception as e:
+            print(f"처리 실패: {filename}, 오류: {e}")
+    else:
+        print(f"지원되지 않는 포맷: {filename} → JPG/PNG로 변환 필요")
+⚙️ 실행 흐름
+RAW 파일은 먼저 JPG/PNG로 변환해야 합니다.
+
+변환된 파일은 스크립트가 자동으로 썸네일을 생성합니다.
+
+PNG/WebP는 그대로 처리 가능하며, 썸네일도 같은 포맷으로 저장됩니다.
+
+✅ 권장 워크플로우
+RAW → JPG 변환: 카메라 RAW 전용 툴로 일괄 변환
+
+스크립트 실행: 변환된 JPG/PNG/WebP를 대상으로 썸네일 생성
+
+HTML 연결: 썸네일은 <img src="images_thumbs/...">, 원본은 <a href="images_original/...">
+
+👉 요약하면: RAW는 먼저 변환해야 하고, PNG/WebP는 바로 썸네일 생성 가능합니다.
+혹시 원하시면 제가 RAW → JPG 자동 변환 툴(예: dcraw나 rawpy를 이용한 파이썬 코드)도 알려드릴까요?
+
+🛠️ PowerShell에서 Python + Pillow로 이미지 작업하기 (전체 과정)
+이미지 준비
+
+작업할 이미지를 같은 폴더(E:\ 또는 C:\Users\User)에 넣습니다.
+
+예: example.jpg
+
+스크립트 작성
+
+메모장이나 VS Code에서 image_test.py 파일을 만듭니다.
+
+아래 코드 입력 후 저장:
+from PIL import Image
+
+# 이미지 열기
+img = Image.open("example.jpg")
+
+# 크기 줄이기
+resized = img.resize((200, 200))
+resized.save("resized.jpg")
+
+# 흑백 변환
+gray = img.convert("L")
+gray.save("gray.jpg")
+
+print("이미지 변환 완료!")
+
+PowerShell에서 실행
+
+스크립트가 있는 폴더로 이동:
+
+cd E:\
+
+python image_test.py
+
+결과 확인
+
+같은 폴더에 resized.jpg, gray.jpg 파일이 새로 생깁니다.
+
+명령창에는 "이미지 변환 완료!" 메시지가 출력됩니다.
