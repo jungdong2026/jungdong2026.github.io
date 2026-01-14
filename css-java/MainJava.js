@@ -29,20 +29,20 @@ $(document).ready(function () {
     });
 });
 
-
-
-        $(document).ready(function () {
-            $('.nav-2 a').click(function () {
-                $('#wrapper').load('./Profile/Profile.html', function () {
-                    $(this).fadeIn();
-                });
-                return false;
-            });
-        }); 
+$(document).ready(function () {
+    $('.nav-2 a').click(function () {
+        $('#wrapper').load('https://jungdong2026.github.io/Profile/Profile.html', 
+            function () {
+            $(this).fadeIn();
+        });
+        return false;
+    });
+}); 
 
         $(document).ready(function () {
             $('.nav-3 a').click(function () {
-                $('#wrapper').load('../Thesis/Thesis.html', function () {
+                $('#wrapper').load('../Thesis/Thesis.html', 
+                    function () {
                     $(this).fadeIn();
                 });
                 return false;
