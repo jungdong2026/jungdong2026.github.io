@@ -81,7 +81,7 @@ pre.article {
 #logo {
     height: 256px;
     width: 100%;
-    background:url(Main/Image/digtal_image_processing.jpg) no-repeat top left;
+    /*background:url(Main/Image/digtal_image_processing.jpg) no-repeat top left;*/
     background-color: #5b9ef6;
     }
 #logo ul{
@@ -788,9 +788,10 @@ a.tip:hover span {
     }
 #footer > div.counter {
     position: absolute;
-    top: 0px; left: 10px;
+    top: 0px; left: 0px;
     padding-top: 15px;
-    }
+    margin: 0px 0px 0px 40px;
+   }
 #footer-email a {
     
     color: #ffffff;
@@ -800,7 +801,7 @@ a.tip:hover span {
     border-left: white thin outset;
     border-right: gray thin solid;
     border-bottom: gray thin solid;
-    margin: 0px 70px 0px 60px;
+    margin: 0px 0px 0px 80px;
     padding: 0px 20px 0px 20px;
     }
 
