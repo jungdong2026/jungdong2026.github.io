@@ -5,31 +5,34 @@
     <title>Profile</title>
     <style>
         /* 전체 컨테이너를 가로 배치 */
-        #profilrAll {
+        #profileAll {
             display: flex;              /* 가로 배치 */
             align-items: stretch;       /* 같은 높이로 맞춤 */
             gap: 20px;                  /* 간격 */
+            background-color: #9bc0f8;  /* 확인용 배경색 */
         }
 
         /* 왼쪽 텍스트 영역 */
-        #profileAllList {
+        #profileText {
             flex: 1;                    /* 비율 */
             padding: 10px;
-            background-color: #f9f9f9;  /* 확인용 배경색 */
-        }
+            font-weight: bold;
+            font-family: Tahoma;
+            font-size: 10pt;
+            text-indent:3px;
+            text-decoration: none;
+            line-height: 20px;
+            list-style :none;
+            margin: 0px 0px 0px 0px;
+            padding: 0px 0px 0px 80px;
+}
 
         /* 오른쪽 사진 영역 */
-        #profileContent {
+        #profilePhoto {
             flex: 1;                    /* 비율 */
             display: flex;
             justify-content: center;    /* 가로 중앙 */
             align-items: center;        /* 세로 중앙 */
-        }
-
-        ul.profilecontent {
-            list-style: none;
-            padding: 0;
-            margin: 0;
         }
 
         img {
@@ -43,20 +46,34 @@
     <b>Profile</b>
     <hr />
 
-    <div id="profilrAll"> 
-        <div id="profileAllList"> 
-            <ul class="profilecontent"> 
-                <p>현재는 과거의 반영이며, 미래의 거울이다.</p>
-                <li>○ 공학박사 : 영남대학교 대학원 정보통신공학전공</li>
-                <li>○ 발표논문</li>
-                <li style="padding-left: 30px;">▷ Content-based Image Retrieval considering Color and Spatial Information</li>
-                <li style="padding-left: 30px;">▷ Digital Image Restoration using Combined Filter</li>
-                <li>○ 수필가 : 영남문학 등단</li>
-                <li>○ 디지털사진가협회 사진작가</li>
-                <li>○ 1952년 2월 11일생</li>
-            </ul>                       
+    <div id="profileAll"> 
+        <div id="profileText"> 
+                <pre margin: 50px 0px 0px 0px;>
+                    현재는 과거의 반영이며, 미래의 거울이다.
+                        ○ 공학박사 : 영남대학교 대학원 정보통신공학전공
+                        ○ 발표논문
+                    ▷ Content-based Image Retrieval considering 
+                        Color and Spatial Information
+                    ▷ Digital Image Restoration using Combined Filter
+                        ○ 수필가 : 영남문학 등단
+                        ○ 디지털사진가협회 사진작가
+                        ○ 1952년 2월 11일생
+                    
+                    <강양항 2011>
+                                              張正東
+
+                            끓어오르는 바닷물이 
+                            어선을 데우고
+                            고기들의 비명소리가 
+                            그물을 넘쳐날 때
+                            여유를 부리던 갈매기도 
+                            솟아오른 태양도
+                            어부의 손놀림 따라 
+                            덩달아 바빠지네.
+
+                    </pre>
         </div> 
-        <div id="profileContent">
+        <div id="profilePhoto">
             <img src="Profile/Image/Profile-Life.png" alt="Self Portrait">
         </div>
     </div>
