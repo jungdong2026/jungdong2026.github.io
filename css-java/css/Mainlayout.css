@@ -634,8 +634,8 @@ a.tip:hover span {
 
         #profile img {
             float: left;
-            width: 80%;                /* 부모 너비에 맞춤 */
-            height: 80%;               /* 부모 높이에 맞춤 */
+            width: 300px;                /* 부모 너비에 맞춤 */
+            height: auto;               /* 부모 높이에 맞춤 */
             object-fit: contain;        /* 잘리지 않고 비율 유지 */
         }
 
