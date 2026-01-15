@@ -16,11 +16,6 @@ b {
     color: #f8efcd;
 }
         
-hr {
-    margin: 0px 0px 0px 0px;
-    padding: 0px;
-}
-
 h2,h3{
     color:#222;
     line-height:1.2em;
@@ -618,9 +613,9 @@ a.tip:hover span {
             font-size: 10pt;
             text-indent:3px;
             text-decoration: none;
-            line-height: 20px;
+            line-height: 25px;
             list-style :none;
-            margin: 00px 0px 00px 0px;
+            margin: 0px 0px 0px 0px;
             padding: 0px 0px 0px 0px;
         }
 
@@ -640,11 +635,11 @@ a.tip:hover span {
             align-items: center;        /* 세로 중앙 */
         }
 
-        #profile img {
-            float: left;
+        #profilePhoto img {
             width: 300px;                /* 부모 너비에 맞춤 */
             height: auto;               /* 부모 높이에 맞춤 */
             object-fit: contain;        /* 잘리지 않고 비율 유지 */
+            margin: 0px 100px 0px 100px;
         }
 
 

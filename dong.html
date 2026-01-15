@@ -1,0 +1,393 @@
+﻿<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+    <title>☆*:..:*디지탈 영상처리 싸이트를 방문해 주어서 감사합니다*:..:*☆</title>
+    <meta name="articles" content="A complehensive guide to digital image processing, computer graphics, computer vision and science and theory." />
+    <meta name="achives" content="Phtographs and painting galllery worked by author (Jang Jung-dong)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="favicon/rosefabi.ico" />
+    <link href="css-java/css/Mainlayout.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="lightbox/css/lightbox.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="css-java/jquery-1.11.3.js"></script>
+    <script src="css-java/jquery.innerfade.js"></script>
+    <script type="text/javascript" src="lightbox/js/lightbox.js"></script>
+    <script type="text/javascript" src="css-java/MainJava.js"></script> 
+ 
+</head>
+
+
+<body>
+    <!-- 헤더 영역/////////// -->
+    <header id="header">
+        <div id="logo">
+            <ul><li><img src="Main/Image/rosefabi.ico" alt="icon" style="width:40px; height:40px; vertical-align:middle;"> 
+    Welcome to </li></ul>
+            <h1>Digital Image Processing Lab.</h1>
+            <nav id="nav-korEn">
+                <ul>
+                    <li><a href="indexKor.html" target="_blank">Korean</a></li>
+                    <li><a href="index.html" target="_blank">English</a></li>
+                </ul>
+            </nav>
+
+            <nav id="nav-sns">
+                <h5><abbr title="Social Network System Friendship">Follow Me SNS</abbr></h5>
+                <ul>
+                    <li><a href="http://facebook.com/jangjd" target="_blank"><img src="Main/Image/facebook.png" width="18" height="18" alt="FaceBook"/> FaceBook</a></li>
+                    <li><a href="http://twitter.com/dong3640" target="_blank"><img src="Main/Image/twitter.ico" width="18" height="18" alt="Twitter"/> Twitter</a></li>
+                    <li><a href="https://www.instagram.com/dong620387/" target="_blank"><img src="Main/Image/instagram.png" width="18" height="18" alt="Instgram"/> Instgram</a></li>
+                    <li><a href="https://www.naver.com" target="_blank"><img src="Main/Image/blog.ico" width="18" height="18" alt="Naver"/> Naver</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <nav id="navMain">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li class="nav-2"><a href="#">Profile</a></li>
+                <li class="nav-3"><a href="#">Thesis</a></li>
+                <li class="nav-4"><a href="#">ImageProcessing</a></li>
+                <li class="nav-5"><a href="#">PhotoGallery</a></li>
+                <li class="nav-6"><a href="#">PaintingGallery</a></li>
+                <li class="nav-7"><a href="#">Color&Light</a></li>
+                <li class="nav-8"><a href="#">PhotoIssue</a></li>
+                <li class="nav-9"><a href="#">GuestBook</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <content id="wrapper">
+        <!-- Content 우측 영역 -->
+        <div id="contentLeft">
+            
+            <p>
+                Consider that everyday we view various forms of visual media, such as photographs,
+                graphics, animations and videos. These media are provided increasingly in digital form.
+                For example, the WorldWideWeb (WWW) is one such source for viewing hundreds of gigabytes
+                of digital visual information. While there is great accessibility to large stores of digital imagery,
+                new systems need to be developed to manage and search better for the visual information.
+                To cope with this problem, there have been two major approaches to study image retrieval
+                from somewhat different angles.
+            </p>
+            
+            <p>
+                <em>
+                    Text from
+                    <a class="tip" href="Thesis/Thesis.html">
+                        PHD. Thesis
+                        <span>PHD. Thesis?</span>
+                    </a>, written by the author.
+                </em>
+            </p>
+            <!-- Potrait 사진 .////////////////////////-->
+            <p>
+                <img src="Profile/Image/박사.jpg" width="160" height="200" alt="self potrait"
+                     style="float: left; margin-top: 20px; margin-left: 10px; margin-right: 10px; margin-bottom: 6px; border: 3px solid #035efc" />
+
+            </p>
+            <p>
+                What's Image processing?
+            </p>
+            
+            <p>
+                In<a class="tip" href="http://en.wikipedia.org/wiki/Imaging_science">
+                    imaging science
+                    <span>More about imaging science</span>
+                </a>
+
+                image processing is any form of
+                <a class="tip" href="http://en.wikipedia.org/wiki/Signal_processing">
+                    signal processing
+                    <span>More about signal processing</span>
+                </a>
+
+                for which the input is an image, such as a photograph or video frame;
+                the output of image processing may be either an image or a set of characteristics
+                or parameters related to the image.<br />
+
+                Most image-processing techniques involve treating the image
+                as a two-dimensional signal and applying
+                standard signal-processing techniques to it.<br /><br />
+
+                Image processing usually refers to
+                <a class="tip" href="http://en.wikipedia.org/wiki/Digital_image_processing">
+                    digital image processing
+                    <span>More about digital image processing</span>
+                </a>,
+                but optical and
+                <a class="tip" href="http://en.wikipedia.org/wiki/Analog_image_processing">
+                    analog image processing
+                    <span>More about analog image processing!</span>
+                </a> also are possible. <br /><br />
+
+                This article is about general techniques that apply to all of them.
+                The acquisition of images
+                (producing the input image in the first place) is referred to as imaging.
+                Closely related to image processing are a
+                <a class="tip" href="http://en.wikipedia.org/wiki/Computer_graphics">
+                    computer graphics<span>More about computer graphics</span>
+                </a> and
+                <a class="tip" href="http://en.wikipedia.org/wiki/Computer_vision">
+                    computer vision<span>More about computer vision</span>
+                </a>. <br /><br />
+            </p>
+
+            <div class="fakelink" id="show_e"
+                 onclick="this.style.display = 'none';
+                    document.getElementById('hide_e').style.display = 'block';
+                    document.getElementById('elevation').style.display = 'inline';">
+                &raquo;  More....
+            </div>
+            <div class="fakelink" id="hide_e"
+                 onclick="this.style.display = 'none';
+                    document.getElementById('show_e').style.display = 'block';
+                    document.getElementById('elevation').style.display = 'none';">
+                &raquo; Hide.....
+            </div>
+
+            <div id="elevation">
+                <p>
+
+
+
+                    In computer graphics,
+                    images are manually made from physical models of
+                    objects, environments, and lighting, instead of being acquired
+                    (via imaging devices such as cameras) from natural scenes,
+                    as in most animated movies.
+                    Computer vision, on the other hand, is often considered
+                    high-level image processing out of which a machine/computer/ software
+                    intends to decipher the physical contents of an image
+                    or a sequence of images
+                    (e.g., videos or 3D full-body magnetic resonance scans).<br /><br />
+
+                    In modern sciences and technologies,
+                    images also gain much broader scopes
+                    due to the ever growing importance of scientific visualization
+                    (of often large-scale complex scientific/experimental data).<br /><br />
+                    Examples include
+                    <a class="tip" href="http://en.wikipedia.org/wiki/Microarray">
+                        microarray<span>More about microarray</span>
+                    </a> data in genetic resear ch,
+                    or real-time multi-asset portfolio trading in finance.<br />
+                </p>
+            </div>
+            <p>
+                <em>
+                    Text from
+                    <a class="tip" href="http://en.wikipedia.org/wiki/Digital_image_processing">
+                        Wikipedia
+                        <span>Wikipedia?</span>
+                    </a>, reproducted by the author.
+                </em>
+            </p>
+
+            <!-- Lena 사진 -->
+            <div id="img-experiment">
+                <img src="Main/Image/lena_color_256.jpg" width="160" height="160" alt="view from lena_color_256"
+                     style="float: left; margin-top: 20px; margin-left: 10px; margin-right: 0px; margin-bottom: 6px; border: 0px solid #000" />
+                <img src="Main/Image/lena_gray_256.jpg" width="160" height="160" alt="view from lena_gray_256"
+                     style="float: left; margin-top: 20px; margin-left: 20px; margin-right: 0px; margin-bottom: 6px; border: 0px solid #000" />
+                <p>
+                    <center>
+                        <span>
+                            Image of Lena Söderberg used in many image
+                            processing experiments.
+                        </span>
+                    </center>
+                </p>
+                <p>
+                    <span>
+                        "Standard" test images (a set of images found frequently in the literature: Lena, peppers, etc., all in uncompressed tif format and of the same 512 x 512 size).
+                        <a target="_blank" href="Main/Image/Test_image.ZIP">
+                            <u>Download</u><br /><br />
+                        </a>
+                    </span>
+                </p>
+            </div>
+            
+
+            <!-- mandril 사진 -->
+            <div id="photos">
+                <img src="Main/Image/mandril_color.jpg" width="160" height="160" alt="view from mandril_color" />
+                <img src="Main/Image/mandril_gray.jpg" width="160" height="160" alt="view from mandril_gray" />
+                <img src="Main/Image/peppers_color.png" width="160" height="160" alt="view from peppers_color" />
+                <img src="Main/Image/peppers_gray.jpg" width="160" height="160" alt="view from peppers_gray" />
+            </div>
+            <div class="fakelink" id="hide_p"
+                 onclick="this.style.display = 'none';
+                    document.getElementById('show_p').style.display = 'block';
+                    document.getElementById('photos').style.display = 'inline';">
+                &raquo;  Show more Test-Image of experiments.
+            </div>
+
+            <div class="fakelink" id="show_p"
+                 onclick="this.style.display = 'none';
+                document.getElementById('hide_p').style.display = 'block';
+                document.getElementById('photos').style.display = 'none';">
+                &raquo; Hide Test-Image of experiments.
+            </div>
+        </div>
+
+        <!-- Content 우측 영역 -->
+        <!-- 컨블루션 -->
+        <div id="contentRight">
+            <div id="convolutionMain">
+                <a href="#"><h1>ImageProcessing</h1></a>
+                <!-- 컨블루션/////////////////////////// -->
+                <img src="ImageProcessing/images/convrect.gif" width="270" height="160" alt="Convolution of two rectangle functions" />
+                <img src="ImageProcessing/images/convgaus.gif" width="270" height="160" alt="Convolution of two Gaussian functions" />
+
+            </div>
+
+ 
+
+            <p onclick="this.style.color = 'red';">
+
+                The animations left graphically illustrate the convolution of two boxcar functions (left)
+                and two Gaussians (right).
+                The gray region indicates the product <i>g(&tau;)f(t-&tau;)</i> as a function of <i>t</i>,
+                so its area as a function of <i>t</i> is precisely the convolution.
+                One feature to emphasize and which is not conveyed by these illustrations
+                (since they both exclusively involve symmetric functions) is that the function g
+                must be mirrored before lagging it across f and integrating.
+                
+
+               
+            </p>  
+
+            
+            <hr />
+         
+            <!-- Color&LightMain/PhotoIssueMain -->
+            <!-- Color&LightMain/PhotoIssueMain -->
+
+            <div id="FourierGaussian">
+                <ul>
+                    <li class="gaussianMain"><a href="#"><h1>Color&Light</h1></a></li>
+                    <li class="fourierMain"><a href="#"><h1>PhotoIssue</h1></a></li>
+                </ul>
+            </div>
+            <div id="Gaussian">
+                <img src="ColorLight/Document/img/cl/newton01.jpg" width="360" height="260" alt="뉴톤 실험" />
+            </div>
+            <div id="fourierGraph">
+                <img src="PhotoIssue/Document/img/SusanSontag/SusanSontag03.jpg" width="360" height="260" alt="SusanSontag" />
+            </div>
+            <!-- Color&LightMain/PhotoIssueMain -->
+            <!-- Color&LightMain/PhotoIssueMain -->
+
+
+            <!-- 갤러리 -->
+            <hr />
+            <div id="gallery">
+                 <ul><li class="PhotoG"><a href="#"><h1>Photo Gallery</h1></a></li>
+                    <li class="PaintG"><a href="#"><h1>Painting Gallery</h1></a></li>
+                </ul>
+            </div>
+<div id="gallery">
+    <div id="galleryPhoto">
+        <ul class="photoGallery">
+            <a href="lightbox/images_original/photo001.jpg" data-lightbox="gallery" data-title="1 이미지"><img src="lightbox/images_thumbnail/photo001.jpg" alt="Thumbnail 1"></a>
+            <a href="lightbox/images_original/photo002.jpg" data-lightbox="gallery" data-title="2 이미지"><img src="lightbox/images_thumbnail/photo002.jpg" alt="Thumbnail 2"></a>
+            <a href="lightbox/images_original/photo003.jpg" data-lightbox="gallery" data-title="3 이미지"><img src="lightbox/images_thumbnail/photo003.jpg" alt="Thumbnail 3"></a>
+            <a href="lightbox/images_original/photo004.jpg" data-lightbox="gallery" data-title="4 이미지"><img src="lightbox/images_thumbnail/photo004.jpg" alt="Thumbnail 4"></a>
+            <a href="lightbox/images_original/photo005.jpg" data-lightbox="gallery" data-title="5 이미지"><img src="lightbox/images_thumbnail/photo005.jpg" alt="Thumbnail 5"></a>
+            <a href="lightbox/images_original/photo006.jpg" data-lightbox="gallery" data-title="6 이미지"><img src="lightbox/images_thumbnail/photo006.jpg" alt="Thumbnail 6"></a>
+            <a href="lightbox/images_original/photo007.jpg" data-lightbox="gallery" data-title="7 이미지"><img src="lightbox/images_thumbnail/photo007.jpg" alt="Thumbnail 7"></a>
+            <a href="lightbox/images_original/photo008.jpg" data-lightbox="gallery" data-title="8 이미지"><img src="lightbox/images_thumbnail/photo008.jpg" alt="Thumbnail 8"></a>
+            <a href="lightbox/images_original/photo009.jpg" data-lightbox="gallery" data-title="9 이미지"><img src="lightbox/images_thumbnail/photo009.jpg" alt="Thumbnail 9"></a>
+            <a href="lightbox/images_original/photo010.jpg" data-lightbox="gallery" data-title="10 이미지"><img src="lightbox/images_thumbnail/photo010.jpg" alt="Thumbnail 10"></a>
+            <a href="lightbox/images_original/photo011.jpg" data-lightbox="gallery" data-title="11 이미지"><img src="lightbox/images_thumbnail/photo011.jpg" alt="Thumbnail 11"></a>
+            <a href="lightbox/images_original/photo012.jpg" data-lightbox="gallery" data-title="12 이미지"><img src="lightbox/images_thumbnail/photo012.jpg" alt="Thumbnail 12"></a>
+            <a href="lightbox/images_original/photo013.jpg" data-lightbox="gallery" data-title="13 이미지"><img src="lightbox/images_thumbnail/photo013.jpg" alt="Thumbnail 13"></a>
+            <a href="lightbox/images_original/photo014.jpg" data-lightbox="gallery" data-title="14 이미지"><img src="lightbox/images_thumbnail/photo014.jpg" alt="Thumbnail 14"></a>
+            <a href="lightbox/images_original/photo015.jpg" data-lightbox="gallery" data-title="15 이미지"><img src="lightbox/images_thumbnail/photo015.jpg" alt="Thumbnail 15"></a>
+            <a href="lightbox/images_original/photo016.jpg" data-lightbox="gallery" data-title="16 이미지"><img src="lightbox/images_thumbnail/photo016.jpg"  alt="Thumbnail 16"></a>
+                
+        </ul>
+    </div>
+
+    <div id="galleryPainting">
+        <ul class="paintingGallery">
+            <a href="lightbox/images_original/model001.jpg" data-lightbox="gallery" data-title="1 이미지"><img src="lightbox/images_thumbnail/model001.jpg" alt="Thumbnail 1"></a>
+            <a href="lightbox/images_original/model002.jpg" data-lightbox="gallery" data-title="2 이미지"><img src="lightbox/images_thumbnail/model002.jpg" alt="Thumbnail 2"></a>
+            <a href="lightbox/images_original/model003.jpg" data-lightbox="gallery" data-title="3 이미지"><img src="lightbox/images_thumbnail/model003.jpg" alt="Thumbnail 3"></a>
+            <a href="lightbox/images_original/model004.jpg" data-lightbox="gallery" data-title="4 이미지"><img src="lightbox/images_thumbnail/model004.jpg" alt="Thumbnail 4"></a>
+            <a href="lightbox/images_original/model005.jpg" data-lightbox="gallery" data-title="5 이미지"><img src="lightbox/images_thumbnail/model005.jpg" alt="Thumbnail 5"></a>
+            <a href="lightbox/images_original/model006.jpg" data-lightbox="gallery" data-title="6 이미지"><img src="lightbox/images_thumbnail/model006.jpg" alt="Thumbnail 6"></a>
+            <a href="lightbox/images_original/model007.jpg" data-lightbox="gallery" data-title="7 이미지"><img src="lightbox/images_thumbnail/model007.jpg" alt="Thumbnail 7"></a>
+            <a href="lightbox/images_original/model008.jpg" data-lightbox="gallery" data-title="8 이미지"><img src="lightbox/images_thumbnail/model008.jpg" alt="Thumbnail 8"></a>
+            <a href="lightbox/images_original/model009.jpg" data-lightbox="gallery" data-title="9 이미지"><img src="lightbox/images_thumbnail/model009.jpg" alt="Thumbnail 9"></a>
+            <a href="lightbox/images_original/model010.jpg" data-lightbox="gallery" data-title="10 이미지"><img src="lightbox/images_thumbnail/model010.jpg" alt="Thumbnail 10"></a>
+            <a href="lightbox/images_original/model011.jpg" data-lightbox="gallery" data-title="11 이미지"><img src="lightbox/images_thumbnail/model011.jpg" alt="Thumbnail 11"></a>
+            <a href="lightbox/images_original/model012.jpg" data-lightbox="gallery" data-title="12 이미지"><img src="lightbox/images_thumbnail/model012.jpg" alt="Thumbnail 12"></a>
+            <a href="lightbox/images_original/model013.jpg" data-lightbox="gallery" data-title="13 이미지"><img src="lightbox/images_thumbnail/model013.jpg" alt="Thumbnail 13"></a>
+            <a href="lightbox/images_original/model014.jpg" data-lightbox="gallery" data-title="14 이미지"><img src="lightbox/images_thumbnail/model014.jpg" alt="Thumbnail 14"></a>
+            <a href="lightbox/images_original/model015.jpg" data-lightbox="gallery" data-title="15 이미지"><img src="lightbox/images_thumbnail/model015.jpg" alt="Thumbnail 15"></a>
+        </ul>
+    </div>
+</div>
+<hr />
+
+<!-- 논문 -->
+<div id="thesisMain">
+    <a href="#"><h1>Thesis</h1></a>
+    <img src="Thesis/Image/PhdThesisKnowledgement.jpg" width="300" height="320" scrolling="auto" alt="감사의 글">          
+        <div id="thesisList">
+            <ul><li>Jang Jung Dong, "Content-Based Image Retrieval of Color Image," ph.d thesis, yeungnam university, 2002. 2.></li></ul>
+            <ul><li>Jang Jung Dong, "Digital Image Restoration using Combined Filter," M.S., Thesis, Yeungnam University, 1996. 2.</li></ul>
+            <ul><li>Jang Jung Dong, "Content-based Image Retrieval of Color Image Considering Color and Spatial Information," 2001. 3.</li></ul>
+            <ul><li>Jang Jung Dong, "Image Retrieval Using Sequential-Clustering with Color-Spatial Information," 2001. 4.</li></ul>
+            <ul><li>Jang Jung Dong, "Content-based Image Retrieval of Considering Color and Spatial Information," KICS, vol.26, No.3B, pp. 315-322, 2001. 3.</li></ul>
+            <ul><li>Jang Jung Dong, "Image Retrieval Using distance histogram in color clustering segment," KICS, vol.26, pp. 968-974, 2001. 7.</li></ul>
+        </div>
+    </div>
+</div>
+</content>
+
+    <footer id="footer">
+        <div id="footer">
+            Since Dec. 3rd, 2002<br />
+            COPYRIGHT © by Jang Jung-dong ALL RIGHT RESERVED.<br />
+            This document was last modified on <span id="mod" style="color: #00ffff;"></span>
+            <script>
+                {
+                    var date = new Date(document.lastModified);
+                    var output = '';
+                    output += date.toLocaleString();
+                    document.getElementById("mod").innerHTML = output;
+                }
+            </script>
+
+        </div>
+
+
+        <div class="counter" style="margin-bottom:10px; font-family:Arial, sans-serif; font-size:14px; color:#f9f7f7;">
+            방문자 수👥: 
+            <img src="https://hitwebcounter.com/counter/counter.php?page=123456&style=0006&nbdigits=7&type=page&initCount=1108966"
+                alt="Visitor Counter"
+                style="width:100px; height:15px; vertical-align:middle;">
+            <div id="footer-email" style="width:220px; height:auto; font-family:Arial, sans-serif; font-size:14px; color:#f5f5f5;">
+                <a href="https://outlook.live.com/mail/0/notes">💕E-Mail💕</a>
+            </div>
+        </div>
+
+        <div id="navAfter">
+            <ul>
+                <li><a href="index.html" target="_parent">Home</a></li>
+                <li class="nav-2"><a href="Profile/Profile.html">Profile</a></li>
+                <li class="nav-3"><a href="#">Thesis</a></li>
+                <li class="nav-4"><a href="#">ImageProcessing</a></li>
+                <li class="nav-5"><a href="#">PhotoGallery</a></li>
+                <li class="nav-6"><a href="#">PaintingGallery</a></li>
+                <li class="nav-7"><a href="#">Color&Light</a></li>
+                <li class="nav-8"><a href="#">PhotoIssue</a></li>
+                <li class="nav-9"><a href="#">GuestBook</a></li>
+            </ul>
+        </div>
+    </content>
+</footer>    
+</body>
+</html>
