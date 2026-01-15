@@ -41,7 +41,7 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $('.nav-3 a').click(function () {
-                $('#wrapper').load('https://jungdong2026.github.io/Thesis/Thesis/Thesis.html', 
+                $('#wrapper').load('https://jungdong2026.github.io/Thesis/Thesis.html', 
                     function () {
                     $(this).fadeIn();
                 });
