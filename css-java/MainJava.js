@@ -50,7 +50,7 @@ $(document).ready(function () {
         });
         $(document).ready(function () {
             $('.nav-4 a').click(function () {
-                $('#wrapper').load('ImageProcessing/ImageProcessingMain.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/ImageProcessing/ImageProcessingMain.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -58,7 +58,7 @@ $(document).ready(function () {
         });
         $(document).ready(function () {
             $('.nav-5 a').click(function () {
-                $('#wrapper').load('lightbox/galleryPhoto.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/lightbox/galleryPhoto.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -67,7 +67,7 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $('.nav-6 a').click(function () {
-                $('#wrapper').load('lightbox/galleryPainting.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/lightbox/galleryPainting.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -76,7 +76,7 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $('.nav-7 a').click(function () {
-                $('#wrapper').load('ColorLight/ColorLight.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/ColorLight/ColorLight.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -85,7 +85,7 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $('.nav-8 a').click(function () {
-                $('#wrapper').load('PhotoIssue/PhotoIssue.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/PhotoIssue/PhotoIssue.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -93,7 +93,7 @@ $(document).ready(function () {
         });
         $(document).ready(function () {
             $('.nav-9 a').click(function () {
-                $('#wrapper').load('GuestBook/GuestBook.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/GuestBook/GuestBook.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -103,7 +103,7 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $('#convolutionMain a').click(function () {
-                $('#wrapper').load('ImageProcessing/ImageProcessingMain.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/ImageProcessing/ImageProcessingMain.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -112,7 +112,7 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $('.gaussianMain a').click(function () {
-                $('#wrapper').load('ColorLight/ColorLight.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/ColorLight/ColorLight.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -120,7 +120,7 @@ $(document).ready(function () {
         });
         $(document).ready(function () {
             $('.fourierMain a').click(function () {
-                $('#wrapper').load('PhotoIssue/PhotoIssue.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/PhotoIssue/PhotoIssue.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -129,7 +129,7 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $('.PhotoG a').click(function () {
-                $('#wrapper').load('lightbox/galleryPhoto.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/lightbox/galleryPhoto.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -138,7 +138,7 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $('.PaintG a').click(function () {
-                $('#wrapper').load('lightbox/galleryPainting.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/lightbox/galleryPainting.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -147,7 +147,7 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $('#thesisMain a').click(function () {
-                $('#wrapper').load('Thesis/Thesis.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/Thesis/Thesis.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
