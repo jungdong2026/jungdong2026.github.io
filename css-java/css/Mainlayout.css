@@ -594,48 +594,52 @@ a.tip:hover span {
     padding: 15px 20px 10px 0px;
 }
 /*////PROFILE////////////////////////////////////////////////////////////////////////////*/
-#profiechapter {
-    padding: 0px;
-    margin: 0px;
-    background-color: white;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+        /* 전체 컨테이너를 가로 배치 */
+        #profileAll {
+            display: flex;              /* 가로 배치 */
+            align-items: stretch;       /* 같은 높이로 맞춤 */
+            gap: 0px;                  /* 간격 */
+            background-color: #9bc0f8;  /* 확인용 배경색 */
+        }
+        #profileAll b {
+            width: 100%;
+            font-size: 2.0em;
+            color: #021472;
+            line-height: 2.5em;
+            padding-left: 60px;
+        }
+
+        /* 왼쪽 텍스트 영역 */
+        #profileText pre{
+            flex: 1;                    /* 비율 */
+            padding: 10px;
+            font-weight: bold;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 10pt;
+            text-indent:3px;
+            text-decoration: none;
+            line-height: 20px;
+            list-style :none;
+            margin: 50px 0px 80px 0px;
+            padding: 0px 0px 0px 0px;
 }
-#profiechapter b {
-    width: 100%;
-    font-size: 2.0em;
-    color: #021472;
-    line-height: 2.5em;
-    padding-left: 60px;
-}
-#profieContent{
-    position: relative;
-    background-color: white;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-#profieContent img {
-    float: left;
-}
-#profieContent p {
-    margin-top: 3px;
-    padding-top: 50px;
-    color: black;
-    font-size: 1.2em;
-    line-height: 1.5em;
-    text-align: center;
-}
-#profieContent ul {
-    list-style-type: none;
-    padding: 50px 0px 140px 250px;
-    margin: 20px 0px 0px 250px;
-}
-#profieContent li {
-    line-height: 2.0em;
-    color: black;
-    font-size: 0.9em;
-    padding: 3px 0px 0px 0px;
-    margin: 0px 0px 0px 0px;
-    list-style-type: none;
-}
+
+        /* 오른쪽 사진 영역 */
+        #profilePhoto {
+            flex: 1;                    /* 비율 */
+            display: flex;
+            justify-content: center;    /* 가로 중앙 */
+            align-items: center;        /* 세로 중앙 */
+        }
+
+        #profile img {
+            float: left;
+            width: 80%;                /* 부모 너비에 맞춤 */
+            height: 80%;               /* 부모 높이에 맞춤 */
+            object-fit: contain;        /* 잘리지 않고 비율 유지 */
+        }
+
+
 /*////thesis/////////////////////////////////////////////////////////////////////////////*/
 #thesischapter {
     width: 100%;
