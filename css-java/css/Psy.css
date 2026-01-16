@@ -88,7 +88,9 @@
 /* 레이아웃: 좌측 메뉴 + 본문 */
 #chapterAll b{
     font-family: 'Georgia', serif;
+    font-size: 1.0em;
     color: #000000;  /* 따뜻한 아이보리 톤 글자 */
+    font-weight: bold; /* 굵게 */ 
     display: flex;          /* 좌우 배치 */
     flex-direction: row;    /* 가로 방향 */
     align-items: flex-start;/* 위쪽 기준 정렬 */
