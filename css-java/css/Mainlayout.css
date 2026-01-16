@@ -305,9 +305,8 @@ a.tip:hover span {
     
     padding: 30px 0px 00px 20px;
     margin-right:0px;
-    padding-bottom: 4000px;
-    margin-bottom: -4000px;
     }
+
 #contentLeft p {
     text-align: justify;
     margin-right:20px;
@@ -371,9 +370,8 @@ a.tip:hover span {
     width: 800px;
     background-color: white;
     padding-top: 20px;
-    padding-bottom: 2000px;
-    margin-bottom: -2000px;
     }
+
 #contentRight h1, #contentRight p {
     margin: 0px 12px 0px 12px;
     }
@@ -691,27 +689,46 @@ a.tip:hover span {
     background-color: #ccc; 
 }
 
-/*////Image Processing///////Color and Light/////////photo Issue////////////////////////////////////////*/
+/*////thesis////Image Processing///////Color and Light/////////photo Issue////////////////////////////////////////*/
 #chapterAll {
+    display: flex; 
+    flex-direction: row; 
     background-color: white;
     width: 100%;
     height: auto;
-    display:block;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    padding-bottom: 4000px;
-    margin-bottom: -4000px;
     overflow: hidden;
 }
+
+/* 레이아웃: 좌측 메뉴 + 본문 */
+#chapterAll b{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.0em;
+    color: #000000;  /* 글자 */
+    font-weight: bold; /* 굵게 */ 
+    display: flex;          /* 좌우 배치 */
+    flex-direction: row;    /* 가로 방향 */
+    align-items: flex-start;/* 위쪽 기준 정렬 */
+}
+
+/* 좌측 메뉴 전체 */
 #chapterAllList {
     float: left;
     width: 328px;
+    flex-shrink: 0;
     margin-right: 0px;
-    padding-left: 50px;
-    padding-top: 00px;
-    border-right: #eceef0 0px solid ;
-    padding-bottom: 4000px;
-    margin-bottom: -4000px;
-}
+    margin-left: 30px;
+    padding-top: 0px;
+    padding: 30px;
+    box-sizing: border-box;
+    border-right: 1px solid #fbece5; /* 진한 월넛색 테두리 */
+    background: rgba(255, 255, 255, 0.5);
+    background-size: cover;
+    border-radius: 2px; /* 곡선 테두리 */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3); /* 입체감 */
+    color: #0011f8;  /* 글자 */
+    font-family: 'Georgia', serif; /* 클래식한 서체 */
+    }
+
 .cAB b{
     width: 100%;
     font-size: 2.0em;
@@ -721,7 +738,7 @@ a.tip:hover span {
     display: block;
 }
 #chapterAllList ul {
-    margin: 0px 0px 100px 0px;
+    margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
 }
 #chapterAllList li {
@@ -729,40 +746,199 @@ a.tip:hover span {
     padding: 0px 0px 0px 0px;
     list-style-type: none;
 }
-#chapterAllList li.title {
-    margin: 0px 0px 0px 0px;
-    padding: 20px 0px 5px 0px;
-    list-style-type: none;
-    font-size: 12px;
-    line-height: 20px;
-    font-weight: bold;
-    color: #021472;
-}
+
 #chapterAllList a {
     list-style: none;
     display: block;
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 800; /* 글자 굵기 */ 
+    font-family: "맑은 고딕", Arial, sans-serif; 
     line-height: 20px;
     display: block;
     color: black;
     text-decoration: none;
-    padding: 0px 0px 0px 0px;
+    padding: 4px 0; /* 위아래 여백 */ 
 }
+
+/* 마우스 올렸을 때 */ 
 #chapterAllList a:hover {
-    color: red;
+    color: #0055ff; /* hover 시 색상 */ 
+    font-weight: bold; /* hover 시 굵게 */ 
+    text-decoration: underline; 
 }
+/* 아코디언 버튼 메뉴 스타일 */
+.section-title {
+    background: rgba(250, 250, 250, 0.5); /* 반투명 */
+    border-radius: 0px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    margin-top: 8px;
+    color: #000000;
+    transition: all 0.3s ease;
+}
+/* 아코디언 내용 */
+.section-content {
+    display: none;
+    margin-left: 15px;
+    list-style: none;
+    padding-left: 0;
+}
+
+.section-content ul {
+    margin: 3px 0;
+}
+
+.section-content a {
+    text-decoration: none;
+    color: #000000; /* 원하는 색상 */ 
+    padding: 6px 10px;
+    border-radius: 8px;
+    display: block;
+    transition: background 0.3s ease, color 0.3s ease;
+    font-family: 'Times New Roman', serif;
+}
+
+.section-content a:link,
+.section-content a:visited {
+    color: #0400fe;   /* 기본 글자색 */
+    text-decoration: none;
+}
+
+.section-content a:hover {
+    background: rgba(255,255,255,0.2);
+    color: #ff0000;   /* hover 시 금빛 강조 */
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.section-content a:active {
+    color: #ff0000;   /* 클릭 순간 주황빛 강조 */
+}
+
+.section-title.active + .section-content {
+    display: block;
+}
+
+.section-title:hover {
+    background: rgba(255,255,255,0.2);
+    color: #ffd700; /* hover 시 금빛 강조 */
+    transform: scale(1.03);
+}
+
+/* 본문 영역 i-frame*/
 #chapterAllContent {
+    flex: 1;                /* 남은 공간을 차지 */
     float: right;
     width: 800px;
+    padding-left: 10px;
     border-radius: 0px 0px 0px 0px;
-    border-left: #eceef0 0px solid ;
-    padding: 10px 0px 2000px 0px;
-    margin: 0px 0px -2000px 0px;
+    box-sizing: border-box;
+    background: rgba(140, 21, 21, 0.5);
 }
-#chapterAllContentFrame {
-    padding: 00px 0px 0px 0px;
-    margin: 0px 0px 0px 0px;
+
+/* iframe은 본문 영역 안에서만 100% */
+#chapterAllContent iframe {
+    width: 99%;
+    height: 800px;
 }
+
+/* 이하 기존 subChapter 관련 스타일 유지 */
+#subChapter {
+    width: 450px;
+    margin: 20px auto;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#subChapterChild { 
+    width: 450px; 
+    margin: 0 auto; 
+} 
+#subChapterChild b {
+    font-size: 1.0em;
+    color: #1466cb;
+    display: block;
+}
+
+#subChapter b {
+    font-size: 1.3em;
+    color: #1466cb;
+}
+#subChapterChild p { 
+    text-align: justify; 
+    line-height: 1.6; 
+    margin: 10px 0; 
+    font-size: 12px; 
+    color: black; 
+}
+
+#subChapterChild p.caption { 
+    margin-top: 4px; 
+    width: 70%; 
+    margin-left: auto; 
+    margin-right: auto; 
+    text-align: center; 
+    font-size: 10px; 
+    color: #333; 
+    line-height: 1.5; 
+}
+
+#subChapterChild p.comment { 
+    width: 100%; 
+    text-align: left; 
+    font-size: 10px; 
+    color: #555; 
+    line-height: 1.0; 
+}
+
+img.top-img { 
+    display: block; 
+    margin: 20px auto; 
+    max-width: 80%; 
+    height: auto; 
+}
+img.top-img2 { 
+    display: block; 
+    margin: 20px auto; 
+    width: 350px; 
+    height: auto; 
+}
+img.top-img3 { 
+    display: block; 
+    margin: 20px auto; 
+    width: 250px; 
+    height: auto; 
+}
+
+img.img1 {
+    margin: 0px;
+    padding: 20px 0px;
+}
+pre {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+    line-height: 20px;
+}
+#subChapterChild i {
+    display: block;
+    font-size: 10px;
+    line-height: 16px;
+    margin-top: 20px;
+    color: #555;
+}
+
+#subChapterChild p.reference { 
+    width: 100%; 
+    text-align: left; 
+    font-size: 10px; 
+    color: #555; 
+    font-style: italic;
+    line-height: 1.0; 
+}
+
 /*////GuestBook/////////////////////////////////////////////////////////////////////*/
 #Guest {
     width: 100%;

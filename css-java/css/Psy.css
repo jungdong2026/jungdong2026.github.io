@@ -94,6 +94,10 @@
     padding-left: 0;
 }
 
+.section-content ul {
+    margin: 3px 0;
+}
+
 .section-content a {
     text-decoration: none;
     color: #000000; /* 원하는 색상 */ 
@@ -121,9 +125,6 @@
     color: #ff0000;   /* 클릭 순간 주황빛 강조 */
 }
 
-.section-content li {
-    margin: 3px 0;
-}
 
 
 
