@@ -182,15 +182,9 @@ pre.article {
     border-radius: 6px 6px 0px 0px;
     border-right: gray thin solid;
     border-bottom: gray thin solid;
-
 }
 /*/////////////////////////////////////////////////////////////////////////////////*/
-/*///////////////s네비게이션//////////////////////////////////////////////////////////////////*/ 
-
-
-
-
-
+/*///////////////네비게이션//////////////////////////////////////////////////////////////////*/ 
 #navMain {
     position: relative;
     width: 100%;
@@ -465,13 +459,7 @@ a.tip:hover span {
     
     background: #f9f7f7;
     }
-    /*
-    .gallery {
-    width: 100%;
-    cursor: default;
-    list-style: none;
-    }
-*/
+
     .gallery img {
     background: #ccc;
     border-color: #fff;
@@ -483,18 +471,6 @@ a.tip:hover span {
     width: 120px;
     height: 80px;
     }
-    /*.gallery li {
-    background: #ccc;
-    border-color: #aaa #fff #555 #999;
-    border-style: outset;
-    border-width: 1px;
-    color: inherit;
-    display: inline;
-    float: left;
-    margin: 2px;
-    padding: 4px;
-    position: relative;
-    }*/
 
     div#gallery {
         display: flex;          /* 가로 배치 */
@@ -836,7 +812,7 @@ a.tip:hover span {
     padding-left: 10px;
     border-radius: 0px 0px 0px 0px;
     box-sizing: border-box;
-    background: rgba(140, 21, 21, 0.5);
+    background: rgba(252, 252, 252, 0.5);
 }
 
 /* iframe은 본문 영역 안에서만 100% */
