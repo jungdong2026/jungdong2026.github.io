@@ -857,34 +857,43 @@ a.tip:hover span {
     width: 450px; 
     margin: 0 auto; 
 } 
+
+#subChapterChild i {
+    display: block;
+    font-size: 10px;
+    line-height: 16px;
+    margin-top: 20px;
+    color: #555;
+}
 #subChapterChild b {
     font-size: 1.0em;
     color: #1466cb;
     display: block;
+    margin: 10px 0;
 }
 
 #subChapter b {
     font-size: 1.3em;
     color: #1466cb;
 }
+
 #subChapterChild p { 
     text-align: justify; 
     line-height: 1.6; 
     margin: 10px 0; 
+    font-family: Verdana, Geneva, Tahoma, sans-serif; 
     font-size: 12px; 
     color: black; 
 }
-
 #subChapterChild p.caption { 
     margin-top: 4px; 
-    width: 70%; 
-    margin-left: auto; 
-    margin-right: auto; 
+    width: 70%; /* 캡션 폭을 전체의 80%로 제한 */ 
+    margin-left: auto; /* 자동 좌측 여백 */ 
+    margin-right: auto; /* 자동 우측 여백 */ 
     text-align: center; 
     font-size: 10px; 
     color: #333; 
-    line-height: 1.5; 
-}
+    line-height: 1.5; }
 
 #subChapterChild p.comment { 
     width: 100%; 
@@ -922,22 +931,16 @@ pre {
     font-size: 12px;
     line-height: 20px;
 }
-#subChapterChild i {
-    display: block;
-    font-size: 10px;
-    line-height: 16px;
-    margin-top: 20px;
-    color: #555;
-}
-
 #subChapterChild p.reference { 
-    width: 100%; 
+    margin-top: 0px; 
+    width: 100%; /* 캡션 폭을 전체의 80%로 제한 */ 
+    margin-left: auto; /* 자동 좌측 여백 */ 
+    margin-right: auto; /* 자동 우측 여백 */ 
     text-align: left; 
     font-size: 10px; 
     color: #555; 
     font-style: italic;
-    line-height: 1.0; 
-}
+    line-height: 1.0; }
 
 /*////GuestBook/////////////////////////////////////////////////////////////////////*/
 #Guest {
