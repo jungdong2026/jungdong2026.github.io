@@ -830,7 +830,7 @@ a.tip:hover span {
 }
 
 #subChapterChild { 
-    width: 450px; 
+    width: 400px; 
     margin: 0 auto; 
 } 
 
@@ -879,6 +879,18 @@ a.tip:hover span {
     line-height: 1.0; 
 }
 
+#subChapterChild p.reference { 
+    margin-top: 0px; 
+    width: 100%; /* 캡션 폭을 전체의 80%로 제한 */ 
+    margin-left: auto; /* 자동 좌측 여백 */ 
+    margin-right: auto; /* 자동 우측 여백 */ 
+    text-align: left; 
+    font-size: 10px; 
+    color: #555; 
+    font-style: italic;
+    line-height: 1.0; 
+}
+
 img.top-img { 
     display: block; 
     margin: 20px auto; 
@@ -899,24 +911,17 @@ img.top-img3 {
 }
 
 img.img1 {
-    margin: 0px;
-    padding: 20px 0px;
+    display: block; 
+    margin: 20px auto; 
+    width: 80px; 
+    height: auto; 
 }
+
 pre {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 12px;
     line-height: 20px;
 }
-#subChapterChild p.reference { 
-    margin-top: 0px; 
-    width: 100%; /* 캡션 폭을 전체의 80%로 제한 */ 
-    margin-left: auto; /* 자동 좌측 여백 */ 
-    margin-right: auto; /* 자동 우측 여백 */ 
-    text-align: left; 
-    font-size: 10px; 
-    color: #555; 
-    font-style: italic;
-    line-height: 1.0; }
 
 /*////GuestBook/////////////////////////////////////////////////////////////////////*/
 #Guest {
