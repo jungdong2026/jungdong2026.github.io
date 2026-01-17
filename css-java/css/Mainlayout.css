@@ -732,7 +732,7 @@ a.tip:hover span {
 .cAB b{
     width: 100%;
     font-size: 2.0em;
-    color: #000000;
+    color: #fd0303;
     margin: 0px 0px 0px 0px;
     padding: 5px 0px 10px 20px;
     display: block;
@@ -824,7 +824,7 @@ a.tip:hover span {
 
 .section-title:hover {
     background: rgba(255,255,255,0.2);
-    color: #ffd700; /* hover 시 금빛 강조 */
+    color: #ff0000; /* hover 시 금빛 강조 */
     transform: scale(1.03);
 }
 
