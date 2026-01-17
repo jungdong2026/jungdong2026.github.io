@@ -16,21 +16,31 @@ b {
     color: #f8efcd;
 }
         
-h2,h3{
-    color:#222;
-    line-height:1.2em;
-    font-family:"Montserrat","Helvetica",sans-serif;
-    font-weight:600
+h1{
+    color:#1302ff;
+    font-weight:600;
+    margin-bottom:1.0rem;
+    font-size:1.0rem;
+    text-transform:uppercase;
+    font-family:"Montserrat","Helvetica",sans-serif       
     }
+
 h2{
     color:#e67e39;
+    font-weight:600;
     margin-bottom:1.5rem;
-    font-size:1.5rem;
-    text-transform:uppercase
-        }
+    font-size:1.0rem;
+    text-transform:uppercase;
+    font-family:"Montserrat","Helvetica",sans-serif       
+    }
+
 h3{
-    font-size:1.2rem;
-    margin-bottom:0.5rem
+    color:#e67e39;
+    font-weight:800;
+    margin-bottom:1.2rem;
+    font-size:1.5rem;
+    text-transform:uppercase;
+    font-family:"Montserrat","Helvetica",sans-serif       
     }
 
 li {
