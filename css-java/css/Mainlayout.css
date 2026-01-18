@@ -455,19 +455,20 @@ a.tip:hover span {
     line-height: 2.5em;
     padding-left: 60px;
 }
+
 #images {
     display: grid;
     /* grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));  최소 150px, 자동 채움 */
-    /*3열 고정 → grid-template-columns: repeat(3, 1fr); */
-    /*5열 고정 → grid-template-columns: repeat(5, 1fr); */
-    grid-template-columns: repeat(6, 1fr); /* 6열 고정 */
-    /*grid-template-columns: repeat(4, 1fr);  4열 고정 */    
+     grid-template-columns: repeat(6, 1fr);  /*6열 고정 */
+     /*grid-template-columns: repeat(6, 180px); 6열 고정, 각 열 180px */
     gap: 10px; /* 썸네일 간격 */
-    width: 100%;
-    gap: 10px;
+    /* justify-content: center;  그리드 전체를 가운데 정렬 */
+    max-width: 1200px;
+    margin: 0 auto; /* 가운데 정렬 */
     background: #f9f7f7;
     padding: 10px;
 }
+
 #images a { 
     display: block; /* 썸네일 박스 전체 클릭 가능 */ 
 }
@@ -475,6 +476,7 @@ a.tip:hover span {
 #images img {
   width: 100%;
   height: 120px;
+  aspect-ratio: 4 / 3; /* 일정한 비율 유지 (예: 4:3) */
   object-fit: cover; /* 박스 크기에 맞게 잘라내기 */
   border: 2px solid #ccc;
   border-radius: 5px;
