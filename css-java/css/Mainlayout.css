@@ -489,34 +489,23 @@ a.tip:hover span {
 }
 
 div#gallery {
-    display: Flexbox;
-    justify-content: space-between;   /*좌우 균등 */
+    display: flex;
+    justify-content: center;
     align-items: flex-start; /* 위쪽 기준 정렬 */
     padding: 0px 0 0 0;
+    gap: 50px;
     margin: 20px 0px;
     width: 100%;
     }
 
 div#galleryPhoto,
 div#galleryPainting {
-        /*flex: 1;      */          /*각각 반반 너비 */
-        border: 2px solid #b6b5b5;
-
+    border: 2px solid #b6b5b5;
     width: 350px;
-    height: auto;
     background-color: rgb(250, 250, 250);
-    margin: 0px 10px;         /* 좌우 간격 */
     box-sizing: border-box; /* 패딩/보더 포함 계산 */
     }
 
-    div#galleryPhoto {
-        float: left;  
-    }
-    div#galleryPainting {
-        float: right;
-        margin: 0px 50px;         /* 좌우 간격 */
-   
-    }
     img#photoGalleryPortrait,
     img#paintingGalleryPortrait {
         width: 280px;
