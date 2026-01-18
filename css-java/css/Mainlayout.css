@@ -523,11 +523,12 @@ div#galleryPainting {
 
 .photoGallery img,
 .paintingGallery img {
-  width: 280px;
-  height: 280px;
-  object-fit: cover;  /* 원본 비율 유지하면서 잘라내기 */
-  margin: 10px;
-  padding: 0;
+    width: 120px; /* 작은 아이콘 크기 */ 
+    height: 120px; /* 정사각형 */    
+    object-fit: cover;  /* 원본 비율 유지하면서 잘라내기 */
+    padding: 0;
+    margin: 5px; /* 이미지 간격 */
+    border-radius: 4px; /* 모서리 살짝 둥글게 */
 }
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
