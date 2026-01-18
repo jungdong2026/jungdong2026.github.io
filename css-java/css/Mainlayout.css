@@ -460,7 +460,9 @@ a.tip:hover span {
     /* grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));  최소 150px, 자동 채움 */
     /*3열 고정 → grid-template-columns: repeat(3, 1fr); */
     /*5열 고정 → grid-template-columns: repeat(5, 1fr); */
-    grid-template-columns: repeat(4, 1fr); /* 4열 고정 */    gap: 10px; /* 썸네일 간격 */
+    grid-template-columns: repeat(6, 1fr); /* 6열 고정 */
+    /*grid-template-columns: repeat(4, 1fr);  4열 고정 */    
+    gap: 10px; /* 썸네일 간격 */
     width: 100%;
     gap: 10px;
     background: #f9f7f7;
