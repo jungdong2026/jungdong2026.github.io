@@ -508,27 +508,30 @@ div#gallery ul {
 }
 
 div#gallery li {
-  border: 2px solid #b6b5b5;
   padding: 10px 20px;
   background-color: rgb(250, 250, 250);
 }
 
 div#galleryPhoto,
 div#galleryPainting {
-    border: 2px solid #b6b5b5;
-    width: 350px;
-    background-color: rgb(250, 250, 250);
-    box-sizing: border-box; /* 패딩/보더 포함 계산 */
-    }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  border: 2px solid #b6b5b5;
+  width: 350px;
+  background-color: rgb(250, 250, 250);
+  box-sizing: border-box;
+  padding: 10px;
+}
 
 .photoGallery img,
 .paintingGallery img {
-    width: 120px; /* 작은 아이콘 크기 */ 
-    height: 120px; /* 정사각형 */    
+    width: 72px; /* 작은 아이콘 크기 */ 
+    height: 72px; /* 정사각형 */    
     object-fit: cover;  /* 원본 비율 유지하면서 잘라내기 */
     padding: 0;
-    margin: 5px; /* 이미지 간격 */
-    border-radius: 4px; /* 모서리 살짝 둥글게 */
+    margin: 1px; /* 이미지 간격 */
+    border-radius: 1px; /* 모서리 살짝 둥글게 */
 }
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
