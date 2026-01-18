@@ -411,15 +411,6 @@ a.tip:hover span {
 
  /*FourierGaussian 그래프//////////////////////////////////////////////////////////////////*/
   
-           #fourierGraph {
-            font: 13px/13px "Helvetica Neue", Helvetica, Arial, sans-serif;
-            
-            position: relative;
-            margin: 0px;
-            padding: 0px 0px 0px 0px;
-            float: right;
-            width: 430px;
-        }
 
     div#FourierGaussian {
         padding: 0px 0px 0px 0px;
@@ -438,7 +429,14 @@ a.tip:hover span {
     div#Gaussian {
         float: left;
         padding: 0px 0px 0px 0px;
+    }
 
+    #fourierGraph {
+        position: relative;
+        margin: 0px;
+        padding: 0px 0px 0px 0px;
+        float: right;
+        width: 400px;
     }
 
 /*갤러리/////////////////////////////////////////////////////////////////////////////*/
