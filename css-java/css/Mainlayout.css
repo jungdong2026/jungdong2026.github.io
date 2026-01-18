@@ -498,6 +498,21 @@ div#gallery {
     width: 100%;
     }
 
+div#gallery ul {
+  display: flex;
+  justify-content: center;   /* 가운데 정렬 */
+  gap: 50px;                 /* 두 타이틀 사이 간격 */
+  list-style: none;          /* 불릿 제거 */
+  padding: 0;
+  margin: 0;
+}
+
+div#gallery li {
+  border: 2px solid #b6b5b5;
+  padding: 10px 20px;
+  background-color: rgb(250, 250, 250);
+}
+
 div#galleryPhoto,
 div#galleryPainting {
     border: 2px solid #b6b5b5;
@@ -506,20 +521,14 @@ div#galleryPainting {
     box-sizing: border-box; /* 패딩/보더 포함 계산 */
     }
 
-    img#photoGalleryPortrait,
-    img#paintingGalleryPortrait {
-        width: 280px;
-        height: 280px;
-        padding: 0px;
-        margin-left: 60px; 
-    }
-    img#photoGalleryLandscape, 
-    img#paintingGalleryLandscape {
-        width: 370px;
-        height: 280px;
-        padding: 0px;
-        margin-left: 15px; 
-    }   
+.photoGallery img,
+.paintingGallery img {
+  width: 280px;
+  height: 280px;
+  object-fit: cover;  /* 원본 비율 유지하면서 잘라내기 */
+  margin: 10px;
+  padding: 0;
+}
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*우측 thesis/////////////////////////////////////////////////////////////////////////////////*/ 
