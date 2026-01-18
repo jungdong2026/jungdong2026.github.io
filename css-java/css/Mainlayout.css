@@ -518,12 +518,11 @@ div#gallery li {
   color: #333;
   text-align: center;
 }
-
 div#galleryPhoto,
 div#galleryPainting {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
+  gap: 2px;   /* 썸네일 간격 최소화 */
   border: 2px solid #b6b5b5;
   width: 350px;
   background-color: rgb(250, 250, 250);
@@ -533,12 +532,11 @@ div#galleryPainting {
 
 .photoGallery img,
 .paintingGallery img {
-    width: 72px; /* 작은 아이콘 크기 */ 
-    height: 72px; /* 정사각형 */    
-    object-fit: cover;  /* 원본 비율 유지하면서 잘라내기 */
-    padding: 0;
-    margin: 1px; /* 이미지 간격 */
-    border-radius: 1px; /* 모서리 살짝 둥글게 */
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  margin: 0;          /* gap이 있으므로 margin은 제거 */
+  border-radius: 2px; /* 모서리 살짝 둥글게 */
 }
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
