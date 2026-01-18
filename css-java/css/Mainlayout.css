@@ -515,8 +515,8 @@ div#galleryTitles li {
 .photoGallery,
 .paintingGallery {
   display: grid;
-  grid-template-columns: repeat(4, 72px); /* 한 줄에 72px짜리 4개 */
-  grid-template-rows: repeat(4, 72px);    /* 총 4줄 */
+  grid-template-columns: repeat(5, 72px); /* 한 줄에 72px짜리 4개 */
+  grid-template-rows: repeat(3, 72px);    /* 총 4줄 */
   gap: 2px;                               /* 썸네일 간격 최소화 */
   list-style: none;
   border: 2px solid #b6b5b5;
@@ -524,7 +524,7 @@ div#galleryTitles li {
   box-sizing: border-box;
   padding: 10px;
   margin: 0;
-  width: 318px; /* 4×4 고정 크기 */
+  width: 380px; /* 4×4 고정 크기 */
 }
 
 .photoGallery li, 
