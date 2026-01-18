@@ -492,7 +492,7 @@ div#gallery {
     display: flex;              /* 자식 요소들을 가로로 배치 */
     justify-content: center;    /* 전체를 가운데 정렬 */
     align-items: flex-start;    /* 위쪽 기준으로 정렬 */
-    gap: 3px;                   /* 박스 사이 간격 */
+    gap: 30px;                   /* 박스 사이 간격 */
     width: 100%;                /* 부모 너비 전체 사용 */
     flex-wrap: wrap;            /* 화면이 좁으면 줄바꿈 */
 }
