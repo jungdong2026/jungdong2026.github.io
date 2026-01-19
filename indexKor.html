@@ -232,19 +232,16 @@
             <div id="fourierGraph">
                 <img src="ImageProcessing/images/furier.gif"></div>
             <p onclick="this.style.color = 'red';">
-
-                The Gaussian smoothing operator is a 2-D convolution operator that is used to `blur' images
-                and remove detail and noise. In this sense it is similar to the mean filter,
-                but it uses a different kernel that represents the shape of a Gaussian (`bell-shaped') hump.
-                This kernel has some special properties which are detailed below.
-                <img src="ImageProcessing/images/gaus03.png" />
-                In 2-D, an isotropic <i>(i.e. circularly symmetric)</i> Gaussian has the form:
-                This distribution is shown above right Figure.
-                This is Gaussian distribution with mean (0,0) and  σ=1<br />
-                The idea of Gaussian smoothing is to use this 2-D distribution as a `point-spread' function,
-                and this is achieved by convolution. Since the image is stored
-                as a collection of discrete pixels we need to produce a discrete approximation
-                to the Gaussian function before we can perform the convolution.
+                가우시안 스무딩 연산자는 2차원 컨볼루션(convolution) 연산자로, 
+                이미지를 ‘블러(blur)’ 처리하여 세부 정보와 잡음을 제거하는 데 사용됩니다. 
+                이러한 점에서 평균 필터(mean filter)와 유사하지만, 가우시안(‘종 모양’) 곡선을 
+                나타내는 다른 커널을 사용합니다. 이 커널은 특별한 성질을 가지며, 아래에 자세히 설명되어 있습니다. 
+                <img src="ImageProcessing/images/gaus03.png" /> 
+                2차원에서 등방성<i>(i.e. circularly symmetric)</i> 가우시안은 다음과 같은 형태를 가집니다. 
+                위 오른쪽 그림에 이 분포가 나타나 있습니다. 이는 평균이 (0,0)이고 표준편차 σ=1인 <br />
+                가우시안 분포입니다. 가우시안 스무딩의 기본 아이디어는 이 2차원 분포를 ‘점 확산(point-spread)’ 
+                함수로 사용하는 것이며, 이는 컨볼루션을 통해 구현됩니다. 이미지는 이산적인 픽셀들의 집합으로 
+                저장되므로, 컨볼루션을 수행하기 전에 가우시안 함수를 이산적으로 근사해야 합니다.
             </p>
 
             <!-- 갤러리 -->
