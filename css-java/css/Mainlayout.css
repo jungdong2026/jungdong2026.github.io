@@ -423,7 +423,7 @@ a.tip:hover span {
     }
     div#FourierGaussian li {
         float: left;
-        padding: 0px 100px 0px 0px;
+        padding: 0px 0px 0px 0px;
         margin: 0px;
     }
     div#Gaussian {
