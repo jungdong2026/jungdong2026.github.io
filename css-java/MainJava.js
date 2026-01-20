@@ -99,6 +99,14 @@ $(document).ready(function () {
                 return false;
             });
         });
+        $(document).ready(function () {
+            $('.nav-10 a').click(function () {
+                $('#wrapper').load('https://jungdong2026.github.io/MusicBox/MusicBox.html', function () {
+                    $(this).fadeIn();
+                });
+                return false;
+            });
+        });
 
 
         $(document).ready(function () {

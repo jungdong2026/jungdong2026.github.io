@@ -1,0 +1,369 @@
+html {
+  scroll-behavior: smooth;
+}
+
+/* 네비게이션 바 */
+nav {
+  position: fixed;
+  top: 0;
+  left: 50%;                  /* 화면의 가운데 기준점 */
+  transform: translateX(-50%);/* 가운데로 이동 */
+  width: 800px;               /* 원하는 길이 */
+  background: rgba(34,34,34,0.95);
+  padding: 12px 0;
+  z-index: 10000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  border-radius: 12px;
+}
+
+nav .menu {
+  width: 100%;
+  max-width: 800px;    /* 큰 화면에서는 넓게 */
+  margin: 0 auto;
+  display: flex;
+  gap: 15px;            /* 항목 간격 넓힘 */
+  justify-content: center;
+}
+
+.menu a,
+.menu button {
+  display: inline-block;
+  padding: 10px 24px;   /* 버튼 크기 확대 */
+  color: #fff;
+  background: transparent;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 16px;      /* 글자 크기 키움 */
+  transition: all 0.3s;
+  min-width: 40px;
+  text-align: center;
+  white-space: nowrap;
+  border: 1px solid #fff; /* 테두리 추가 */
+  cursor: pointer;
+}
+
+.menu a:hover,
+.menu button:hover {
+  background: orange;
+  color: #000;
+  border-color: orange;
+}
+
+.menu .icon {
+  margin-right: 5px;
+}
+
+
+
+
+
+#musicBtn {
+  padding: 10px 24px;
+  color: #fff;
+  background: transparent;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.3s;
+  border: 1px solid #fff;
+  cursor: pointer;
+}
+
+#musicBtn:hover {
+  background: orange;
+  color: #000;
+  border-color: orange;
+}
+
+
+
+
+
+
+
+
+/* 본문 */
+body {
+  margin: 0;
+  padding-top: 80px;    /* nav 높이에 맞춰 조정 */
+  background-color: lightblue;
+}
+
+
+#home {
+  text-align: center;   /* 섹션 안의 모든 요소를 가로 중앙 정렬 */
+}
+
+#home h1 {
+  padding-top: 40px;  /* 메뉴와 영상 사이 간격 */
+  margin-bottom: 20px;  /* 제목과 영상 사이 간격 */
+}
+
+#home video {
+  display: inline-block; /* 중앙 정렬 유지 */
+}
+
+
+#music {
+  scroll-margin-top: 80px;
+}
+
+section {
+  min-height: 100vh;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.bgm-controls {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.bgm-controls button,
+.bgm-controls input[type="range"] {
+  margin: 0 8px;
+}
+
+.bgm-controls button {
+  padding: 8px 16px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #eee;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.bgm-controls button:hover {
+  background: orange;
+  color: #fff;
+}
+
+/* 전체 플레이어 래퍼 (팝업) */
+.player-wrapper {
+  display: none;        
+}
+
+.player-wrapper.active {
+  display: flex;
+  position: fixed;      
+  top: 80px;            /* 메뉴 바로 아래에서 시작 */
+  left: 0;
+  width: 100%;
+  height: calc(100% - 80px); 
+  z-index: 9999;        
+  background: lightblue; /* 홈과 동일한 색상 */
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* 플레이어 박스 */
+.player-box {
+  width: 800px;          /* 박스 너비 넓힘 */
+  height: 80vh;          
+  max-height: none;      
+  overflow-y: auto;      
+  border: 10px solid #fd9c9c;
+  border-radius: 12px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+
+
+.tab-content {
+  width: 800px;
+  margin: 100px auto 0 auto; /* nav와 맞춤 */
+  position: relative;
+}
+
+.tool-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.tool-section.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+
+
+
+
+
+
+
+/* 커버 이미지 */
+.cover-container {
+  text-align: center;
+}
+
+#cover {
+  width: 300px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+/* 진행바 & 볼륨 컨트롤 */
+.progress-container,
+.volume-control {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  margin-left: 80px;
+  margin-top: 10px;
+}
+
+#progressBar,
+#volumeSlider {
+  width: 400px;          /* 슬라이더 길이 늘림 */
+  height: 6px;
+  border-radius: 2px;
+  background: #ddd;
+  cursor: pointer;
+}
+
+.progress-container i,
+.volume-control i {
+  width: 30px;
+  text-align: center;
+  font-size: 14px;
+  color: #0425f9;
+}
+
+#currentTime,
+#duration,
+#remainingTime {
+  font-size: 14px;
+  color: #0425f9;
+  font-weight: 400;
+}
+
+#volumeValue {
+  color: #0425f9;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.volume-control label {
+  font-size: 14px;
+}
+
+/* 트랙 정보 */
+.track-info {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 16px;
+  color: #fb0303;
+  font-weight: 500;
+  margin-top: 12px;
+  text-align: center;
+}
+
+#trackTitle,
+#trackArtist {
+  font-size: 22px;
+  color: #053afa;
+  font-weight: 600;
+}
+
+/* 컨트롤 버튼 */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.controls button {
+  width: 40px;           /* 버튼 크기 확대 */
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #1601fc;
+  background: transparent;
+  color: #333;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.controls button:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* 플레이리스트 */
+#playlist {
+  list-style: none;
+  padding-left: 0;
+  margin: 20px 0 0 0;
+}
+
+.playlist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  color: #000;             
+  background: #e8e8e8;     
+}
+
+.playlist-item:hover {
+  background: #ccc;
+  transform: scale(1.02);
+  color: #000;
+}
+
+.playlist-item.active {
+  font-weight: bold;
+  background: #053afa;
+  color: #fff;
+}
+
+.playlist-icon {
+  margin-left: 0;
+}
+
+.playlist-text {
+  font-size: 18px;
+}
+
+/* 플레이리스트 커버 이미지 */
+.playlist-cover {
+  width: 40px;           /* 커버 이미지 크기 확대 */
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* 회전 애니메이션 */
+@keyframes spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(0.55); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+#cover.rotate {
+  animation: spin 8s linear infinite;
+  transform-origin: center center;
+}
