@@ -83,7 +83,7 @@ nav .menu {
 
 
 /* 본문 */
-body {
+MusicBox {
   margin: 0;
   padding-top: 80px;    /* nav 높이에 맞춰 조정 */
   background-color: lightblue;
