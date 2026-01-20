@@ -3,7 +3,7 @@ html {
 }
 
 /* 네비게이션 바 */
-nav {
+nav-MusicBox {
   position: fixed;
   top: 0;
   left: 50%;                  /* 화면의 가운데 기준점 */
@@ -16,7 +16,7 @@ nav {
   border-radius: 12px;
 }
 
-nav .menu {
+nav-MusicBox .menu {
   width: 100%;
   max-width: 800px;    /* 큰 화면에서는 넓게 */
   margin: 0 auto;
@@ -25,8 +25,8 @@ nav .menu {
   justify-content: center;
 }
 
-.menu a,
-.menu button {
+.menu-MusicBox a,
+.menu-MusicBox button {
   display: inline-block;
   padding: 10px 24px;   /* 버튼 크기 확대 */
   color: #fff;
@@ -42,14 +42,14 @@ nav .menu {
   cursor: pointer;
 }
 
-.menu a:hover,
+.menu-MusicBox a:hover,
 .menu button:hover {
   background: orange;
   color: #000;
   border-color: orange;
 }
 
-.menu .icon {
+.menu-MusicBox .icon {
   margin-right: 5px;
 }
 
@@ -85,16 +85,16 @@ nav .menu {
 /* 본문 */
 MusicBox {
   margin: 0;
-  padding-top: 80px;    /* nav 높이에 맞춰 조정 */
+  padding-top: 80px;    /* nav-MusicBox 높이에 맞춰 조정 */
   background-color: lightblue;
 }
 
 
-#home {
+#home-MusicBox {
   text-align: center;   /* 섹션 안의 모든 요소를 가로 중앙 정렬 */
 }
 
-#home h1 {
+#home-MusicBox h1 {
   padding-top: 40px;  /* 메뉴와 영상 사이 간격 */
   margin-bottom: 20px;  /* 제목과 영상 사이 간격 */
 }
@@ -108,7 +108,7 @@ MusicBox {
   scroll-margin-top: 80px;
 }
 
-section {
+section-MusicBox {
   min-height: 100vh;
   padding: 40px;
   box-sizing: border-box;
@@ -209,7 +209,7 @@ section {
   text-align: center;
 }
 
-#cover {
+#cover-MusicBox {
   width: 300px;
   height: auto;
   display: block;

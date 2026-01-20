@@ -14,9 +14,9 @@
   <div id="MusicBoxTiTle">
       <b>MusicBox</b>
       <hr />
-  <nav>
-    <div class="menu">
-      <button class="tab-link" data-target="home">Home</button>   <!-- ✅ 홈 버튼 추가 -->
+  <nav-MusicBox>
+    <div class="menu-MusicBox">
+      <button class="tab-link" data-target="home-MusicBox">Home</button>   <!-- ✅ 홈 버튼 추가 -->
       <button class="tab-link" data-target="premiere">Premiere</button>
       <button class="tab-link" data-target="photoshop">Photoshop</button>
       <button class="tab-link" data-target="lightroom">Lightroom</button>
@@ -25,8 +25,8 @@
       <!-- 🎵 음악 재생 버튼 -->
       <button id="musicBtn">음악 재생</button>
     </div>
-  </nav>
-  <section id="home" class="tool-section active">
+  </nav-MusicBox>
+  <section-MusicBox id="home-MusicBox" class="tool-section active">
     <h1>방문을 환영합니다</h1>
     <div>
       <video width="800" controls>
@@ -48,10 +48,10 @@
       <label for="volume">🔊 볼륨</label>
       <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5" onchange="setVolume(this.value)">
     </div>
-</section>
+</section-MusicBox>
 
 <div class="tab-content">
-  <section id="premiere" class="tool-section">
+  <section-MusicBox id="premiere" class="tool-section">
     <h1>Premiere</h1>
     <p>아래를 클릭하면 유투브를 불러 옵니다</p>
     <ul class="links">
@@ -70,26 +70,26 @@
       <li><a href="https://www.youtube.com/watch?v=RqCUF89BFUo" target="_blank">♡♡♡ 네온싸인 인트로</a></li>
       <li><a href="https://www.youtube.com/watch?v=T4ia_2jB38E&t" target="_blank">♡♡♡ 마블 인트로</a></li>
     </ul>
-  </section>
+  </section-MusicBox>
 
-  <section id="photoshop" class="tool-section">
+  <section-MusicBox id="photoshop" class="tool-section">
     <h1>Photoshop</h1>
     <p>아래를 클릭하면 유투브를 불러 옵니다</p>
     <ul class="links"> 
       <li><a href="https://www.youtube.com/watch?v=8GcO1bqZq68" target="_blank">♡♡♡Gemini 3 Nano Banana Pro </a></li>
       <li><a href="https://www.youtube.com/watch?v=rNzqxex2Lyk" target="_blank">♡♡♡다중노출 사진술</a></li>
     </ul>
-  </section>
+  </section-MusicBox>
 
-  <section id="lightroom" class="tool-section">
+  <section-MusicBox id="lightroom" class="tool-section">
     <h1>Lightroom</h1>
     <p>아래를 클릭하면 유투브를 불러 옵니다</p>
     <ul class="links">
       <li><a href="https://www.youtube.com/watch?v=T4ia_2jB38E&t" target="_blank">♡♡♡마블 인트로</a></li>
     </ul>
-  </section>
+  </section-MusicBox>
 
-  <section id="aftereffects" class="tool-section">
+  <section-MusicBox id="aftereffects" class="tool-section">
     <h1>After Effects</h1>
     <p>아래를 클릭하면 유투브를 불러 옵니다</p>
     <ul class="links">
@@ -99,14 +99,14 @@
       <li><a href="https://www.youtube.com/watch?v=gfq2VyYiH40" target="_blank">♡♡♡텍스트 애니메이션: 바운스</a></li>
       <li><a href="https://www.youtube.com/watch?v=6ROLdeBl5Zo" target="_blank">♡♡♡모션그래픽 만든다면 절대 필수! 애프터이펙트 효과 5가지</a></li>
     </ul>
-  </section>
+  </section-MusicBox>
 </div>
 
 <div class="player-wrapper" id="music">
   <div class="player-box">
     <audio id="audio"></audio>
     <div class="cover-container">
-      <img id="cover" src="MusicBox/assets/images/model004.jpg" alt="앨범 커버 이미지">
+      <img id="cover-MusicBox" src="MusicBox/assets/images/model004.jpg" alt="앨범 커버 이미지">
     </div>
     <div class="progress-container">
       <i class="fa-regular fa-clock"></i>
