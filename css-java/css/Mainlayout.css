@@ -8,15 +8,16 @@ body {
     margin: 0 auto;
     background-color: #212121;
 	padding: 0;
-    }       
+    } 
+
 a {
     text-decoration: none;
     }
+
 b {
     font-size: 2em;
     color: #f8efcd;
 }
-        
 
 h2{
     color:#e67e39;
@@ -39,21 +40,19 @@ h3{
 li {
     list-style: none;
 }
+
 p {
     text-align: justify;
     margin-right:20px;
     color: #000000;
     margin-top:0px;
-    
     font-size: 0.9em;
     font-weight: initial;
- 
-        }
+}
 
 img {
     border: 0;
-
-    }
+}
 
 pre.article {
     text-indent: 30px;
@@ -68,7 +67,7 @@ pre.article {
     margin-right: 40px;
     background: #ffffff;
     word-wrap: break-word;
-    }
+}
     
 #header {
     width: 100%;
@@ -78,50 +77,49 @@ pre.article {
     flex-direction: column;
 }
 /*//////////////로 고///////////////////////////////////////////////////////////////////*/
-
 #logo {
     height: 256px;
     width: 100%;
     /*background:url(Main/Image/digtal_image_processing.jpg) no-repeat top left;*/
     background-color: #5b9ef6;
-    }
+}
+
 #logo ul{
     margin: 0;
     padding: 0;
     font-size: 1.5em;
     color: #ffffff;
-    }  
+}  
+
 #logo li {
     list-style: none;
     margin: 0;
     padding: 50px 0px 0px 200px;
     font-size: 1.5em;
     color: #ffffff;
-    }      
+}      
 #logo h1 {
     float: left;
     margin: 0;
     padding: 0px 0px 0px 200px;
     font-size: 4.0em;
     color: #000000;
-    } 
+} 
 /*////////////////한글/ 영문/////////////////////////////////////////////////////////////////*/
-         
 #nav-korEn {
     height: 20px;
     margin: 0px 0px 0px 0px;
     padding:00px 0px 0px 0px;
 }
-#nav-korEn a
-{
+
+#nav-korEn a{
     color: #ffffff;
     height: 30px;
     text-decoration: none;
     background-color: #5b9ef6;
 }
 
-#nav-korEn a:hover
-{
+#nav-korEn a:hover{
     color: #000000;
     background-color: #ffffff;   
 }
@@ -136,6 +134,7 @@ pre.article {
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 80px;
 }
+
 /*////////////////트위터,페이스북 블로그/////////////////////////////////////////////////////////////////*/
 #nav-sns h5{
     color: #ffffff;
@@ -143,37 +142,34 @@ pre.article {
     padding: 30px 0px 0px 0px;
     font-size: 1.0em;
     text-indent:10px;
-    }
+}
          
-#nav-sns {
-    
+#nav-sns{
     float:right;
-    
     height: 20px;
     margin: 0px 0px 0px 0px;
     padding: 00px 100px 0px 0px;
 }
-#nav-sns a
-{
+
+#nav-sns a{
     color: #ffffff;
     height: 40px;
     text-decoration: none;
     background-color: #5b9ef6;
 }
 
-#nav-sns a:hover
-{
+#nav-sns a:hover{
     color: #000000;
     background-color: #ffffff;
     border-radius: 6px 6px 0px 0px;
-    
 }
-#nav-sns ul, #nav-sns li, #nav-sns ul li
-{
+
+#nav-sns ul, #nav-sns li, #nav-sns ul li{
     float:left;
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
 }
+
 #nav-sns li {
     height: 20px;
     font-family: Tahoma;
@@ -218,27 +214,28 @@ pre.article {
 }
 
 #navMain a {
-  
   width: 100%; /* li 전체를 클릭 가능하게 */
 }
+
 #navMain a:hover {
     color: black;
     background-color: white;
 }          
 
 /*//////////////툴 팁/////////////////////////////////////////////////////////////////*/ 
-
-
 a.tip {
     position:relative;
     z-index: 24;
-    }
+}
+
 a.tip:hover {
     z-index: 25;
-    }
+}
+
 a.tip span {
     display: none;
-    }
+}
+
 a.tip:hover span {
     font-weight: normal;
     display: block;
@@ -250,10 +247,9 @@ a.tip:hover span {
     border: 1px solid #000;
     background-color: #dddddd;
     color: #000000;
-    }
+}
 
 #img-experiment span {
-    
     font-weight: normal;
     font-size: 0.9em;
     top: 5px;
@@ -265,23 +261,20 @@ a.tip:hover span {
     border: 0px solid #000;
     text-align: center;
     color: #000000;
-    }
-/*/////////맨드릴 사진/////////////////////////////////////////////////////////////////////////////////*/ 
+}
 
+/*/////////맨드릴 사진/////////////////////////////////////////////////////////////////////////////////*/ 
 #photos {
     margin: 0px 0px 150px 0px;
     padding: 0px 0px 150px 0px;
 }
 #photos img {
-    /*display: none;*/
-   
     float: left; 
     margin: 10px 15px 0px 10px;
     border: 0px solid #000; 
-    
 }
-/*/////////wrapper/////////////////////////////////////////////////////////////////////////////////*/ 
 
+/*/////////wrapper/////////////////////////////////////////////////////////////////////////////////*/ 
 #wrapper {
     float: left;
     width: 100%;
@@ -290,38 +283,34 @@ a.tip:hover span {
     background-color: #f9f7f7;
     overflow: hidden;
    
-    }
-
+}
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*좌측 내용/////////////////////////////////////////////////////////////////////////////////*/ 
-
 #contentLeft {
     position: relative;
     float: left;
     width: 380px;
     background-color: #ddfaf7;
     right: 0px;
-    
     padding: 30px 0px 00px 20px;
     margin-right:0px;
-    }
+}
 
 #contentLeft p {
     text-align: justify;
     margin-right:20px;
     color: #000000;
     margin-top:0px;
-    
     font-size: 0.9em;
-    font-weight: initial;
- 
-        }
+}
+
 #contentLeft ul {
     list-style: none;
     margin: 12px 0px 0px 12px;
     padding: 0px;
-    }
+}
+
 #contentLeft li a:link {
     font-size: 12pt;
     font-weight: bold;
@@ -329,7 +318,8 @@ a.tip:hover span {
     text-decoration: none;
     display: block;
     padding: 3px 0px 3px 0px;
-    }
+}
+
 #contentLeft li a:hover {
     font-size: 12pt;
     font-weight: bold;
@@ -337,33 +327,37 @@ a.tip:hover span {
     text-decoration: none;
     display: block;
     padding: 3px 0px 3px 0px;
-    }
+}
 
 #elevation {
     display: none;
-    }
+}
+
 #hide_e {
     display: none;
-    }
+}
 
 #hide_p {
     display: none;
-    }
+}
+
 #show_e {
     display: block;
-    }
+}
+
 #show_p {
     display: block;
-    }
+}
+
 .fakelink {
     cursor: pointer;
     text-decoration: none;
     font-weight: bold;
     color: #13439c;
-    }
+}
+
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*우측 내용/////////////////////////////////////////////////////////////////////////////////*/ 
-
 #contentRight {
     position: relative;
     float: right;
@@ -374,7 +368,8 @@ a.tip:hover span {
 
 #contentRight h1, #contentRight p {
     margin: 0px 12px 0px 12px;
-    }
+}
+
 #contentRight hr {
     width:600px;
     padding-top:0px;
@@ -383,6 +378,7 @@ a.tip:hover span {
     border-style:dotted; 
     border-color:#eceef0;
 }
+
 #contentRight a:link, #contentRight a:visited {
     text-decoration: none;
     font-weight: bold;
@@ -400,7 +396,6 @@ a.tip:hover span {
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*우측 convolution/////////////////////////////////////////////////////////////////////////////////*/ 
-
 #convolutionMain img {
     float: left;
     margin: 0px;
@@ -408,29 +403,29 @@ a.tip:hover span {
     display: block;
 }
 
-
-
  /*FourierGaussian 그래프//////////////////////////////////////////////////////////////////*/
-  
-
     div#FourierGaussian {
         padding: 0px 0px 0px 0px;
         margin: 0px;
         width: 100%
     }
+
     div#FourierGaussian ul {
         padding: 0px;
         margin: 0px;
     }
+
     div#FourierGaussian li {
         float: left;
         padding: 0px 100px 0px 0px;
         margin: 0px;
     }
+
     div#Gaussian {
         float: left;
         padding: 0px 0px 0px 0px;
     }
+
 
     #fourierGraph {
         position: relative;
@@ -441,12 +436,11 @@ a.tip:hover span {
     }
 
 /*갤러리/////////////////////////////////////////////////////////////////////////////*/
-/*////gallery////////////////////////////////////////////////////////////////////////////*/
-/*////gallery/////////////////////////////////////////////////////////////////////*/
 /*////gallery///////////////////////////////////////////////////*/
 #chapter {
     position: relative;
 }
+
 #chapter b {
     width: 100%;
     font-size: 2.0em;
@@ -549,17 +543,16 @@ div#galleryTitles li {
 }
 #thesisMain img {
     float: left;
-        height: auto;
-
+    height: auto;
     margin: 0px;
-        display: block;
+    display: block;
 }
-
 
 #thesisList ul {
     margin: 0px; 
     padding: 0px;
 }
+
 #thesisList li {
     height: auto;
     text-align: justify;
@@ -570,59 +563,59 @@ div#galleryTitles li {
     padding: 15px 20px 10px 0px;
 }
 /*////PROFILE////////////////////////////////////////////////////////////////////////////*/
-        /* 전체 컨테이너를 가로 배치 */
-        #profileAll {
-            display: flex;              /* 가로 배치 */
-            align-items: stretch;       /* 같은 높이로 맞춤 */
-            gap: 0px;                  /* 간격 */
-            background-color: #9bc0f8;  /* 확인용 배경색 */
-        }
-        #profileAll b {
-            width: 100%;
-            font-size: 2.0em;
-            color: #021472;
-            line-height: 2.5em;
-            padding-left: 60px;
-        }
+/* 전체 컨테이너를 가로 배치 */
+#profileAll {
+    display: flex;              /* 가로 배치 */
+    align-items: stretch;       /* 같은 높이로 맞춤 */
+    gap: 0px;                  /* 간격 */
+    background-color: #9bc0f8;  /* 확인용 배경색 */
+}
 
-        /* 왼쪽 텍스트 영역 */
-        #profileText pre{
-            flex: 1;                    /* 비율 */
-            padding: 10px;
-            font-weight: bold;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            font-size: 10pt;
-            text-indent:3px;
-            text-decoration: none;
-            line-height: 25px;
-            list-style :none;
-            margin: 0px 0px 0px 0px;
-            padding: 0px 0px 0px 0px;
-        }
+#profileAll b {
+    width: 100%;
+    font-size: 2.0em;
+    color: #021472;
+    line-height: 2.5em;
+    padding-left: 60px;
+}
 
-        #profileText {
-            flex: 1;                    /* 비율 */
-            display: flex;
-            justify-content: center;    /* 가로 중앙 */
-            align-items: center;        /* 세로 중앙 */
-        }
+/* 왼쪽 텍스트 영역 */
+#profileText pre{
+    flex: 1;                    /* 비율 */
+    padding: 10px;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 10pt;
+    text-indent:3px;
+    text-decoration: none;
+    line-height: 25px;
+    list-style :none;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+#profileText {
+    flex: 1;                    /* 비율 */
+    display: flex;
+    justify-content: center;    /* 가로 중앙 */
+    align-items: center;        /* 세로 중앙 */
+}
 
 
-        /* 오른쪽 사진 영역 */
-        #profilePhoto {
-            flex: 1;                    /* 비율 */
-            display: flex;
-            justify-content: center;    /* 가로 중앙 */
-            align-items: center;        /* 세로 중앙 */
-        }
+/* 오른쪽 사진 영역 */
+#profilePhoto {
+    flex: 1;                    /* 비율 */
+    display: flex;
+    justify-content: center;    /* 가로 중앙 */
+    align-items: center;        /* 세로 중앙 */
+}
 
-        #profilePhoto img {
-            width: 300px;                /* 부모 너비에 맞춤 */
-            height: auto;               /* 부모 높이에 맞춤 */
-            object-fit: contain;        /* 잘리지 않고 비율 유지 */
-            margin: 0px 100px 0px 100px;
-        }
-
+#profilePhoto img {
+    width: 300px;                /* 부모 너비에 맞춤 */
+    height: auto;               /* 부모 높이에 맞춤 */
+    object-fit: contain;        /* 잘리지 않고 비율 유지 */
+    margin: 0px 100px 0px 100px;
+}
 
 /*////thesis/////////////////////////////////////////////////////////////////////////////*/
 #thesischapter {
@@ -635,6 +628,7 @@ div#galleryTitles li {
     padding: 0px 0px 50px 0px;
     background-color: #ffffff;
 }
+
 #thesischapter b{
     width: 100%;
     font-size: 2.0em;
@@ -642,12 +636,14 @@ div#galleryTitles li {
     line-height: 2.5em;
     padding-left: 60px;
 }
+
 #chapterClickMe {
     display: block;
     margin: 0px 0px 50px 0px;
     padding: 0px 0px 0px 30px;
     background-color: #ffffff;
 }
+
 #chapterClickMe h3 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size:1.0em;
@@ -655,6 +651,7 @@ div#galleryTitles li {
     font-weight: lighter;
     font-style: italic;
 }
+
 #chapterClickMe p {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size:1.2em;    
@@ -667,6 +664,7 @@ div#galleryTitles li {
     margin: 20px 0px 20px 50px;
     padding: 0px 0px 0px 70px; 
 }
+
 #chapterClickMe p:hover {
     color: white;
     background-color: #ccc; 
@@ -710,7 +708,7 @@ div#galleryTitles li {
     box-shadow: 0 6px 20px rgba(0,0,0,0.3); /* 입체감 */
     color: #0011f8;  /* 글자 */
     font-family: 'Georgia', serif; /* 클래식한 서체 */
-    }
+}
 
 .cAB b{
     width: 100%;
@@ -720,10 +718,12 @@ div#galleryTitles li {
     padding: 5px 0px 10px 20px;
     display: block;
 }
+
 #chapterAllList ul {
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
 }
+
 #chapterAllList li {
     margin: 0px 0px 0px 10px;
     padding: 0px 0px 0px 0px;
@@ -749,6 +749,11 @@ div#galleryTitles li {
     font-weight: bold; /* hover 시 굵게 */ 
     text-decoration: underline; 
 }
+
+#chapterAllList .section-content a { 
+    color: #f6f5f4; /* 원하는 색상 */ 
+}
+
 /* 아코디언 버튼 메뉴 스타일 */
 .section-title {
     background: rgba(250, 250, 250, 0.5); /* 반투명 */
@@ -762,6 +767,7 @@ div#galleryTitles li {
     color: #000000;
     transition: all 0.3s ease;
 }
+
 /* 아코디언 내용 */
 .section-content {
     display: none;
@@ -771,6 +777,9 @@ div#galleryTitles li {
 }
 
 .section-content ul {
+    margin: 3px 0;
+}
+.section-content li {
     margin: 3px 0;
 }
 
@@ -868,6 +877,7 @@ div#galleryTitles li {
     font-size: 12px; 
     color: black; 
 }
+
 #subChapterChild p.caption { 
     margin-top: 4px; 
     width: 70%; /* 캡션 폭을 전체의 80%로 제한 */ 
@@ -876,7 +886,8 @@ div#galleryTitles li {
     text-align: center; 
     font-size: 10px; 
     color: #333; 
-    line-height: 1.5; }
+    line-height: 1.5; 
+}
 
 #subChapterChild p.comment { 
     width: 100%; 
@@ -897,6 +908,7 @@ div#galleryTitles li {
     font-style: italic;
     line-height: 1.0; 
 }
+
 #subChapterChild p.title { 
     margin-top: 0px; 
     width: 100%; /* 캡션 폭을 전체의 80%로 제한 */ 
@@ -908,6 +920,7 @@ div#galleryTitles li {
     font-style: italic;
     line-height: 1.0; 
 }
+
 #subChapterChild p.content { 
     margin-top: 0px; 
     width: 100%; /* 캡션 폭을 전체의 80%로 제한 */ 
@@ -925,23 +938,25 @@ img.top-img {
     max-width: 80%; 
     height: auto; 
 }
+
+img.img1 {
+    display: block; 
+    margin: 20px auto; 
+    width: 100px; 
+    height: auto; 
+}
+
 img.top-img2 { 
     display: block; 
     margin: 20px auto; 
     width: 350px; 
     height: auto; 
 }
+
 img.top-img3 { 
     display: block; 
     margin: 20px auto; 
     width: 250px; 
-    height: auto; 
-}
-
-img.img1 {
-    display: block; 
-    margin: 20px auto; 
-    width: 100px; 
     height: auto; 
 }
 
@@ -966,6 +981,7 @@ pre {
     padding: 15px 0px 10px 60px;
     display: block;
 }
+
 /*////MusicBox/////////////////////////////////////////////////////////////////////*/
 /*////MusicBox/////////////////////////////////////////////////////////////////////*/
 #Guest {
@@ -983,9 +999,6 @@ pre {
     display: block;
 }
 
-
-
-
 /*////footer/////////////////////////////////////////////////////////////////////////////*/
 #footer {
     float: left;
@@ -1000,15 +1013,16 @@ pre {
     padding-top: 5px;
     margin-bottom: 0px;
     border-radius: 0px;
-    }
+}
+
 #footer > div.counter {
     position: absolute;
     top: 0px; left: 0px;
     padding-top: 15px;
     margin: 0px 0px 0px 40px;
-   }
+}
+
 #footer-email a {
-    
     color: #ffffff;
     background-color: #074788;
     border-radius: 6px 6px 0px 0px;
@@ -1018,14 +1032,14 @@ pre {
     border-bottom: gray thin solid;
     margin: 0px 0px 0px 80px;
     padding: 0px 20px 0px 20px;
-    }
+}
 
 #footer-email a:hover {
     color: #000000;
     background-color: #074788;
-    }
-/*////navAfter/////////////////////////////////////////////////////////////////////////////*/
+}
 
+/*////navAfter/////////////////////////////////////////////////////////////////////////////*/
 #navAfter {
     width: 100%;
     position: relative;
@@ -1034,23 +1048,21 @@ pre {
     padding: 0px 0px 20px 0px;
     height: 30px;
     display: block;
-    
 }
+
 #navAfter ul {
     position: relative;
     width: 100%;
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
     height: 30px;
-    
 }
+
 #navAfter li {
     float: left;
     list-style :none;
-    
     margin: 0px 10px 0px 10px;
     padding: 0px 10px 0px 10px;
-    
     border-bottom: #eefbe9 1px solid ;
 }
 
@@ -1058,17 +1070,14 @@ pre {
     font-size: 11pt;
     font-weight: lighter;
     text-decoration: none;
-    
-    
     font-family: Verdana, sans-serif;   
     text-align : center;
-
     text-decoration: none;
     color: white;
     margin:  0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
+}
 
-    }
 #navAfter a:hover {
     color: black;
     background-color: white;
