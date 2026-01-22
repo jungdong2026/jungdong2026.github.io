@@ -31,7 +31,7 @@ const volumeSlider = document.getElementById("volumeSlider");
 const volumeValue = document.getElementById("volumeValue");
 const player = document.getElementById("music");
 const musicBtn = document.getElementById("musicBtn");
-const menuLinks = document.querySelectorAll(".menu .tab-link"); // ✅ 수정
+const menuLinks = document.querySelectorAll(".sidebar a");
 
 let isShuffle = false;
 let isRepeat = false;
@@ -182,10 +182,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 메뉴 버튼 클릭 시: 플레이어 닫고 해당 섹션으로 이동
   menuLinks.forEach(link => {
-    link.addEventListener("click", () => {
+    link.addEventListener("click", e => {
+      e.preventDefault(); // 기본 스크롤 막기
       player.classList.remove("active");
-
-      const targetId = link.getAttribute("data-target"); // tab-link의 data-target 값
+      const targetId = link.getAttribute("href").substring(1); // "#premiere" → "premiere"
       const targetSection = document.getElementById(targetId);
       if (targetSection) {
         // 모든 섹션 숨기기
@@ -198,5 +198,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+// 메뉴 클릭 시 모달 전환
+  document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').substring(1);
+      // 모든 모달 닫기
+      document.querySelectorAll('.player-wrapper').forEach(modal => {
+        modal.classList.remove('active');
+      });
+      // 해당 모달 열기
+      const targetModal = document.getElementById(targetId);
+      if (targetModal) {
+        targetModal.classList.add('active');
+      }
+    });
+  });
+
 
 

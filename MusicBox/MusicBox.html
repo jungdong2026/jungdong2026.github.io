@@ -4,111 +4,93 @@
   <meta charset="utf-8">
   <title>커스텀 음악 플레이어</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="MusicBox/assets/css-js/MusicStyle.css">
+  <link rel="stylesheet" href="assets/css-js/Mainlayout.css">
+  <link rel="stylesheet" href="assets/css-js/MusicStyle.css">
   <link rel="stylesheet" 
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-<div id="chapterAll"> 
-    <div id="chapterAllList"> 
-    <b>MusicBox</b>
-    <ul class="section-content"> 
-      <li><button class="tab-link" data-target="home-MusicBox">Home</button></li>
-      <li><button class="tab-link" data-target="premiere">Premiere</button></li>
-      <li><button class="tab-link" data-target="photoshop">Photoshop</button></li>
-      <li><button class="tab-link" data-target="lightroom">Lightroom</button></li>
-      <li><button class="tab-link" data-target="aftereffects">After Effects</button></li>
-      <li><button id="musicBtn">음악 재생</button></li>
-     </ul>
-
-<!-- 홈 섹션 -->
-    <ul class="section-content"> 
-      <section id="home-MusicBox" class="tool-section active">
-        <h1>방문을 환영합니다</h1>
-          <div>
-            <video width="800" controls>
-              <source src="MusicBox/assets/mp4/골프200528.mp4" type="video/mp4">
-            </video>
-          </div>
-<!-- 배경음악 -->
-      <audio id="bgm" loop>
-        <source src="MusicBox/assets/mp3/Animals-houseof-rising-sun.mp3" type="audio/mp3">
-        브라우저가 오디오 태그를 지원하지 않습니다.
-      </audio>
-  !-- 컨트롤 버튼 -->
-        <div class="bgm-controls">
-          <button onclick="playBgm()">▶ 재생</button>
-          <button onclick="pauseBgm()">⏸ 일시정지</button>
-          <label for="volume">🔊 볼륨</label>
-          <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5" onchange="setVolume(this.value)">
-        </div>
-      </section>
+<div class="musicbox-container">
+  <!-- 좌측 메뉴 -->
+  <nav class="sidebar">
+    <ul>
+      <li><a href="#home-MusicBox" class="active"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="#premiere"><i class="fa-solid fa-video"></i> Premiere</a></li>
+      <li><a href="#photoshop"><i class="fa-solid fa-image"></i> Photoshop</a></li>
+      <li><a href="#lightroom"><i class="fa-solid fa-camera"></i> Lightroom</a></li>
+      <li><a href="#aftereffects"><i class="fa-solid fa-film"></i> After Effects</a></li>
+      <li><a href="#music"><i class="fa-solid fa-music"></i> 음악 재생</a></li>
     </ul>
-
-  <!-- 탭 콘텐츠 -->
-    <ul class="section-content"> 
-      <section id="premiere" class="tool-section">
-        <li><a href="https://www.youtube.com/watch?v=5Umz5do2aKM" target="_blank">♡♡♡ 분할 CCTV 화면 효과로 인트로</a></li>
-        <li><a href="https://www.youtube.com/watch?v=4ePFwy1cTKY" target="_blank">♡♡♡ 2/3/4/16/32/144 분할</a></li>
-        <li><a href="https://www.youtube.com/watch?v=w_Op0szI58E" target="_blank">♡♡♡ 프리미어프로 새로운 기능 6 +</a></li>
-        <li><a href="https://www.youtube.com/watch?v=ZLliz_n-9Ow" target="_blank">♡♡♡ 반응형 로딩 바 만들기</a></li>
-        <li><a href="https://www.youtube.com/watch?v=ZBmtmOWJkZ0&list=PL5wb9LgS1DNeEUNpHimTjaHLbnJO_YcZG" target="_blank">♡♡♡ 3D 자막 만들고 뿅뿅 바운싱 모션</a></li>
-        <li><a href="https://www.youtube.com/watch?v=ucl3HLEndYY&t=17s" target="_blank">♡♡♡ 줌인 줌아웃 효과</a></li>
-        <li><a href="https://www.youtube.com/watch?v=5JAuK13qubE" target="_blank">♡♡♡ 5가지 꿀팁</a></li>
-        <li><a href="https://www.youtube.com/watch?v=oncFq7wzKNY&t" target="_blank">♡♡♡ 화면이 열리는 시네마틱 인트로</a></li>
-        <li><a href="https://www.youtube.com/watch?v=O6Uj3R3JodE&t" target="_blank">♡♡♡ 사진에 생동감 UP</a></li>
-        <li><a href="https://www.youtube.com/watch?v=4hrQbphQGTs" target="_blank">♡♡♡ 구겨진 종이가 펼쳐지며 이름 자막 등장</a></li>
-        <li><a href="https://www.youtube.com/watch?v=484LhATTWXg" target="_blank">♡♡♡ 모션 메세지 자막템플릿 9종</a></li>
-        <li><a href="https://www.youtube.com/watch?v=O31XxqiWTm0" target="_blank">♡♡♡ 타자치는 효과 타이핑</a></li>
-        <li><a href="https://www.youtube.com/watch?v=RqCUF89BFUo" target="_blank">♡♡♡ 네온싸인 인트로</a></li>
-        <li><a href="https://www.youtube.com/watch?v=T4ia_2jB38E&t" target="_blank">♡♡♡ 마블 인트로</a></li>
-      </section>
-    </ul>
-
-    <ul class="section-content"> 
-      <section id="photoshop" class="tool-section">
-      <li><a href="https://www.youtube.com/watch?v=8GcO1bqZq68" target="_blank">♡♡♡Gemini 3 Nano Banana Pro </a></li>
-      <li><a href="https://www.youtube.com/watch?v=rNzqxex2Lyk" target="_blank">♡♡♡다중노출 사진술</a></li>
-      </section>
-    </ul>
-
-    <ul class="section-content"> 
-      <section id="lightroom" class="tool-section">
-        <h1>Lightroom</h1>
-        <li><a href="https://www.youtube.com/watch?v=T4ia_2jB38E&t" target="_blank">♡♡♡마블 인트로</a></li>
-      </section>
-    </ul>
-
-    <ul class="section-content"> 
-      <section id="aftereffects" class="tool-section">
-        <h1>After Effects</h1>
-          <li><a href="https://www.youtube.com/watch?v=aleeQA9kU5k&list=PLkbzizJk4Ae_DEx8FzPGZJyYTtELUscIx&index=5" target="_blank">♡♡♡모션 제작 2편(강좌 1-5)</a></li>
-          <li><a href="https://www.youtube.com/watch?v=3KC4KKUSFAo" target="_blank">♡♡♡트랙매트와 마스크 기능의 차이</a></li>
-          <li><a href="https://www.youtube.com/watch?v=v-5io0X4AhE" target="_blank">♡♡♡올라오는 글자 효과</a></li>
-          <li><a href="https://www.youtube.com/watch?v=gfq2VyYiH40" target="_blank">♡♡♡텍스트 애니메이션: 바운스</a></li>
-          <li><a href="https://www.youtube.com/watch?v=6ROLdeBl5Zo" target="_blank">♡♡♡모션그래픽 만든다면 절대 필수! 애프터이펙트 효과 5가지</a></li>
-      </section>
-    </ul>
-
-    <ul class="section-content"> 
-      <section id="aftereffects" class="tool-section">
-        <h1>After Effects</h1>
-          <li><a href="https://www.youtube.com/watch?v=aleeQA9kU5k&list=PLkbzizJk4Ae_DEx8FzPGZJyYTtELUscIx&index=5" target="_blank">♡♡♡모션 제작 2편(강좌 1-5)</a></li>
-          <li><a href="https://www.youtube.com/watch?v=3KC4KKUSFAo" target="_blank">♡♡♡트랙매트와 마스크 기능의 차이</a></li>
-          <li><a href="https://www.youtube.com/watch?v=v-5io0X4AhE" target="_blank">♡♡♡올라오는 글자 효과</a></li>
-          <li><a href="https://www.youtube.com/watch?v=gfq2VyYiH40" target="_blank">♡♡♡텍스트 애니메이션: 바운스</a></li>
-          <li><a href="https://www.youtube.com/watch?v=6ROLdeBl5Zo" target="_blank">♡♡♡모션그래픽 만든다면 절대 필수! 애프터이펙트 효과 5가지</a></li>
-      </section>
-    </ul>
+  </nav>
+ <!-- 콘텐츠 영역 -->
+<section class="content">
+<!-- 초기화면(Home) -->
+<div id="home-MusicBox" class="player-wrapper active">
+  <div class="player-box">
+    <h1>방문을 환영합니다</h1>
+      <video width="750" controls>
+        <source src="assets/mp4/골프200528.mp4" type="video/mp4">
+      </video>
+  </div>
 </div>
 
-  <!-- 음악 플레이어 팝업 -->
-<div class="player-wrapper" id="music">
+<!-- Premiere -->
+<div id="premiere" class="player-wrapper">
+  <div class="player-box">
+    <h1>Premiere</h1>
+      <p><a href="https://www.youtube.com/watch?v=5Umz5do2aKM" target="_blank">♡♡♡ 분할 CCTV 화면 효과로 인트로</a></p>
+      <p><a href="https://www.youtube.com/watch?v=4ePFwy1cTKY" target="_blank">♡♡♡ 2/3/4/16/32/144 분할</a></p>
+      <p><a href="https://www.youtube.com/watch?v=w_Op0szI58E" target="_blank">♡♡♡ 프리미어프로 새로운 기능 6 +</a></p>
+      <p><a href="https://www.youtube.com/watch?v=ZLliz_n-9Ow" target="_blank">♡♡♡ 반응형 로딩 바 만들기</a></p>
+      <p><a href="https://www.youtube.com/watch?v=ZBmtmOWJkZ0&list=PL5wb9LgS1DNeEUNpHimTjaHLbnJO_YcZG" target="_blank">♡♡♡ 3D 자막 만들고 뿅뿅 바운싱 모션</a></p>
+      <p><a href="https://www.youtube.com/watch?v=ucl3HLEndYY&t=17s" target="_blank">♡♡♡ 줌인 줌아웃 효과</a></p>
+      <p><a href="https://www.youtube.com/watch?v=5JAuK13qubE" target="_blank">♡♡♡ 5가지 꿀팁</a></p>
+      <p><a href="https://www.youtube.com/watch?v=oncFq7wzKNY&t" target="_blank">♡♡♡ 화면이 열리는 시네마틱 인트로</a></p>
+      <p><a href="https://www.youtube.com/watch?v=O6Uj3R3JodE&t" target="_blank">♡♡♡ 사진에 생동감 UP</a></p>
+      <p><a href="https://www.youtube.com/watch?v=4hrQbphQGTs" target="_blank">♡♡♡ 구겨진 종이가 펼쳐지며 이름 자막 등장</a></p>
+      <p><a href="https://www.youtube.com/watch?v=484LhATTWXg" target="_blank">♡♡♡ 모션 메세지 자막템플릿 9종</a></p>
+      <p><a href="https://www.youtube.com/watch?v=O31XxqiWTm0" target="_blank">♡♡♡ 타자치는 효과 타이핑</a></p>
+      <p><a href="https://www.youtube.com/watch?v=RqCUF89BFUo" target="_blank">♡♡♡ 네온싸인 인트로</a></p>
+      <p><a href="https://www.youtube.com/watch?v=T4ia_2jB38E&t" target="_blank">♡♡♡ 마블 인트로</a></p>
+    </div>
+  </div>
+    
+<!-- Photoshop -->
+<div id="photoshop" class="player-wrapper">
+  <div class="player-box">
+  <h1>Photoshop</h1> 
+    <p><a href="https://www.youtube.com/watch?v=8GcO1bqZq68" target="_blank">♡♡♡Gemini 3 Nano Banana Pro </a></p>
+    <p><a href="https://www.youtube.com/watch?v=rNzqxex2Lyk" target="_blank">♡♡♡다중노출 사진술</a></p>
+  </div>
+</div>
+
+<!-- Lightroom -->
+<div id="lightroom" class="player-wrapper">
+  <div class="player-box">
+  <h1>Lightroom</h1>
+    <p><a href="https://www.youtube.com/watch?v=T4ia_2jB38E&t" target="_blank">♡♡♡마블 인트로</a></p>
+  </div>
+</div>
+
+<!-- After Effects -->
+<div id="aftereffects" class="player-wrapper">
+  <div class="player-box">
+  <h1>After Effects</h1>
+    <p><a href="https://www.youtube.com/watch?v=aleeQA9kU5k&list=PLkbzizJk4Ae_DEx8FzPGZJyYTtELUscIx&index=5" target="_blank">♡♡♡모션 제작 2편(강좌 1-5)</a></p>
+    <p><a href="https://www.youtube.com/watch?v=3KC4KKUSFAo" target="_blank">♡♡♡트랙매트와 마스크 기능의 차이</a></p>
+    <p><a href="https://www.youtube.com/watch?v=v-5io0X4AhE" target="_blank">♡♡♡올라오는 글자 효과</a></p>
+    <p><a href="https://www.youtube.com/watch?v=gfq2VyYiH40" target="_blank">♡♡♡텍스트 애니메이션: 바운스</a></p>
+    <p><a href="https://www.youtube.com/watch?v=6ROLdeBl5Zo" target="_blank">♡♡♡모션그래픽 만든다면 절대 필수! 애프터이펙트 효과 5가지</a></p>
+  </div>
+</div>
+
+<!-- 음악 플레이어 -->
+<div id="music" class="player-wrapper">
   <div class="player-box">
     <audio id="audio"></audio>
     <div class="cover-container">
-      <img id="cover-MusicBox" src="MusicBox/assets/images/model004.jpg" alt="앨범 커버 이미지">
+      <img id="cover" src="assets/images/model004.jpg" alt="앨범 커버 이미지">
     </div>
     <div class="progress-container">
       <i class="fa-regular fa-clock"></i>
@@ -133,12 +115,14 @@
       <button id="shuffleBtn">🔀</button>
       <button id="repeatBtn">🔁</button>
       <button id="muteBtn">🔊</button>
+      <button id="musicBtn">🎵</button>
     </div>
       <ul id="playlist" class="playlist"></ul>
   </div>
-
-  <!-- 반드시 body 맨 아래 -->
-  <script src="MusicBox/assets/css-js/MusicPlayer.js"></script>
  </div>
+</section>
+ </div>
+  <!-- 반드시 body 맨 아래 -->
+<script src="assets/css-js/MusicPlayer.js"></script>
 </body>
 </html>
