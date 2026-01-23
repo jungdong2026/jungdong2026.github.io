@@ -5,7 +5,15 @@ html {
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #cdcbcb; /* 원하는 색상으로 변경 */
+  background-color: #fefefe; /* 원하는 색상으로 변경 */
+}
+
+#chapterAll {
+    display: flex; 
+    flex-direction: row; 
+    width: 100%;
+    height: auto;
+    overflow: hidden;
 }
 
 /* 네비게이션 바 */
@@ -17,21 +25,22 @@ html, body {
 /* 사이드바 */
 .sidebar {
   position: fixed;
-  top: 80px;
+  top: 60px;
   left: 0;          /* ← 40px 대신 0으로 */
-  width: 280px;
-  height: 450px;
+  width: 220px;
+  height: calc(100vh - 60px); /* 헤더 제외 전체 높이 */
   border-radius: 0 12px 12px 0; /* 왼쪽은 직각, 오른쪽만 둥글게 */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   padding: 0px 0;
   z-index: 1000;
   transition: all 0.3s ease; /* 부드러운 애니메이션 */
+  overflow-y: auto; /* 메뉴 스크롤 가능 */
 }
 
 .sidebar ul {
   list-style: none;
   margin: 0;
-  padding: 25px 0px 0px 0px; /* 위=0 / 오른쪽=0 / 아래=20 / 왼쪽 */
+  padding: 5px 0px 0px 0px; /* 위=0 / 오른쪽=0 / 아래=20 / 왼쪽 */
 }
 .sidebar li {
   margin: 0px 0;
@@ -40,11 +49,11 @@ html, body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 5px 10px 10px 30px; /* 위=0 / 오른쪽=0 / 아래=20 / 왼쪽 */
-  margin: 5px 10px 0px 10px; /* 위=0 / 오른쪽=0 / 아래=20 / 왼쪽 */
+  padding: 3px 10px 3px 10px; /* 위 / 오른쪽 / 아래 / 왼쪽 */
+  margin: 5px 10px 0px 10px; /* 위 / 오른쪽 / 아래 / 왼쪽 */
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  color: #0132f6;
-  font-size: 22px;
+  color: #000000;
+  font-size: 16px;
   font-weight: 500;
   text-decoration: none;
   border-radius: 8px;
@@ -52,39 +61,41 @@ html, body {
 }
 
 .sidebar a:hover {
-  background: rgba(253, 2, 2, 0.8);
+  background: rgba(117, 117, 117, 0.8);
   transform: translateX(6px);
-}
-.sidebar a.active {
-  background: rgba(255,255,255,0.3);
-  font-weight: 600;
-}
-
-chapterAll {
-    display: flex; 
-    flex-direction: row; 
-    background-color: white;
-    width: 100%;
-    height: auto;
-    overflow: hidden;
 }
 
 /* 기본 레이아웃 (데스크탑) */
 .content {
+  margin-left: 220px;        /* 사이드바(320px) + 간격(20px) */
+  margin-top: 60px;          /*위쪽 여백  */
+  flex: 1; /* 남은 공간 자동 확장 */
+  width: auto; /* ✅ 내용에 맞게 자동 */
+  height: auto;         /* ✅ 내용에 맞게 자동 */
+  max-width: calc(100% - 220px); /* 화면 크기 제한 */
+  overflow-y: auto; /* 콘텐츠만 스크롤 */
   position: relative;
   display: flow-root;    /*또는 overflow: auto; */
-  margin-left: 300px;        /* 사이드바(320px) + 간격(20px) */
-  margin-top: 60px;          /*위쪽 여백  */
+  padding: 20px;;   /* 내부 여백 조금만 */
   border: 2px solid #000;
   border-radius: 12px;
   box-sizing: border-box;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);  
-  background-color: #fff; 
-  padding: 10px 20px;;   /* 내부 여백 조금만 */
-  width: calc(100% - 340px);  /*전체 너비에서 사이드바+여백 제외 */
-  max-width: 800px;          /*너무 커지지 않도록 제한 */
-  min-height: 400px; /*제거 또는 원하는 값으로 지정 */
+  background-color: #f80202; 
   transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  .content {
+    margin-left: 0;
+    margin-top: 0;
+    width: 100%;
+  }
 }
 
 #musicBtn {
@@ -113,19 +124,21 @@ chapterAll {
 #aftereffects, 
 #music {
   padding-top: 0px; /* 헤더와 메뉴 간격 확보 */
+  /* margin: 0px 0px 0px 0px;  위 / 오른쪽 / 아래 / 왼쪽 */
   /* background-color: lightblue;  섹션 안 색상 */
-  text-align: center;   /* 섹션 안의 모든 요소를 가로 중앙 정렬 */
+  text-align: left;   /* 섹션 안의 모든 요소를 좌측정렬 */
 }
 
 #music {
   scroll-margin-top: 80px;
-  height: 700px;
+  height: auto; /* ✅ 내용에 맞게 자동 */
+  min-height: 700px; /* 필요하다면 최소 높이만 */
 }
 
 #home-MusicBox h1 {
   padding-top: 10px;  /* 메뉴와 영상 사이 간격 */
   margin-bottom: 10px;  /* 제목과 영상 사이 간격 */
-  color: #fffffe;   /* 글자 색상 (주황색) */
+  color: #fd1601;   /* 글자 색상 (주황색) */
   font-size: 40px;  /* 글자 크기 */
   font-weight: bold; /* 굵게 */
 }
@@ -136,7 +149,8 @@ chapterAll {
 
 /* 전체 플레이어 래퍼 (팝업) */
 .player-wrapper {
-  display: none;        
+  display: none; 
+  background: lightblue;       /* 원하는 배경색 */
 }
 
 .player-wrapper.active {
@@ -144,7 +158,6 @@ chapterAll {
   position: relative; /* fixed 대신 relative */
   width: 100%;
   height: auto;
-  background: lightblue;       /* 원하는 배경색 */
   justify-content: center;
   align-items: flex-start;
   z-index: 9999;               /* 사이드바보다 낮게 */
@@ -176,22 +189,22 @@ chapterAll {
 
 /* 플레이어 박스 */
 .player-box {
-  width: 700px;
+  max-width: 800px;          /* 필요시 최대 너비 제한 */
   height: auto;
-  transform: scale(0.5);          /* 전체를 50% 크기로 축소 */
+  transform: scale(1);          /* 전체를 50% 크기로 축소 */
   transform-origin: top center;   /* 위쪽 중앙 기준으로 줄어듦 */
-  overflow-y: auto;
-  border: none;
+  overflow-y: visible;       /* ✅ 내부 스크롤 제거 */
+  border: 5px solid #333;
   border-radius: 12px;
-  background: #ffffff;
+  background: lightblue;       /* 원하는 배경색 */
   padding: 20px;
   box-sizing: border-box;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15); 
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5); 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .player-box video {
-  width: 650px;        /* 박스 너비에 맞게 자동 조정 */
+  width: 700px;        /* 박스 너비에 맞게 자동 조정 */
   max-width: 800px;   /* 최대 크기 제한 */
 }
 
@@ -214,7 +227,7 @@ chapterAll {
 }
 
 .player-box:hover {
-  transform: scale(0.5) translateY(-4px); 
+  transform: scale(1.02);
   box-shadow: 0 10px 24px rgba(0,0,0,0.2);
 }
 
