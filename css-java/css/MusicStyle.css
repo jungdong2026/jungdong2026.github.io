@@ -25,9 +25,9 @@ html, body {
 /* 사이드바 */
 .sidebar {
   position: fixed;
-  top: 300px;
+  top: 320px;
   left: 0;          /* ← 40px 대신 0으로 */
-  width: 220px;
+  width: 320px;
   height: calc(100vh - 60px); /* 헤더 제외 전체 높이 */
   border-radius: 0 12px 12px 0; /* 왼쪽은 직각, 오른쪽만 둥글게 */
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
@@ -49,11 +49,11 @@ html, body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 3px 10px 3px 10px; /* 위 / 오른쪽 / 아래 / 왼쪽 */
-  margin: 5px 10px 0px 10px; /* 위 / 오른쪽 / 아래 / 왼쪽 */
+  padding: 15px 10px 5px 20px; /* 위 / 오른쪽 / 아래 / 왼쪽 */
+  margin: 15px 10px 5px 10px; /* 위 / 오른쪽 / 아래 / 왼쪽 */
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   color: #000000;
-  font-size: 16px;
+  font-size: 26px;
   font-weight: 500;
   text-decoration: none;
   border-radius: 8px;
@@ -67,7 +67,7 @@ html, body {
 
 /* 기본 레이아웃 (데스크탑) */
 .content {
-  margin-left: 220px;        /* 사이드바(320px) + 간격(20px) */
+  margin-left: 320px;        /* 사이드바(320px) + 간격(20px) */
   margin-top: 60px;          /*위쪽 여백  */
   flex: 1; /* 남은 공간 자동 확장 */
   width: auto; /* ✅ 내용에 맞게 자동 */
@@ -77,11 +77,11 @@ html, body {
   position: relative;
   display: flow-root;    /*또는 overflow: auto; */
   padding: 20px;;   /* 내부 여백 조금만 */
-  border: 2px solid #000;
+  border: 2px solid #c0c0c0;
   border-radius: 12px;
   box-sizing: border-box;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);  
-  background-color: #f80202; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);  
+  background-color: #ffffff; 
   transition: all 0.3s ease;
 }
 
@@ -137,8 +137,8 @@ html, body {
 
 #home-MusicBox h1 {
   padding-top: 10px;  /* 메뉴와 영상 사이 간격 */
-  margin-bottom: 10px;  /* 제목과 영상 사이 간격 */
-  color: #fd1601;   /* 글자 색상 (주황색) */
+  margin-bottom: 30px;  /* 제목과 영상 사이 간격 */
+  color: #013cfd;   /* 글자 색상 (주황색) */
   font-size: 40px;  /* 글자 크기 */
   font-weight: bold; /* 굵게 */
 }
@@ -150,7 +150,7 @@ html, body {
 /* 전체 플레이어 래퍼 (팝업) */
 .player-wrapper {
   display: none; 
-  background: lightblue;       /* 원하는 배경색 */
+  background: rgb(254, 255, 255);       /* 원하는 배경색 */
 }
 
 .player-wrapper.active {
@@ -194,9 +194,9 @@ html, body {
   transform: scale(1);          /* 전체를 50% 크기로 축소 */
   transform-origin: top center;   /* 위쪽 중앙 기준으로 줄어듦 */
   overflow-y: visible;       /* ✅ 내부 스크롤 제거 */
-  border: 5px solid #333;
+  border: 5px solid #9d9c9c;
   border-radius: 12px;
-  background: lightblue;       /* 원하는 배경색 */
+  background: rgb(255, 255, 255);       /* 원하는 배경색 */
   padding: 20px;
   box-sizing: border-box;
   box-shadow: 0 6px 18px rgba(0,0,0,0.5); 
