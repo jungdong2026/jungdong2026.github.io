@@ -20,14 +20,12 @@ html, body {
   top: 80px;
   left: 0;          /* ← 40px 대신 0으로 */
   width: 280px;
-  height: calc(100% - 180px);
-  background: linear-gradient(180deg, #1e3c72, #2a5298);
+  height: 450px;
   border-radius: 0 12px 12px 0; /* 왼쪽은 직각, 오른쪽만 둥글게 */
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   padding: 0px 0;
   z-index: 1000;
   transition: all 0.3s ease; /* 부드러운 애니메이션 */
-
 }
 
 .sidebar ul {
@@ -52,6 +50,7 @@ html, body {
   border-radius: 8px;
   transition: all 0.3s ease;
 }
+
 .sidebar a:hover {
   background: rgba(255,255,255,0.2);
   transform: translateX(6px);
@@ -59,6 +58,27 @@ html, body {
 .sidebar a.active {
   background: rgba(255,255,255,0.3);
   font-weight: 600;
+}
+
+chapterAll {
+    display: flex; 
+    flex-direction: row; 
+    background-color: white;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.sidebar {
+  position: fixed;
+  top: 80px;
+  left: 0;          /* ← 40px 대신 0으로 */
+  width: 280px;
+  height: 450px;
+  border-radius: 0 12px 12px 0; /* 왼쪽은 직각, 오른쪽만 둥글게 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  padding: 0px 0;
+  z-index: 1000;
+  transition: all 0.3s ease; /* 부드러운 애니메이션 */
 }
 
 /* 기본 레이아웃 (데스크탑) */
@@ -75,25 +95,8 @@ html, body {
   padding: 10px 20px;;   /* 내부 여백 조금만 */
   width: calc(100% - 340px);  /*전체 너비에서 사이드바+여백 제외 */
   max-width: 800px;          /*너무 커지지 않도록 제한 */
-  min-height: 400px /*제거 또는 원하는 값으로 지정 */
+  min-height: 400px; /*제거 또는 원하는 값으로 지정 */
   transition: all 0.3s ease;
-}
-
-/* 작은 화면 (예: 태블릿 이하) */
-@media (max-width: 1024px) {
-  .sidebar {
-    position: relative;   /* fixed 대신 위쪽에 배치 */
-    width: 100%;          /* 화면 전체 너비 */
-    height: auto;
-    border-radius: 0;
-  }
-
-  .content {
-    margin-left: 0;       /* 사이드바가 위로 올라갔으니 좌측 여백 제거 */
-    margin-top: 20px;
-    width: 100%;          /* 화면 전체 너비 */
-    max-width: none;      /* 제한 해제 */
-  }
 }
 
 #musicBtn {
@@ -231,25 +234,6 @@ html, body {
 .player-box span {
   font-size: 25px;   /* 일반 텍스트 크기 줄이기 */
   line-height: 1.4;
-}
-
-/* 반응형 대응 */
-@media (max-width: 768px) {
-  .sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
-    border-radius: 0;
-  }
-  .content {
-    margin-left: 0;
-    border-radius: 0;
-    box-shadow: none;
-  }
-  .player-box {
-    width: 100%;
-    height: auto;
-  }
 }
 
 .tab-content {

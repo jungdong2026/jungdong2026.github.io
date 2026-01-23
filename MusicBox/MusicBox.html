@@ -4,36 +4,33 @@
   <meta charset="utf-8">
   <title>커스텀 음악 플레이어</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="assets/css-js/Mainlayout.css" rel="stylesheet" type="text/css" />
   <link href="assets/css-js/MusicStyle.css" rel="stylesheet" type="text/css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <div id="chapterAll">
-    <div id="chapterAllList">
-      <div class="cAB">
-  <!-- 좌측 메뉴 -->
-  <nav class="sidebar">
-    <ul>
-      <li><a href="#home-MusicBox" class="active"><i class="fa-solid fa-house"></i> Home</a></li>
-      <li><a href="#premiere"><i class="fa-solid fa-video"></i> Premiere</a></li>
-      <li><a href="#photoshop"><i class="fa-solid fa-image"></i> Photoshop</a></li>
-      <li><a href="#lightroom"><i class="fa-solid fa-camera"></i> Lightroom</a></li>
-      <li><a href="#aftereffects"><i class="fa-solid fa-film"></i> After Effects</a></li>
-      <li><a href="#music"><i class="fa-solid fa-music"></i> 음악 재생</a></li>
-    </ul>
-  </nav>
+<!-- 좌측 메뉴 -->
+      <nav class="sidebar">
+        <ul>
+          <li><a href="#home-MusicBox" class="active"><i class="fa-solid fa-house"></i> Home</a></li>
+          <li><a href="#premiere"><i class="fa-solid fa-video"></i> Premiere</a></li>
+          <li><a href="#photoshop"><i class="fa-solid fa-image"></i> Photoshop</a></li>
+          <li><a href="#lightroom"><i class="fa-solid fa-camera"></i> Lightroom</a></li>
+          <li><a href="#aftereffects"><i class="fa-solid fa-film"></i> After Effects</a></li>
+          <li><a href="#music"><i class="fa-solid fa-music"></i> 음악 재생</a></li>
+        </ul>
+      </nav>
  <!-- 콘텐츠 영역 -->
-<section class="content">
-<!-- 초기화면(Home) -->
-<div id="home-MusicBox" class="player-wrapper active">
-  <div class="player-box">
-    <h1>방문을 환영합니다</h1>
-      <video width="750" controls>
-        <source src="assets/mp4/골프200528.mp4" type="video/mp4">
-      </video>
-  </div>
-</div>
+      <section class="content">
+      <!-- 초기화면(Home) -->
+      <div id="home-MusicBox" class="player-wrapper active">
+        <div class="player-box">
+          <h1>방문을 환영합니다</h1>
+            <video width="750" controls>
+              <source src="assets/mp4/골프200528.mp4" type="video/mp4">
+            </video>
+        </div>
+      </div>
 
 <!-- Premiere -->
 <div id="premiere" class="player-wrapper">
@@ -119,7 +116,6 @@
     </div>
       <ul id="playlist" class="playlist"></ul>
   </div>
- </div>
 </section>
  </div> </div> </div>
   <!-- 반드시 body 맨 아래 -->
