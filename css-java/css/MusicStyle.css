@@ -25,7 +25,7 @@ html, body {
 /* 사이드바 */
 .sidebar {
   position: fixed;
-  top: 260px;
+  top: 300px;
   left: 0;          /* ← 40px 대신 0으로 */
   width: 220px;
   height: calc(100vh - 60px); /* 헤더 제외 전체 높이 */
