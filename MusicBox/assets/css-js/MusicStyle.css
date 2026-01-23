@@ -43,7 +43,7 @@ html, body {
   padding: 5px 10px 10px 30px; /* 위=0 / 오른쪽=0 / 아래=20 / 왼쪽 */
   margin: 5px 10px 0px 10px; /* 위=0 / 오른쪽=0 / 아래=20 / 왼쪽 */
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  color: #fff;
+  color: #0132f6;
   font-size: 22px;
   font-weight: 500;
   text-decoration: none;
@@ -52,7 +52,7 @@ html, body {
 }
 
 .sidebar a:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(253, 2, 2, 0.8);
   transform: translateX(6px);
 }
 .sidebar a.active {
@@ -67,18 +67,6 @@ chapterAll {
     width: 100%;
     height: auto;
     overflow: hidden;
-}
-.sidebar {
-  position: fixed;
-  top: 80px;
-  left: 0;          /* ← 40px 대신 0으로 */
-  width: 280px;
-  height: 450px;
-  border-radius: 0 12px 12px 0; /* 왼쪽은 직각, 오른쪽만 둥글게 */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  padding: 0px 0;
-  z-index: 1000;
-  transition: all 0.3s ease; /* 부드러운 애니메이션 */
 }
 
 /* 기본 레이아웃 (데스크탑) */
