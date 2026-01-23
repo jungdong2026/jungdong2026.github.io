@@ -750,10 +750,6 @@ div#galleryTitles li {
     text-decoration: underline; 
 }
 
-#chapterAllList .section-content a { 
-    color: #f6f5f4; /* 원하는 색상 */ 
-}
-
 /* 아코디언 버튼 메뉴 스타일 */
 .section-title {
     background: rgba(250, 250, 250, 0.5); /* 반투명 */
