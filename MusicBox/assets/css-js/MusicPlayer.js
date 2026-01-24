@@ -9,7 +9,7 @@ const tracksData = [
   { title: "Broken Vow", artist: "Kenny Rogers", src: "/MusicBox/assets/mp3/Kenny-Rogers-Broken-vow.mp3", cover: "/MusicBox/assets/images/model007.jpg", icon: "🎻" },
   { title: "Get Ready", artist: "Rare Earth", src: "/MusicBox/assets/mp3/Rare-Earth-Get-Ready.mp3", cover: "/MusicBox/assets/images/model008.jpg", icon: "🎶" },
   { title: "Concierto De Aranjuez", artist: "Rodrigo", src: "/MusicBox/assets/mp3/Concierto-De-Aranjuez-Joaquín-Rodrigo.mp3", cover: "/MusicBox/assets/images/eye-014.jpg", icon: "🎶" },
-  { title: "Nothing Else Matters", artist: "Metallica", src: "/MusicBox/assets/mp3/Metallica-Nothing-Else-Matters.mp3", cover: "assets/images/model009.jpg", icon: "🎷" }
+  { title: "Nothing Else Matters", artist: "Metallica", src: "/MusicBox/assets/mp3/Metallica-Nothing-Else-Matters.mp3", cover: "/MusicBox/assets/images/model009.jpg", icon: "🎷" }
 ];
 
 let currentIndex = 0;
