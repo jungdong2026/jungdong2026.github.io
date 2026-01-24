@@ -68,9 +68,6 @@ document.querySelectorAll(".sidebar a").forEach(link => {
   });
 });
 
-if (target && target.id !== "music") {
-  target.classList.add("active");
-}
 
 // 버튼 제어
 const audio = document.getElementById("audio");
