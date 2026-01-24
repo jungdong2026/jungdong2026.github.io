@@ -9,13 +9,10 @@ function buildPlaylist() {
 
   playlist.innerHTML = "";
 
-  // 단순히 텍스트만 넣어보기
-  tracksData.forEach((track, index) => {
-    console.log("Adding track:", track.title);
-    const li = document.createElement("li");
-    li.textContent = `${index + 1}. ${track.title} - ${track.artist}`;
-    playlist.appendChild(li);
-  });
+  // 단순히 테스트용 li 하나 추가
+  const li = document.createElement("li");
+  li.textContent = "테스트 곡";
+  playlist.appendChild(li);
 
   console.log("Playlist children count:", playlist.children.length);
 }
