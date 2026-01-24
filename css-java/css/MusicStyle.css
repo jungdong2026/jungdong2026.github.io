@@ -16,12 +16,6 @@ html, body {
     overflow: hidden;
 }
 
-/* 네비게이션 바 */
-.musicbox-container {
-  position: relative; /* 기준점 */
-  display: flex;
-}
-
 /* 사이드바 */
 .sidebar {
   position: fixed;
