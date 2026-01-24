@@ -25,7 +25,7 @@ html, body {
 /* 사이드바 */
 .sidebar {
   position: fixed;
-  top: 320px;
+  top: 60px;
   left: 0;          /* ← 40px 대신 0으로 */
   width: 320px;
   height: calc(100vh - 60px); /* 헤더 제외 전체 높이 */
@@ -154,7 +154,7 @@ html, body {
 }
 
 .player-wrapper.active {
-  display: block;
+  display: flex;
   position: relative; /* fixed 대신 relative */
   width: 100%;
   height: auto;
