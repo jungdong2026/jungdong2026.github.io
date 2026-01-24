@@ -175,7 +175,9 @@ audio.addEventListener("ended", () => {
     loadTrack(currentTrackIndex);
   }
 });
+document.addEventListener("DOMContentLoaded", () => {
+  buildPlaylist();
+  loadTrack(0);
+});
 
-// 초기화 실행
-buildPlaylist();
-loadTrack(0);
+
