@@ -1,12 +1,15 @@
 ﻿/* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
+html {
+  scroll-behavior: smooth;
+}
 
-body {
+html, body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow';
     width: 1200px;
     min-height: 100%;
     position: relative;
     margin: 0 auto;
-    background-color: #212121;
+    background-color: #fefefe; /* 원하는 색상으로 변경 */
 	padding: 0;
     } 
 

@@ -355,45 +355,42 @@ html, body {
   margin: 20px 0 0 0;
 }
 
-.playlist-item {
+/* 플레이리스트 기본 항목 */
+#playlist li {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;                  /* 아이콘과 텍스트 간격 */
   padding: 12px 16px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease-in-out;
-  color: #000;             
-  background: #e8e8e8;     
+  font-size: 16px;            /* 글자 크기 */
+  color: #333;                /* 기본 글자색 */
+  background: #fafafa;        /* 밝은 배경 */
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.playlist-item:hover {
-  background: #ccc;
-  transform: scale(1.02);
-  color: #000;
-}
-
-.playlist-item.active {
-  font-weight: bold;
-  background: #053afa;
-  color: #fff;
-}
-
-.playlist-icon {
-  margin-left: 0;
-}
-
-.playlist-text {
+/* 아이콘 */
+#playlist li .icon {
   font-size: 18px;
+  margin-left: 4px;           /* 좌측 여백 */
+  flex-shrink: 0;
 }
 
-/* 플레이리스트 커버 이미지 */
-.playlist-cover {
-  width: 40px;           /* 커버 이미지 크기 확대 */
-  height: 40px;
-  object-fit: cover;
-  border-radius: 4px;
+/* hover 효과 */
+#playlist li:hover {
+  background: #f0f0f0;
+  color: #0055ff;             /* 포인트 컬러 */
+  transform: translateX(4px);
+}
+
+/* active 상태 */
+#playlist li.active {
+  background: #0055ff;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* 회전 애니메이션 */

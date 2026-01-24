@@ -17,32 +17,23 @@ let isPlaying = false;
 let isShuffle = false;
 let isRepeat = false;
 
+// 플레이리스트 생성
 function buildPlaylist() {
   const playlist = document.getElementById("playlist");
   playlist.innerHTML = "";
+
   tracksData.forEach((track, index) => {
     const li = document.createElement("li");
-    // 아이콘 + 텍스트
-    li.innerHTML = `
-      <span class="icon">${track.icon}</span>
-      <span>${index + 1}. ${track.title} - ${track.artist}</span>
-    `;
-    // 클릭 시 트랙 로드 + active 표시
+    li.textContent = `${index + 1}. ${track.title} - ${track.artist} ${track.icon}`;
     li.addEventListener("click", () => {
       currentTrackIndex = index;
       loadTrack(index);
-      highlightActiveTrack(index);
     });
     playlist.appendChild(li);
   });
 }
-function highlightActiveTrack(index) {
-  const items = document.querySelectorAll("#playlist li");
-  items.forEach((li, i) => {
-    li.classList.toggle("active", i === index);
-  });
 
-  // 트랙 로드
+// 트랙 로드
 function loadTrack(index) {
   const track = tracksData[index];
   const audio = document.getElementById("audio");
