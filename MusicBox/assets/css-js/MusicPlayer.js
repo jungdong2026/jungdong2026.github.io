@@ -166,11 +166,7 @@ volumeSlider.addEventListener("input", () => {
 });
 
 // ✅ 초기화: DOM 준비 후 실행
-document.addEventListener("DOMContentLoaded", () => {
-  // 플레이리스트 생성 및 첫 트랙 로드
-  buildPlaylist();
-  loadTrack(0);
-
+buildPlaylist();
   // 초기 볼륨 설정
   audio.volume = volumeSlider.value / 100;
   volumeValue.textContent = `${volumeSlider.value}%`;
