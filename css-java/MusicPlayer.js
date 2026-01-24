@@ -199,22 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// 메뉴 클릭 시 모달 전환
-  document.querySelectorAll('.sidebar a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const targetId = link.getAttribute('href').substring(1);
-      // 모든 모달 닫기
-      document.querySelectorAll('.player-wrapper').forEach(modal => {
-        modal.classList.remove('active');
-      });
-      // 해당 모달 열기
-      const targetModal = document.getElementById(targetId);
-      if (targetModal) {
-        targetModal.classList.add('active');
-      }
-    });
-  });
 
 
 
