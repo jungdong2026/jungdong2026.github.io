@@ -12,26 +12,25 @@ const tracksData = [
   { title: "Nothing Else Matters", artist: "Metallica", src: "/MusicBox/assets/mp3/Metallica-Nothing-Else-Matters.mp3", cover: "/MusicBox/assets/images/model009.jpg", icon: "🎷" }
 ];
 
+let currentTrackIndex = 0;
+let isPlaying = false;
+let isShuffle = false;
+let isRepeat = false;
+
 // 플레이리스트 생성
 function buildPlaylist() {
   const playlist = document.getElementById("playlist");
-  if (!playlist) {
-    console.error("#playlist 요소를 찾을 수 없습니다!");
-    return;
-  }
-
   playlist.innerHTML = "";
 
   tracksData.forEach((track, index) => {
     const li = document.createElement("li");
     li.textContent = `${index + 1}. ${track.title} - ${track.artist} ${track.icon}`;
     li.addEventListener("click", () => {
+      currentTrackIndex = index;
       loadTrack(index);
     });
     playlist.appendChild(li);
   });
-
-  console.log("Playlist children count:", playlist.children.length);
 }
 
 // 트랙 로드
@@ -48,6 +47,8 @@ function loadTrack(index) {
   trackArtist.textContent = track.artist;
 
   audio.play();
+  isPlaying = true;
+  document.getElementById("playPauseBtn").textContent = "⏸";
 }
 
 // 메뉴 전환
@@ -55,19 +56,115 @@ document.querySelectorAll(".sidebar a").forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault();
     const targetId = link.getAttribute("href").substring(1);
-    console.log("메뉴 클릭:", targetId);
 
     document.querySelectorAll(".player-wrapper").forEach(section => {
       section.classList.remove("active");
     });
 
     const target = document.getElementById(targetId);
-    if (target) {
-      target.classList.add("active");
-    } else {
-      console.error("섹션을 찾을 수 없습니다:", targetId);
-    }
+    if (target) target.classList.add("active");
   });
+});
+
+// 버튼 제어
+const audio = document.getElementById("audio");
+const playPauseBtn = document.getElementById("playPauseBtn");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const repeatBtn = document.getElementById("repeatBtn");
+const muteBtn = document.getElementById("muteBtn");
+const progressBar = document.getElementById("progressBar");
+const volumeSlider = document.getElementById("volumeSlider");
+const volumeValue = document.getElementById("volumeValue");
+const currentTimeEl = document.getElementById("currentTime");
+const durationEl = document.getElementById("duration");
+
+audio.addEventListener("loadedmetadata", () => {
+  durationEl.textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener("timeupdate", () => {
+  currentTimeEl.textContent = formatTime(audio.currentTime);
+});
+
+function formatTime(seconds) {
+  const min = Math.floor(seconds / 60);
+  const sec = Math.floor(seconds % 60);
+  return `${min}:${sec < 10 ? "0" : ""}${sec}`;
+}
+
+// 재생/일시정지
+playPauseBtn.addEventListener("click", () => {
+  if (isPlaying) {
+    audio.pause();
+    playPauseBtn.textContent = "▶️";
+  } else {
+    audio.play();
+    playPauseBtn.textContent = "⏸";
+  }
+  isPlaying = !isPlaying;
+});
+
+// 이전 곡
+prevBtn.addEventListener("click", () => {
+  currentTrackIndex = (currentTrackIndex - 1 + tracksData.length) % tracksData.length;
+  loadTrack(currentTrackIndex);
+});
+
+// 다음 곡
+nextBtn.addEventListener("click", () => {
+  currentTrackIndex = (currentTrackIndex + 1) % tracksData.length;
+  loadTrack(currentTrackIndex);
+});
+
+// 셔플
+shuffleBtn.addEventListener("click", () => {
+  isShuffle = !isShuffle;
+  shuffleBtn.style.color = isShuffle ? "orange" : "black";
+});
+
+// 반복
+repeatBtn.addEventListener("click", () => {
+  isRepeat = !isRepeat;
+  repeatBtn.style.color = isRepeat ? "orange" : "black";
+});
+
+// 음소거
+muteBtn.addEventListener("click", () => {
+  audio.muted = !audio.muted;
+  muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+});
+
+// 진행바 업데이트
+audio.addEventListener("timeupdate", () => {
+  const progress = (audio.currentTime / audio.duration) * 100;
+  progressBar.value = progress || 0;
+});
+
+// 진행바 이동
+progressBar.addEventListener("input", () => {
+  const seekTime = (progressBar.value / 100) * audio.duration;
+  audio.currentTime = seekTime;
+});
+
+// 볼륨 조절
+volumeSlider.addEventListener("input", () => {
+  audio.volume = volumeSlider.value / 100;
+  volumeValue.textContent = `${volumeSlider.value}%`;
+});
+
+// 자동 다음 곡
+audio.addEventListener("ended", () => {
+  if (isRepeat) {
+    loadTrack(currentTrackIndex);
+  } else if (isShuffle) {
+    currentTrackIndex = Math.floor(Math.random() * tracksData.length);
+    loadTrack(currentTrackIndex);
+  } else {
+    currentTrackIndex = (currentTrackIndex + 1) % tracksData.length;
+    loadTrack(currentTrackIndex);
+  }
 });
 
 // 초기화 실행
