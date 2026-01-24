@@ -16,3 +16,8 @@ function buildPlaylist() {
 
   console.log("Playlist children count:", playlist.children.length);
 }
+
+// 파일 맨 아래에서 직접 호출
+console.log("테스트 실행 시작");
+buildPlaylist();
+console.log("테스트 실행 끝");
