@@ -154,7 +154,7 @@ html, body {
 }
 
 .player-wrapper.active {
-  display: flex;
+  display: block;
   position: relative; /* fixed 대신 relative */
   width: 100%;
   height: auto;
