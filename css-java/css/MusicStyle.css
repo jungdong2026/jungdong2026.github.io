@@ -154,7 +154,7 @@ html, body {
   height: auto;
   justify-content: center;
   align-items: flex-start;
-  z-index: 9999;               /* 사이드바보다 낮게 */
+  z-index: 1;   /* ✅ 낮추기  사이드바보다 낮게 */
 }
 
 .bgm-controls {
