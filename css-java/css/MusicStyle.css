@@ -76,6 +76,7 @@ html, body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);  
   background-color: #ffffff; 
   transition: all 0.3s ease;
+  z-index: 1;
 }
 
 @media (max-width: 768px) {

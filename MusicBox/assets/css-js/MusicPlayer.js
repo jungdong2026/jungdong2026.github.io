@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // 메뉴 전환
 document.querySelectorAll(".sidebar a").forEach(link => {
   link.addEventListener("click", e => {
+    e.preventDefault(); // ⭐⭐⭐ 이 줄 필수
     const targetId = link.getAttribute("href").substring(1);
 
     document.querySelectorAll(".player-wrapper").forEach(section => {
