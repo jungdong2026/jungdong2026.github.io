@@ -1,0 +1,409 @@
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #fefefe; /* 원하는 색상으로 변경 */
+}
+
+#chapterAll {
+    display: flex; 
+    flex-direction: row; 
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+/* 네비게이션 바 */
+.musicbox-container {
+  position: relative; /* 기준점 */
+  display: flex;
+}
+
+/* 사이드바 */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;          /* ← 40px 대신 0으로 */
+  width: 320px;
+  height: calc(100vh - 60px); /* 헤더 제외 전체 높이 */
+  border-radius: 0 12px 12px 0; /* 왼쪽은 직각, 오른쪽만 둥글게 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  padding: 0px 0;
+  z-index: 1000;
+  transition: all 0.3s ease; /* 부드러운 애니메이션 */
+  overflow-y: auto; /* 메뉴 스크롤 가능 */
+}
+
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 5px 0px 0px 0px; /* 위=0 / 오른쪽=0 / 아래=20 / 왼쪽 */
+}
+.sidebar li {
+  margin: 0px 0;
+}
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 10px 5px 20px; /* 위 / 오른쪽 / 아래 / 왼쪽 */
+  margin: 15px 10px 5px 10px; /* 위 / 오른쪽 / 아래 / 왼쪽 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  color: #000000;
+  font-size: 26px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+  background: rgba(117, 117, 117, 0.8);
+  transform: translateX(6px);
+}
+
+/* 기본 레이아웃 (데스크탑) */
+.content {
+  margin-left: 320px;        /* 사이드바(320px) + 간격(20px) */
+  margin-top: 60px;          /*위쪽 여백  */
+  flex: 1; /* 남은 공간 자동 확장 */
+  width: auto; /* ✅ 내용에 맞게 자동 */
+  height: auto;         /* ✅ 내용에 맞게 자동 */
+  max-width: calc(100% - 220px); /* 화면 크기 제한 */
+  overflow-y: auto; /* 콘텐츠만 스크롤 */
+  position: relative;
+  display: flow-root;    /*또는 overflow: auto; */
+  padding: 20px;;   /* 내부 여백 조금만 */
+  border: 2px solid #c0c0c0;
+  border-radius: 12px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);  
+  background-color: #ffffff; 
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  .content {
+    margin-left: 0;
+    margin-top: 0;
+    width: 100%;
+  }
+}
+
+#musicBtn {
+  padding: 10px 24px;
+  color: #fff;
+  background: transparent;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.3s;
+  border: 1px solid #fff;
+  cursor: pointer;
+}
+
+#musicBtn:hover {
+  background: orange;
+  color: #000;
+  border-color: orange;
+}
+
+/* 본문 */
+#home-MusicBox,
+#premiere, 
+#photoshop, 
+#lightroom, 
+#aftereffects, 
+#music {
+  padding-top: 0px; /* 헤더와 메뉴 간격 확보 */
+  /* margin: 0px 0px 0px 0px;  위 / 오른쪽 / 아래 / 왼쪽 */
+  /* background-color: lightblue;  섹션 안 색상 */
+  text-align: left;   /* 섹션 안의 모든 요소를 좌측정렬 */
+}
+
+#music {
+  scroll-margin-top: 80px;
+  height: auto; /* ✅ 내용에 맞게 자동 */
+  min-height: 700px; /* 필요하다면 최소 높이만 */
+}
+
+#home-MusicBox h1 {
+  padding-top: 10px;  /* 메뉴와 영상 사이 간격 */
+  margin-bottom: 30px;  /* 제목과 영상 사이 간격 */
+  color: #013cfd;   /* 글자 색상 (주황색) */
+  font-size: 40px;  /* 글자 크기 */
+  font-weight: bold; /* 굵게 */
+}
+
+#home video {
+  display: inline-block; /* 중앙 정렬 유지 */
+}
+
+/* 전체 플레이어 래퍼 (팝업) */
+.player-wrapper {
+  display: none; 
+  background: rgb(254, 255, 255);       /* 원하는 배경색 */
+}
+
+.player-wrapper.active {
+  display: flex;
+  position: relative; /* fixed 대신 relative */
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 9999;               /* 사이드바보다 낮게 */
+}
+
+.bgm-controls {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.bgm-controls button,
+.bgm-controls input[type="range"] {
+  margin: 0 8px;
+}
+
+.bgm-controls button {
+  padding: 8px 16px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #eee;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.bgm-controls button:hover {
+  background: orange;
+  color: #fff;
+}
+
+/* 플레이어 박스 */
+.player-box {
+  max-width: 800px;          /* 필요시 최대 너비 제한 */
+  height: auto;
+  transform: scale(1);          /* 전체를 50% 크기로 축소 */
+  transform-origin: top center;   /* 위쪽 중앙 기준으로 줄어듦 */
+  overflow-y: visible;       /* ✅ 내부 스크롤 제거 */
+  border: 5px solid #9d9c9c;
+  border-radius: 12px;
+  background: rgb(255, 255, 255);       /* 원하는 배경색 */
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5); 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.player-box video {
+  width: 700px;        /* 박스 너비에 맞게 자동 조정 */
+  max-width: 800px;   /* 최대 크기 제한 */
+}
+
+.player-box img {
+  max-width: 150px;   /* 앨범 커버 이미지 크기 줄이기 */
+  height: auto;
+  border-radius: 8px;
+}
+
+.player-box button {
+  font-size: 14px;
+  padding: 6px 10px;   /* 버튼 크기 줄이기 */
+  margin: 2px;
+  border-radius: 6px;
+}
+
+.player-box .playlist {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.player-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+}
+
+.player-box p,
+.player-box span {
+  font-size: 25px;   /* 일반 텍스트 크기 줄이기 */
+  line-height: 1.4;
+}
+
+.tab-content {
+  width: 800px;
+  margin: 100px auto 0 auto; /* nav와 맞춤 */
+  position: relative;
+}
+
+
+/* 커버 이미지 */
+.cover-container {
+  text-align: center;
+}
+
+#cover-MusicBox {
+  width: 300px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+/* 진행바 & 볼륨 컨트롤 */
+.progress-container,
+.volume-control {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  margin-left: 80px;
+  margin-top: 10px;
+}
+
+#progressBar,
+#volumeSlider {
+  width: 400px;          /* 슬라이더 길이 늘림 */
+  height: 6px;
+  border-radius: 2px;
+  background: #ddd;
+  cursor: pointer;
+}
+
+.progress-container i,
+.volume-control i {
+  width: 30px;
+  text-align: center;
+  font-size: 14px;
+  color: #0425f9;
+}
+
+#currentTime,
+#duration,
+#remainingTime {
+  font-size: 14px;
+  color: #0425f9;
+  font-weight: 400;
+}
+
+#volumeValue {
+  color: #0425f9;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.volume-control label {
+  font-size: 14px;
+}
+
+/* 트랙 정보 */
+.track-info {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 16px;
+  color: #fb0303;
+  font-weight: 500;
+  margin-top: 12px;
+  text-align: center;
+}
+
+#trackTitle,
+#trackArtist {
+  font-size: 22px;
+  color: #053afa;
+  font-weight: 600;
+}
+
+/* 컨트롤 버튼 */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.controls button {
+  width: 40px;           /* 버튼 크기 확대 */
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #1601fc;
+  background: transparent;
+  color: #333;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.controls button:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* 플레이리스트 */
+#playlist {
+  list-style: none;
+  padding-left: 0;
+  margin: 20px 0 0 0;
+}
+
+.playlist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  color: #000;             
+  background: #e8e8e8;     
+}
+
+.playlist-item:hover {
+  background: #ccc;
+  transform: scale(1.02);
+  color: #000;
+}
+
+.playlist-item.active {
+  font-weight: bold;
+  background: #053afa;
+  color: #fff;
+}
+
+.playlist-icon {
+  margin-left: 0;
+}
+
+.playlist-text {
+  font-size: 18px;
+}
+
+/* 플레이리스트 커버 이미지 */
+.playlist-cover {
+  width: 40px;           /* 커버 이미지 크기 확대 */
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* 회전 애니메이션 */
+@keyframes spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(0.55); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+#cover.rotate {
+  animation: spin 8s linear infinite;
+  transform-origin: center center;
+}
