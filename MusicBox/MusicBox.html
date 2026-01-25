@@ -113,6 +113,7 @@
 
 <!-- 반드시 body 맨 아래 -->
 <script src="/MusicBox/assets/css-js/MusicPlayer.js" defer></script>
+<script>
 document.addEventListener("DOMContentLoaded", () => {
   // 모든 사이드바 링크 가져오기
   const sidebarLinks = document.querySelectorAll(".sidebar a");
@@ -144,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(`[DEBUG] ${section.id} active? ${section.classList.contains("active")}`);
     });
   }, 10000);
-});
 
+</script>
 </body>
 </html>
