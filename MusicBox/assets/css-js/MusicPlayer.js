@@ -20,12 +20,11 @@ document.querySelectorAll(".sidebar a").forEach(link => {
     });
 
     const target = document.getElementById(targetId);
-    if (target && target.id !== "music") {
+    if (target) {
       target.classList.add("active");
     }
   });
 });
-
 
 // 버튼 제어
 const audio = document.getElementById("audio");
