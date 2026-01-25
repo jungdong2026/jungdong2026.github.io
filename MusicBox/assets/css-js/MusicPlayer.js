@@ -9,22 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   buildPlaylist();
   loadTrack(0);
 
-// 메뉴 전환
-document.querySelectorAll(".sidebar a").forEach(link => {
-  link.addEventListener("click", e => {
-    e.preventDefault(); // ⭐⭐⭐ 이 줄 필수
-    const targetId = link.getAttribute("href").substring(1);
 
-    document.querySelectorAll(".player-wrapper").forEach(section => {
-      section.classList.remove("active");
-    });
-
-    const target = document.getElementById(targetId);
-    if (target) {
-      target.classList.add("active");
-    }
-  });
-});
 
 
 // 버튼 제어
@@ -127,7 +112,6 @@ audio.addEventListener("ended", () => {
     loadTrack(currentTrackIndex);
   }
 });
-
 });
 
 // 곡 데이터

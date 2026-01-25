@@ -123,6 +123,10 @@ html, body {
   text-align: left;   /* 섹션 안의 모든 요소를 좌측정렬 */
 }
 
+#home-MusicBox {
+  display: flex;
+}
+
 #music {
   scroll-margin-top: 80px;
   height: auto; /* ✅ 내용에 맞게 자동 */
@@ -141,20 +145,15 @@ html, body {
   display: inline-block; /* 중앙 정렬 유지 */
 }
 
-/* 전체 플레이어 래퍼 (팝업) */
 .player-wrapper {
-  display: none; 
-  background: rgb(254, 255, 255);       /* 원하는 배경색 */
+  display: none;
+  background: rgb(254, 255, 255);
 }
 
 .player-wrapper.active {
   display: flex;
-  position: relative; /* fixed 대신 relative */
   width: 100%;
   height: auto;
-  justify-content: center;
-  align-items: flex-start;
-  z-index: 1;   /* ✅ 낮추기  사이드바보다 낮게 */
 }
 
 .bgm-controls {
