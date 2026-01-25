@@ -113,5 +113,38 @@
 
 <!-- 반드시 body 맨 아래 -->
 <script src="/MusicBox/assets/css-js/MusicPlayer.js" defer></script>
+document.addEventListener("DOMContentLoaded", () => {
+  // 모든 사이드바 링크 가져오기
+  const sidebarLinks = document.querySelectorAll(".sidebar a");
+
+  sidebarLinks.forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault(); // 해시 이동 막기
+
+      const targetId = link.getAttribute("href").substring(1);
+
+      // 모든 섹션 숨기기
+      document.querySelectorAll(".player-wrapper").forEach(section => {
+        section.classList.remove("active");
+      });
+
+      // 클릭한 섹션만 보이기
+      const targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        targetSection.classList.add("active");
+      }
+
+      console.log(`[DEBUG] 클릭: ${targetId}, 활성화: ${targetSection.classList.contains("active")}`);
+    });
+  });
+
+  // 🔹 10초 후 활성 상태 확인 로그
+  setTimeout(() => {
+    document.querySelectorAll(".player-wrapper").forEach(section => {
+      console.log(`[DEBUG] ${section.id} active? ${section.classList.contains("active")}`);
+    });
+  }, 10000);
+});
+
 </body>
 </html>
