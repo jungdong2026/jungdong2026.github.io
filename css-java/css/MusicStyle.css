@@ -66,10 +66,9 @@ html, body {
   flex: 1; /* 남은 공간 자동 확장 */
   width: auto; /* ✅ 내용에 맞게 자동 */
   height: auto;         /* ✅ 내용에 맞게 자동 */
-  max-width: calc(100% - 220px); /* 화면 크기 제한 */
+  max-width: calc(100% - 320px); /* 화면 크기 제한 */
   overflow-y: auto; /* 콘텐츠만 스크롤 */
   position: relative;
-  display: flow-root;    /*또는 overflow: auto; */
   padding: 20px;;   /* 내부 여백 조금만 */
   border: 2px solid #c0c0c0;
   border-radius: 12px;

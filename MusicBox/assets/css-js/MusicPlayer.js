@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // 메뉴 전환
 document.querySelectorAll(".sidebar a").forEach(link => {
   link.addEventListener("click", e => {
-    e.preventDefault();
     const targetId = link.getAttribute("href").substring(1);
 
     document.querySelectorAll(".player-wrapper").forEach(section => {
@@ -25,6 +24,7 @@ document.querySelectorAll(".sidebar a").forEach(link => {
     }
   });
 });
+
 
 // 버튼 제어
 const audio = document.getElementById("audio");
