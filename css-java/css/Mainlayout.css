@@ -979,22 +979,6 @@ pre {
     display: block;
 }
 
-/*////MusicBox/////////////////////////////////////////////////////////////////////*/
-/*////MusicBox/////////////////////////////////////////////////////////////////////*/
-#Guest {
-    width: 100%;
-    height: 3200px;
-    padding: 10px 0px 0px 0px;
-    margin: 0px 0px 0px 0px;
-}
-#Guest b{
-    width: 100%;
-    font-size: 1.5em;
-    color: #021472;
-    margin: 0px 0px 0px 0px;
-    padding: 15px 0px 10px 60px;
-    display: block;
-}
 
 /*////footer/////////////////////////////////////////////////////////////////////////////*/
 #footer {
