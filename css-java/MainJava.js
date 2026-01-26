@@ -93,7 +93,7 @@ $(document).ready(function () {
         });
         $(document).ready(function () {
             $('.nav-9 a').click(function () {
-                $('#wrapper').load('https://jungdong2026.github.io/GuestBook/GuestBook.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/C++Source/C++Source.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
