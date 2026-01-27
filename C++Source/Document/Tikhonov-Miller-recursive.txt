@@ -1,0 +1,397 @@
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<io.h>
+#include<dos.h>
+#include<fcntl.h>
+#include<conio.h>
+#include<string.h>
+#include<sys\stat.h>
+#include<time.h>
+#define SIZE 7
+#define alpha 0.5
+#define beta 1.0
+
+
+unsigned char original_image[256][256];
+unsigned char degraded_image[256][256];
+unsigned char err_image[256][256];
+unsigned char restored_image_1[256][256]; 
+unsigned char restored_image_2[256][256];
+double noise_term[256][256];
+double regularization_term[256][256];
+
+double outoffocus[7][7];
+char inname1[20],inname2[20],outname[20];
+static double c[3][3]={
+	{0.00, -0.25, 0.00},
+	{-0.25, 1.00, -0.25},
+	{0.00, -0.25, 0.00}};
+int r;
+
+void read_image()
+{
+	FILE* infile1;
+	FILE* infile2;
+
+	int i,j;
+	//char input[2][30];
+
+	printf("Enter the orgnal image file: ");
+	scanf("%s",&inname1);
+	if((infile1=fopen(inname1,"rb"))==NULL){
+		printf("\n %s file not found \n",inname1);
+		exit(-1);
+	}
+	printf("Enter the degraded image file: ");
+	scanf("%s",&inname2);
+	if((infile2=fopen(inname2,"rb"))==NULL){
+		printf("\n %s file not found \n", inname2);
+		exit(-1);
+	}
+
+	printf("How many repeat? : ");
+	scanf("%d",&r);
+	
+	printf("Enter the restored_image file :");
+	scanf("%s",&outname);
+
+	for(i=0;i<256;i++){
+		for(j=0;j<256;j++){
+			fscanf(infile1,"%c",&original_image[i][j]);
+		}
+	}
+	for(i=0;i<256;i++){
+		for(j=0;j<256;j++){
+			fscanf(infile2,"%c",&degraded_image[i][j]);
+		}
+	}
+	fcloseall();
+}
+
+void out_image()
+{
+	FILE* outfile;
+	int i1,i2;
+	if((outfile=fopen(outname,"wb"))==NULL){
+		printf("\n %s file not found \n", outname);
+		exit(-1);
+	}
+	for(i1=0;i1<256;i1++){
+		for(i2=0;i2<256;i2++){
+			fprintf(outfile,"%c",restored_image_1[i1][i2]);
+		}
+	}
+	fclose(outfile);
+}
+
+
+void error_image(unsigned char data[256][256])
+{
+	int i1, i2;
+	double f1,f2;
+	for(i1=0;i1<256;i1++){
+		for(i2=0;i2<256;i2++){
+			f1=(double)original_image[i1][i2]-(double)data[i1][i2];
+			f2=255.0-5.0*fabs(f1);
+			if(f2<0.0)
+				err_image[i1][i2]=(unsigned char)0;
+			else if(f2>=256.0)
+				err_image[i1][i2]=(unsigned char)255;
+			else
+				err_image[i1][i2]=(unsigned char)f2;
+		}
+	}
+}
+
+double snr_improvement(unsigned char data[256][256])
+{
+	int i1, i2;
+	double f1,f2,f3,f4,f5;
+	f1=0.0;
+	f2=0.0;
+	f3=0.0;
+	f4=0.0;
+	for(i1=0;i1<256;i1++){
+		for(i2=0;i2<256;i2++){
+			f1=(double)original_image[i1][i2]-(double)degraded_image[i1][i2];
+			f2=(double)original_image[i1][i2]-(double)data[i1][i2];
+			f3+=pow(f1,2.0);
+			f4+=pow(f2,2.0);
+		}
+	}
+	f3/=(double)(256*256);
+	f4/=(double)(256*256);
+	f1=sqrt(f3);
+	f2=sqrt(f4);
+	f1/=f2;
+	if(f1==0.0)
+		f5=0.0;
+	else if(f1==1.0)
+		f5=0.0;
+	else
+		f5=10.0*log10(f1);
+	return f5;
+}
+
+double mse(unsigned char data[256][256])
+{
+	int i1,i2;
+	double f1,f2,f3;
+	f1=0.0;
+	f2=0.0;
+	f3=0.0;
+	for(i1=0;i1<256;i1++){
+		for(i2=0;i2<256;i2++){
+			f2=(double)data[i1][i2]-(double)original_image[i1][i2];
+			f1+=pow(f2,2.0);
+			f3++;
+		}
+		printf("\t %3dth line processed!\r",i2);
+	}
+	f1/=f3;
+	return f1;
+}
+
+void psf()
+{
+	FILE* outfile;
+
+	outfile=fopen("outiffocus.dat","w");
+	
+	int i1, i2;
+	double f1;
+	for(i1=0;i1<SIZE;i1++){
+		for(i2=0;i2<SIZE;i2++){
+			outoffocus[i1][i2]=1.0;}}
+	
+	f1=0.0;
+	for(i1=0;i1<SIZE;i1++){
+		for(i2=0;i2<SIZE;i2++){
+			f1+=outoffocus[i1][i2];}}
+	for(i1=0;i1<SIZE;i1++){
+		for(i2=0;i2<SIZE;i2++){
+			outoffocus[i1][i2]/=f1;
+			printf("%10.5f", outoffocus[i1][i2]);
+			fprintf(outfile,"%10.5f", outoffocus[i1][i2]);
+		}
+		printf("\n");
+		fprintf(outfile,"\n");
+	}
+	fclose(outfile);
+}
+
+double initial_solution()
+{
+	int i1,i2,i3,i4,i5,i6;
+	double f1,f2,f3;
+	for(i1=0;i1<256;i1++){
+		for(i2=0;i2<256;i2++){
+			f1=0.0;
+			for(i3=0;i3<7;i3++){
+				for(i4=0;i4<7;i4++){
+					i5=i2-(i4-3);
+					i6=i1-(i3-3);
+					if(i5<0){
+						if(i6<0) f2= degraded_image[256+i5][256+i6];
+						else if(i6>=256) f2=degraded_image[256+i5][i6-256];
+						else  f2=degraded_image[256+i5][i6];
+					}
+					else if(i5>=256){
+						if(i6<0) f2=degraded_image[i5-256][256+i6];
+						else if(i6>=256) f2=degraded_image[i5-256][i6-256];
+						else  f2=degraded_image[i5-256][i6];
+					}
+					else{
+						if(i6<0) f2= degraded_image[i5][256+i6];
+						else if(i6>=256) f2=degraded_image[i5][i6-256];
+						else  f2=degraded_image[i5][i6];
+					}
+					f1 +=f2*outoffocus[i3][i4];
+				}
+			}
+			
+			if(f1<0.0)
+				restored_image_1[i1][i2]=(unsigned char)0;
+			else if(f1>255.0)
+				restored_image_1[i1][i2]=(unsigned char)255;
+			else
+				restored_image_1[i1][i2]=(unsigned char)f1;
+		}
+		printf("\t %3dth line process\r",i2);
+	}
+	f3=mse(restored_image_1);
+	return f3;
+}
+
+double iterative()
+{
+	int i1,i2,i3,i4,i5,i6;
+	double f1,f2,f3,f4;
+
+	for(i1=0;i1<256;i1++){
+		for(i2=0;i2<256;i2++){
+			f1=0.0;
+			for(i3=0;i3<7;i3++){
+				for(i4=0;i4<7;i4++){
+					i5=i2-(i4-3);
+					i6=i1-(i3-3);
+					if(i5<0){
+						if(i6<0)
+							f2=restored_image_1[i5+256][i6+256];
+						else if(i6>=256)
+							f2=restored_image_1[i5+256][i6-256];
+						else
+							f2=restored_image_1[i5+256][i6];
+					}
+					else if(i5>=256){
+						if(i6<0) f2=restored_image_1[i5-256][256+i6];
+						else if(i6>=256) f2=restored_image_1[i5-256][i6-256];
+						else  f2=restored_image_1[i5-256][i6];
+					}
+					else{
+						if(i6<0) f2=restored_image_1[i5][256+i6];
+						else if(i6>=256) f2=restored_image_1[i5][i6-256];
+						else  f2=restored_image_1[i5][i6];
+					}
+					f1 +=outoffocus[i3][i4]*f2;
+				}
+			}
+			noise_term[i1][i2]=(double)degraded_image[i1][i2]-f1;
+			f1=0.0;
+			for(i3=0;i3<3;i3++){
+				for(i4=0;i4<3;i4++){
+					i5=i2-(i4-1);
+					i6=i1-(i3-1);
+					if(i5<0){
+						if(i6<0)
+							f2=restored_image_1[i5+256][i6+256];
+						else if(i6>=256)
+							f2=restored_image_1[i5+256][i6-256];
+						else
+							f2=restored_image_1[i5+256][i6];
+					}
+					else if(i5>=256){
+						if(i6<0) f2=restored_image_1[i5-256][256+i6];
+						else if(i6>=256) f2=restored_image_1[i5-256][i6-256];
+						else  f2=restored_image_1[i5-256][i6];
+					}
+					else{
+						if(i6<0) f2=restored_image_1[i5][256+i6];
+						else if(i6>=256) f2=restored_image_1[i5][i6-256];
+						else  f2=restored_image_1[i5][i6];
+					}
+					f1+=c[i3][i4]*f2;
+				}
+			}
+			regularization_term[i1][i2]=f1;
+		}
+		printf("\t %3dth line process !!\r",i1);
+	}
+
+	for(i1=0;i1<256;i1++){
+		for(i2=0;i2<256;i2++){
+			f1=0.0;
+			for(i3=0;i3<7;i3++){
+				for(i4=0;i4<7;i4++){
+					i5=i2-(i4-3);
+					i6=i1-(i3-3);
+					if(i5<0){
+						if(i6<0)
+							f2=noise_term[i5+256][i6+256];
+						else if(i6>=256)
+							f2=noise_term[i5+256][i6-256];
+						else
+							f2=noise_term[i5+256][i6];
+					}
+					else if(i5>=256){
+						if(i6<0) f2=noise_term[i5-256][256+i6];
+						else if(i6>=256) f2=noise_term[i5-256][i6-256];
+						else  f2=noise_term[i5-256][i6];
+					}
+					else{
+						if(i6<0) f2=noise_term[i5][256+i6];
+						else if(i6>=256) f2=noise_term[i5][i6-256];
+						else  f2=noise_term[i5][i6];
+					}
+					f1+=outoffocus[i3][i4]*f2;
+				}
+			}
+			
+			f1*=beta;
+			f3=0.0;
+			for(i3=0;i3<3;i3++){
+				for(i4=0;i4<3;i4++){
+					i5=i2-(i4-1);
+					i6=i1-(i3-1);
+					if(i5<0){
+						if(i6<0)
+							f2=regularization_term[i5+256][i6+256];
+						else if(i6>=256)
+							f2=regularization_term[i5+256][i6-256];
+						else
+							f2=regularization_term[i5+256][i6];
+					}
+					else if(i5>=256){
+						if(i6<0) f2=regularization_term[i5-256][256+i6];
+						else if(i6>=256) f2=regularization_term[i5-256][i6-256];
+						else  f2=regularization_term[i5-256][i6];
+					}
+					else{
+						if(i6<0) f2=regularization_term[i5][256+i6];
+						else if(i6>=256) f2=regularization_term[i5][i6-256];
+						else  f2=regularization_term[i5][i6];
+					}
+					f3+=c[i3][34]*f2;
+				}
+			}
+			f4=(double)restored_image_1[i1][i2]-alpha*beta*f3+f1;
+			if(f4<0)
+				restored_image_2[i1][i2]=(unsigned char)0;
+			else if(f4>256)
+				restored_image_2[i1][i2]=(unsigned char)255;
+			else
+				restored_image_2[i1][i2]=(unsigned char)f4;
+		}
+		printf("\t %3dth line process !!\r",i2);
+	}
+	for(i1=0;i1<256;i1++)
+		for(i2=0;i2<256;i2++)
+		restored_image_1[i1][i2]=restored_image_2[i1][i2];
+	f1=mse(restored_image_1);
+	return f1;
+}
+
+void main()
+{
+	int i;
+	double f1,f2;
+	
+	FILE *outfile;
+	read_image();
+	psf();
+	outfile=fopen("mse.dat","w");
+	f1=mse(degraded_image);
+	f2=snr_improvement(degraded_image);
+	fprintf(outfile,"\t %f \t %f \n", f1,f2);
+	printf("\n\t%f\t%f\n",f1,f2);
+	error_image(degraded_image);
+	out_image();
+	puts("\n\t Estimate of the initial solution\n\t");
+	f1=initial_solution();
+	fprintf(outfile,"\t %f\n",f1);
+	printf("\n\t%f\n",f1);
+	puts("\n\t Estimate of the iterative restored solution\n");
+	for(i=0;i<r;i++){
+		f1=iterative();
+		f2=snr_improvement(restored_image_1);
+		fprintf(outfile,"%3d\t%f\t%f\n",i,f1,f2);
+		printf("\n\t%3d\t%f\t%f\n",i,f1,f2);
+		error_image(restored_image_1);
+	}
+	out_image();
+	fcloseall();
+	printf("\n This program ended successfully!!\n");
+	printf("Press any key!!!");
+	getch();
+}

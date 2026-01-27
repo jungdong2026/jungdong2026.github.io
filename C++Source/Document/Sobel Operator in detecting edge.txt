@@ -1,0 +1,123 @@
+/***************************************************
+  *         Sobel Operator in detecting edge       *
+  ***************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+unsigned char source[256][256];
+unsigned char result[256][256];
+unsigned char temp[256][256];
+int thrs;
+static int change;
+
+void getname(char *a,char*b)
+{
+        printf("%s ",a);
+        scanf("%s",b);
+}
+
+int get_int(char *a)
+{
+        int b;
+        printf("%s",a);
+        scanf("%d",&b);
+        return(b);
+}
+
+void read_image()
+{
+        int i1,i2;
+        unsigned char in_name[20];
+        FILE *fi;
+        getname(" enter a name to read--> ",in_name);
+        if((fi=fopen(in_name,"rb"))==NULL){
+                printf(" reading error...");
+                exit(0);
+        }               
+        fread(source[0],1,256*256,fi);
+        fclose(fi);
+        printf("             Finished reading....\n");
+}
+
+void trans_sob()
+{
+        int i1,i2;
+        int value,cnt=0,count=0;
+        for(i1=0;i1<256;i1++){
+            for(i2=0;i2<256;i2++){
+                value=sobel(i1,i2);
+                result[i1][i2]=value;
+                }
+        }
+        /* By using sobel function, I can get the processed values from sobel func
+           I push just one point of source image*/ 
+}
+
+int sobel(int a,int b)
+{
+        int i1,i2,i3,i4;
+        int chki;
+        int as1,bs1,as2,bs2;
+        double value1=0.0,value2=0.0;
+        double total1,total2,total3,total4,total5;
+        char sob1[3][3]={{-1,-2,-1},{0,0,0},{1,2,1}}; 
+        char sob2[3][3]={{-1,0,1},{-2,0,2},{-1,0,1}};
+        for(i1=0;i1<3;i1++){
+            for(i2=0;i2<3;i2++){
+                  as1=a-i1-1; bs1=b-i2-1;
+                  if(as1<0||bs1<0)
+                     source[as1][bs1]=source[255-as1][255-bs1];
+                   value1+=sob1[2-i1][2-i2]*source[as1][bs1];
+                   }
+            }
+        for(i3=0;i3<3;i3++){
+            for(i4=0;i4<3;i4++){
+                  as2=a-i3-1; bs2=b-i4-1;
+                   if(as2<0||bs2<0)
+                     source[as2][bs2]=source[255-as2][255-bs2];
+                  value2+=sob2[2-i3][2-i4]*source[as2][bs2];
+                }
+            }
+        total1=pow(value1,2.0);total2=pow(value2,2.0);  /*this used for thresholding*/
+        total3=total1+total2;
+        total5=sqrt(total3);
+        
+        if(change==1){
+                chki=threshold(total5);  /*push total5 into threshold function to find threshold decision*/
+                return(chki);
+        }
+        else if(change==0){
+                chki=thresholdi(total5);  /*push total5 into threshold function to find threshold decision*/
+                return(chki);
+        }
+}
+
+int threshold(double threst)
+{
+        int chk_thres;
+        if((double)thrs<threst)
+            chk_thres=0;
+        else
+            chk_thres=1;
+        return(chk_thres);
+}
+
+int thresholdi(double threst)
+{
+        int chk_thres;
+        if((double)thrs<threst)
+            chk_thres=1;
+        else
+            chk_thres=0;
+        return(chk_thres);
+}
+void main()
+{
+        thrs=get_int(" Input the NUMBER in integer which you want as threshold--> ");
+        printf("\n");
+        printf(" If '1',image inversed, if '0',image is not inversed.\n");
+        change=get_int("--> ");
+        read_image();
+        trans_sob();
+}

@@ -1,0 +1,184 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+unsigned char *orgImage,*noiseVersion;
+int sizeHeight,sizeWidth,pxlNum,show;
+double snrRatio;
+unsigned char iname[30];
+unsigned char outname[30];
+extern void Initialize();
+extern void CreateWindow(int,int);
+extern void AnotherWindow(int,int);
+extern void Display_image(unsigned char *,int ,int);
+
+void
+reading()
+{
+   FILE *fi;
+   double tempsnr;
+   printf(" Key in original image name:");
+   scanf("%s",iname);
+   printf("\n");
+   printf(" SNR add to %s image : ",iname);
+   scanf("%lf",&tempsnr);       
+   printf(" SNR=%f\n",tempsnr);
+   printf(" You want to see image processing?\n            (1) Yes, (2) No\n");
+   scanf("%d",&show);
+   snrRatio=(double)tempsnr;       
+   if((fi=fopen(iname,"rb"))==NULL){
+      printf(" %s file not found...\n",iname);
+      exit(0);
+      }
+   fread(&sizeHeight,sizeof(int),1,fi);
+   fread(&sizeWidth,sizeof(int),1,fi);
+   pxlNum=sizeHeight*sizeWidth;
+   printf(" sizeHeight=%d\n",sizeHeight);
+   printf(" sizeWidth=%d\n",sizeWidth);
+   printf(" Total pixel number: %6d\n",pxlNum);
+   orgImage=(unsigned char *)calloc(sizeHeight*sizeWidth,sizeof(char));
+   noiseVersion=(unsigned char *)calloc(sizeHeight*sizeWidth,sizeof(char));
+   fread(orgImage,1,sizeHeight*sizeWidth,fi);
+   fclose(fi);
+   printf(" Reading ok!\n");
+}
+
+void
+writeImage()
+{
+   FILE *fo;
+   printf(" Hit output ImageName noise version:");
+   scanf("%s",outname);
+   if((fo=fopen(outname,"wb"))==NULL){
+      printf(" not out file error..\n");
+      exit(0);
+      }
+   fwrite(&sizeHeight,sizeof(int),1,fo);
+   fwrite(&sizeWidth,sizeof(int),1,fo);
+   fwrite(noiseVersion,1,sizeHeight*sizeWidth,fo);
+   fclose(fo);
+   free(orgImage);
+   free(noiseVersion);
+   printf(" Writing ok!\n");
+}
+
+double
+getSignalVar()
+{
+   register row,col;
+   int value1,value2;
+   double avg,sigVar,temp;
+   avg=0.0; sigVar=0.0;
+   for(row=0;row<sizeHeight;row++){
+      for(col=0;col<sizeWidth;col++){
+         value1=(int)orgImage[row*sizeWidth+col];
+         avg+=((double)value1/(double)pxlNum);
+         }
+      }
+   printf(" Signal Average = %7.2f.\n",avg);
+   for(row=0;row<sizeHeight;row++){
+      for(col=0;col<sizeWidth;col++){
+         value1=(int)orgImage[row*sizeWidth+col];
+         temp=(double)value1-avg;
+         sigVar+=((temp*temp)/(double)pxlNum);
+         }
+      }
+   return(sigVar);
+}
+
+double
+getNoiseVar()
+{
+   double sigVar,noiseVar;
+   double temp1,temp2;
+   temp1=snrRatio/10.0;
+   temp2=pow(10.0,temp1);
+   sigVar=getSignalVar();
+   noiseVar=sigVar/temp2;
+   return(noiseVar);
+}
+
+double 
+uniform()
+{
+   return((double)((rand()&RAND_MAX)^rand())/RAND_MAX-0.5);
+}
+double 
+gaussian_noise(double stdv1)
+{
+     static int ready;  
+     static double gstore;  
+     double v1,v2,fac,gaus,r;
+     if(ready==0){
+        do{
+           v1=2.0*uniform();
+           v2=2.0*uniform();
+           r=v1*v1+v2*v2;
+           }  while(r>1);               
+           fac=sqrt(-2.0*log(r)/r);   
+           gstore=v1*fac*stdv1;      
+           gaus=v2*fac*stdv1;       
+           ready=1;                
+     }
+     else{
+        ready=0;                  
+        gaus=gstore;             
+     }
+     return(gaus);
+}
+
+void
+addNoise2Image()
+{
+   int row,col,value,temp1;
+   double value1,noise,stdv1,temp2;
+   temp2=getNoiseVar();
+   stdv1=sqrt(temp2);
+   srand((unsigned char)time(NULL));
+   for(row=0;row<sizeHeight;row++){
+      for(col=0;col<sizeWidth;col++){
+         value1=(double)orgImage[row*sizeWidth+col];
+         noise=gaussian_noise(stdv1); 
+         value1+=noise;
+         if(value1>255.0) value1=255.0;
+         if(value1<0.0) value1=0.0;
+         noiseVersion[row*sizeWidth+col]=(unsigned char)value1;
+         }
+      }
+}
+
+int
+main()
+{
+   char cirti[70];
+   reading();
+   if(show==1){
+      Initialize();
+      printf(" START\n");
+      CreateWindow(sizeHeight,sizeWidth);
+      Display_image(orgImage,sizeHeight,sizeWidth);
+      }
+   addNoise2Image();
+   if(show==1){
+      AnotherWindow(sizeHeight,sizeWidth);
+      Display_image(noiseVersion,sizeHeight,sizeWidth);
+      getchar();
+      getchar();
+      }
+   writeImage();
+   sprintf(cirti,"%s %s %s ","Noisesnr.out",iname,outname);
+   system(cirti);
+   return 0;
+}
+
+==================================
+첨부파일은 KUIM이라는 영상처리 라이브러리에서 뽑은 것입니다.
+
+1. GAUSSIAN NOISE
+2. EXPONENTIAL NOISE
+3. POISSON NOISE
+4. IMPULSE NOISE
+5. UNIFORM NOISE
+
+참고하세요..
+=======================================

@@ -1,0 +1,612 @@
+/*************************************************/
+/** 		Fuzzy C-Mean For Image Segmentation 		**/
+/** 		Mr. Somporn Chuai-aree ID.4172470323		**/
+/*************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#define ABS(x) (x>0?x:-x)
+#define N 100000 /* size of input image */
+#define C 3 /* number of clusters */
+#define DIM 2 /* number of attributes */
+#define SMT 1000 /* size of smootwindow */
+#define WINSIZE 2
+
+int i,j,k,n,c,dim=2;
+double m,tolerance,error=1.0;
+FILE *infile,*outfile;
+double x[N][DIM],u[C][N],uold[C][N],v[C][DIM],d[C][N];
+int isZero,iter,col,row,level,winsize;
+int rtmp[260][410],gtmp[260][410],btmp[260][410];
+int Region[C];
+char outf[20];
+
+readdata()	/*************************************************/
+{
+	int temp,chkheader=0;
+	char tmpchar;
+
+	if((infile=fopen("attrib.dat","rt"))==NULL){
+		printf("\n Can not read attrib.dat file.\n");
+		exit(1);
+	}
+
+	i=0;
+	fscanf(infile,"%d",&winsize);
+
+	while(chkheader!=2){
+		fscanf(infile,"%c",&tmpchar);
+		if(tmpchar=='\n') chkheader++;
+	}
+
+	fscanf(infile,"%d%d%d",&col,&row,&level); 	/** Read header attrib.dat file **/
+
+	while(!feof(infile)){
+		fscanf(infile,"%ld%lf%lf",&temp,&x[i][0],&x[i][1]);// printf("\n mean=%lf\tsd=%lf",x[i][0],x[i][1]);
+		i++; 
+	}
+
+	n=i;
+	printf("\n number of pels =%d, level=%d",n,level);
+}
+
+inputdata()	/*************************************************/
+{
+do {
+printf("\n How many partitions do you want? :");
+scanf("%d",&c);
+} while (!(c>=1||c<=n));
+
+printf("\n Select the weighting exponent :");
+scanf("%lf",&m);
+printf("\n Select the iteration tolerance :");
+scanf("%lf",&tolerance);
+}
+
+initMatrixU()		/*************************************************/
+{
+for(j=0;j<n;j++){
+u[0][j]=0.45;
+u[1][j]=0.25;
+u[2][j]=0.30;
+}
+}
+
+UpdateU()		/*************************************************/
+{
+for(i=0;i<c;i++){
+for(j=0;j<n;j++){
+uold[i][j]=u[i][j];
+}
+	}			
+}
+
+Calclustercenter()		/*************************************************/
+{
+double vv,vd;
+for(k=0;k<c;k++){
+for(j=0;j<dim;j++){
+vv=vd=0.0; 
+for(i=0;i<n;i++){
+vv+=pow(u[k][i],m)*x[i][j];
+vd+=pow(u[k][i],m);
+}
+v[k][j]=vv/vd;
+}
+}
+}
+
+double NormEuc(int p,int q)		/*************************************************/
+{
+int ii;
+double temp;			// norm of Xj-Vi
+temp=0.0;
+
+for(ii=0;ii<dim;ii++){
+temp+=pow(x[p][ii]-v[q][ii],2); 
+temp=sqrt(temp);
+return temp;
+}
+}
+
+
+
+Caldistance()		/*************************************************/
+{
+for(i=0;i<c;i++){
+for(j=0;j<n;j++){
+d[i][j]=NormEuc(j,i);
+}
+}
+}
+
+FCM()		/*************************************************/
+{
+double tempval,uval,dij,dkj;
+
+for(i=0;i<c;i++){
+for(j=0;j<n;j++){
+uval=0.0; 
+isZero=0;
+dij=d[i][j];
+if(dij<1e-80) u[i][j]=1.0;
+else{
+for(k=0;k<c;k++){
+dkj=d[k][j];
+if(dkj<1e-80) isZero=1;
+else {
+tempval=dij/dkj;
+uval+=pow(tempval,2.0/(m-1));
+}
+}
+}
+if(isZero||uval>1000.0) u[i][j]=0.0;
+else u[i][j]=1.0/uval;
+}
+}
+}
+
+double checknormU()		/*************************************************/
+{
+double temp,maxtmp; 
+temp=maxtmp=0.0;
+
+for(i=0;i<c;i++) {
+for(j=0;j<n;j++){
+temp=ABS(u[i][j]-uold[i][j]); 
+if(temp>maxtmp)
+maxtmp=temp;
+}
+	}
+return maxtmp;
+} 
+
+writeoutput()		/*************************************************/
+{
+printf("\n Iteration :%d",iter);
+printf("\n------------------------------------------------------------------");
+printf("\n Block no.\tClass 1\t\tClass 2\t\tClass 3"); 
+printf("\n------------------------------------------------------------------"); 
+
+for(j=0;j<n;j++) {
+printf("\n%6d\t\t%lf\t%lf\t%lf",j+1,u[0][j],u[1][j],u[2][j]); 
+}
+printf("\n------------------------------------------------------------------");
+for(k=0;k<c;k++) {
+for(j=0;j<dim;j++){ 
+printf("\n v[%d,%d]=%lf",k+1,j+1,v[k][j]);
+} 
+}
+}
+
+Displayresult()		/*************************************************/
+{
+if((outfile=fopen("attrib.out","w"))==NULL){ 
+printf("\n Can not write attrib.out file.\n"); 
+exit(1); 
+} 
+
+fprintf(outfile,"\n----------------------------------------------------------------");
+fprintf(outfile,"\n Block no.\tMean\tClass 1\t\tClass 2\t\tClass 3"); 
+fprintf(outfile,"\n----------------------------------------------------------------");
+
+for(j=0;j<n;j++) {
+fprintf(outfile,"\n%6d\t\t%6.2lf\t%lf\t%lf\t%lf",j+1,x[j][0],u[0][j],u[1][j],u[2][j]); 
+}
+
+fprintf(outfile,"\n----------------------------------------------------------------");
+}
+
+Segmentation()		/*************************************************/
+{
+FILE *segment,*seg2txt;
+double maxtmp;
+int winner,tmp1,tmp2,smooth[SMT][SMT],smtcol,smtrow;
+printf("\n Please enter the output file.ppm :");
+scanf("%s",outf);
+
+if((segment=fopen(outf,"w"))==NULL){ 
+printf("\n Can not write %s file.\n",outf); 
+exit(1); 
+} 
+
+/** Write segmentation result to result.ppm file **/
+fprintf(segment,"P3\n#This result was applied using FCM Algorithm\n");
+fprintf(segment,"%d %d\n%d",col,row,level);		/** End **/
+
+/** Write segmentation result to seg2txt.dat file **/
+smtcol=smtrow=-1;
+for(j=0;j<=n;j++){
+maxtmp=0.0;
+winner=0;
+for(i=0;i<c;i++){
+if(u[i][j]>maxtmp){
+maxtmp=u[i][j];
+winner=i;
+}
+}
+if(j%6==0) fprintf(segment,"\n");
+if(j%col==0){
+smtrow++;
+smtcol=0;
+}
+else smtcol++;
+
+switch (winner) {
+case 0 : fprintf(segment,"255 0 0 ");
+smooth[smtrow][smtcol]=0; break;
+case 1 : fprintf(segment,"0 255 0 ");
+smooth[smtrow][smtcol]=1; break;
+case 2 : fprintf(segment,"0 0 255 ");
+smooth[smtrow][smtcol]=2; break;
+}
+}
+fclose(segment);
+Smoothing(smooth);
+}
+
+Smoothing(int smooth[SMT][SMT])	/*************************************************/
+{
+FILE *result;
+int ii,kk,jj,ll;
+
+/* We will use rowscan & columnscan to eliminate some pel. This section we have image size row x col. Matrix smooth have 2 type it's 0,1,2 From Calculation...We got..
+Region[0]=IMage Area
+Region[1]=Text Area
+Region[2]=Background Area */		
+
+for(ii=0;ii<row;ii++){					/* scan each row */
+for(jj=0;jj<col-2;jj++){
+if((smooth[ii][jj]==smooth[ii][jj+2]))	 /**** 101=>111 ****/
+if(smooth[ii][jj]!=smooth[ii][jj+1]) 
+smooth[ii][jj+1]=smooth[ii][jj];
+if(smooth[ii][jj]==Region[0])		/**** 012=>002 if 1=text,0=image,2=background ****/
+if(smooth[ii][jj+1]==Region[1])
+smooth[ii][jj+1]=Region[0];
+if(smooth[ii][jj+2]==Region[0])
+if(smooth[ii][jj+1]==Region[1])
+smooth[ii][jj+1]=Region[0];
+}
+	}
+for(ii=0;ii<col;ii++){					/* scan each column */
+for(jj=0;jj<row-2;jj++){
+if((smooth[jj][ii]==smooth[jj+2][ii])) 	/**** 101=>111 ****/
+if(smooth[jj][ii]!=smooth[jj+1][ii])
+smooth[jj+1][ii]=smooth[jj][ii];
+if(smooth[jj][ii]==Region[0]) 	/**** 012=>002 if 1=text,0=image,2=background ****/
+if(smooth[jj+1][ii]==Region[1])
+smooth[jj+1][ii]=Region[0];
+if(smooth[jj+2][ii]==Region[0])
+if(smooth[jj+1][ii]==Region[1])
+smooth[jj+1][ii]=Region[0];
+}
+	}
+
+if((result=fopen("result.ppm","w"))==NULL){	 /* Open file to write data to final image result */
+printf("\n Can not write result.ppm file.\n"); 
+exit(1); 
+}
+
+/** Write segmentation result to result.ppm file **/
+fprintf(result,"P3\n#This result was applied using FCM Algorithm\n");
+fprintf(result,"%d %d\n%d",winsize*col,winsize*row,level);
+printf("\n level=%d",level);
+//we can apply this section for the real image file in the same size.../** End **/
+
+for(i=0;i<row;i++){			/** Generate file result.ppm **/
+for(ii=0;ii<winsize;ii++){ 
+fprintf(result,"\n");
+for(j=0;j<col;j++){
+for(jj=0;jj<winsize;jj++){
+switch (smooth[i][j]) {
+case 0 : fprintf(result,"255 0 0 ");break;
+case 1 : fprintf(result,"0 255 0 ");break;
+case 2 : fprintf(result,"0 0 255 ");break;
+}
+}
+}
+		}
+	}
+fclose(result);
+}
+
+SegmentSmooth(int smooth[SMT][SMT])		/***************************************/
+{
+FILE *result;
+int ii,kk,jj,ll,winsize,tempcol,temprow;
+int sum[C],winner,maxtmp;
+printf("\n Please enter smooth window size :");
+scanf("%d",&winsize);								// winsize=WINSIZE;
+
+if((result=fopen("result.ppm","w"))==NULL){ 
+printf("\n Can not write result.ppm file.\n"); 
+exit(1); 
+} 
+
+/** Write segmentation result to result.ppm file **/
+fprintf(result,"P3\n#This result was applied using FCM Algorithm\n");
+fprintf(result,"%d %d\n%d",col,row,level);
+//we can apply this section for the real image file in the same size.../** End **/
+
+temprow=(int) row/winsize;
+tempcol=(int) col/winsize;
+
+for(ii=0;ii<temprow;ii++){
+for(jj=0;jj<tempcol;jj++){ 
+for(kk=0;kk<c;kk++) sum[kk]=0;
+for(kk=winsize*ii;kk<winsize*ii+winsize;kk++){
+for(ll=winsize*jj;ll<winsize*jj+winsize;ll++){
+sum[smooth[kk][ll]]++;
+} 
+}
+
+maxtmp=winner=0;
+for(kk=0;kk<c;kk++){
+if(sum[kk]>maxtmp){
+maxtmp=sum[kk];
+winner=kk;
+}
+			}
+
+for(kk=winsize*ii;kk<winsize*ii+winsize;kk++){
+for(ll=winsize*jj;ll<winsize*jj+winsize;ll++){
+smooth[kk][ll]=winner;
+} 
+}
+	}
+	}
+
+for(i=0;i<row;i++){						/** Generate file result.ppm **/
+fprintf(result,"\n");
+for(j=0;j<col;j++){
+switch (smooth[i][j]) {
+case 0 : fprintf(result,"255 0 0 ");break;
+case 1 : fprintf(result,"0 255 0 ");break;
+case 2 : fprintf(result,"0 0 255 ");break;
+}
+}
+	}
+fclose(result);
+}
+
+SetRGBarea(int color,int area)		/*************************************************/
+{
+int ii,jj;
+
+switch(color){
+case 0 :switch(area){
+case 0 :for(jj=20;jj<80;jj++)
+for(ii=50;ii<100;ii++){
+rtmp[ii][jj]=255;
+gtmp[ii][jj]=0;
+btmp[ii][jj]=0;
+};break;
+case 1 :for(jj=20;jj<80;jj++)
+for(ii=120;ii<170;ii++){
+rtmp[ii][jj]=255;
+gtmp[ii][jj]=0;
+btmp[ii][jj]=0;
+};break;
+case 2 :for(jj=20;jj<80;jj++)
+for(ii=190;ii<240;ii++){
+rtmp[ii][jj]=255;
+gtmp[ii][jj]=0;
+btmp[ii][jj]=0;
+};break;
+}; break;
+case 1 :switch(area){
+case 0 :for(jj=20;jj<80;jj++)
+for(ii=50;ii<100;ii++){
+rtmp[ii][jj]=0;
+gtmp[ii][jj]=255;
+btmp[ii][jj]=0;
+};break;
+case 1 :for(jj=20;jj<80;jj++)
+for(ii=120;ii<170;ii++){
+rtmp[ii][jj]=0;
+gtmp[ii][jj]=255;
+btmp[ii][jj]=0;
+};break;
+case 2 :for(jj=20;jj<80;jj++)
+for(ii=190;ii<240;ii++){
+rtmp[ii][jj]=0;
+gtmp[ii][jj]=255;
+btmp[ii][jj]=0;
+};break;
+}; break;
+case 2 :switch(area){
+case 0 :for(jj=20;jj<80;jj++)
+for(ii=50;ii<100;ii++){
+rtmp[ii][jj]=0;
+gtmp[ii][jj]=0;
+btmp[ii][jj]=255;
+};break;
+case 1 :for(jj=20;jj<80;jj++)
+for(ii=120;ii<170;ii++){
+rtmp[ii][jj]=0;
+gtmp[ii][jj]=0;
+btmp[ii][jj]=255;
+};break;
+case 2 :for(jj=20;jj<80;jj++)
+for(ii=190;ii<240;ii++){
+rtmp[ii][jj]=0;
+gtmp[ii][jj]=0;
+btmp[ii][jj]=255;
+};break;
+}; break;
+		}
+}
+}
+
+SetAnswer()				/*************************************************/
+{
+FILE *answer;
+int ii,jj,kk;
+int pel,allpel,chkheader=0,colans,rowans,levelans;
+int chkclass[10],tmpcol;
+double tmpval[10],tmpcl;
+char tmpchar;
+
+if((answer=fopen("answer.ppm","r"))==NULL){ 
+printf("\n Can not write answer.ppm file.\n"); 
+exit(1); 
+} 
+
+for(ii=0;ii<c;ii++){
+chkclass[ii]=ii;
+tmpval[ii]=v[ii][0];
+}
+
+while(chkheader!=2){
+fscanf(answer,"%c",&tmpchar);
+if(tmpchar=='\n') chkheader++;
+}
+
+fscanf(answer,"%d%d%d",&colans,&rowans,&levelans); 	/** Read header answer.ppm file **/
+pel=0;
+allpel=colans*rowans;
+ii=jj=0; 
+
+while(pel!=allpel+1) { 
+fscanf(answer,"%d%d%d",&rtmp[ii][jj],&gtmp[ii][jj],&btmp[ii][jj]); 
+jj++;
+if(jj==colans){
+ii++;
+jj=0;
+}
+pel++;
+} 
+fclose(answer);
+
+if((answer=fopen("answer.ppm","wt"))==NULL) { 
+printf("\n Can not write answer.ppm file.\n"); 
+exit(1); 
+} 
+
+/** Write segmentation result to result.ppm file **/
+fprintf(answer,"P3\n#This result of the color in the result image.\n");
+fprintf(answer,"%d %d\n%d\n",colans,rowans,levelans); 					/** End **/
+
+for(ii=0;ii<c;ii++){
+for(jj=ii+1;jj<c;jj++){
+if(tmpval[ii]>tmpval[jj]){
+tmpcl=tmpval[ii];
+tmpval[ii]=tmpval[jj];
+tmpval[jj]=tmpcl;
+tmpcol=chkclass[ii];
+chkclass[ii]=chkclass[jj];
+chkclass[jj]=tmpcol;
+}
+		}
+	}
+
+for(ii=0;ii<c;ii++){
+Region[ii]=chkclass[ii];
+printf("\n chkclass %d=%d,center=%lf",ii,chkclass[ii],tmpval[ii]); 
+}
+
+printf("\n Result color : Image, Text, Background is ");
+
+for(kk=0;kk<c;kk++){
+switch(chkclass[kk]){
+case 0 : SetRGBarea(chkclass[kk],kk);
+printf(" Red ");
+break;
+case 1 : SetRGBarea(chkclass[kk],kk);
+printf(" Green ");
+break;
+case 2 : SetRGBarea(chkclass[kk],kk);
+printf(" Blue ");
+break;
+}
+	}
+	printf(" respectively.\n");
+
+for(ii=0;ii<rowans;ii++){
+fprintf(answer,"\n");
+for(jj=0;jj<colans;jj++){
+fprintf(answer,"%d %d %d ",rtmp[ii][jj],gtmp[ii][jj],btmp[ii][jj]); 
+	}
+}
+fclose(answer);
+}
+
+Finaloutput()		/*************************************************/
+{
+FILE *ans;
+char filename[20];
+printf("\n Please enter the final result file name :");
+scanf("%s",filename);
+
+if((ans=fopen(filename,"wt"))==NULL) { 
+printf("\n Can not write answer.ppm file.\n"); 
+exit(1); 
+} 
+
+fprintf(ans,"This is segmentation result of %s",outf);
+fprintf(ans,"\n ----------------------------------------------------");
+fprintf(ans,"\n This calculation use :");
+fprintf(ans,"\n\t\t- window size %d x %d pels",winsize,winsize);
+fprintf(ans,"\n\t\t- weighting exponent m = %lf",m);
+fprintf(ans,"\n\t\t- iteration tolerance = %20.16lf",tolerance);
+fprintf(ans,"\n\t\t- %d iterations",iter);
+fprintf(ans,"\n\t\t- Center of cluster of %d classes:",c);
+
+for(i=0;i<c;i++){
+fprintf(ans,"\n\t\t\tcluster %d = [%lf,%lf]",i+1,v[i][0],v[i][1]);
+fprintf(ans,"\n\n Result color : Image, Text, Background is ");
+for(i=0;i<c;i++){
+switch(Region[i]){
+case 0 : SetRGBarea(Region[i],i);
+fprintf(ans," Red ");
+break;
+case 1 : SetRGBarea(Region[i],i);
+fprintf(ans," Green ");
+break;
+				case 2 : SetRGBarea(Region[i],i);
+fprintf(ans," Blue ");
+break;
+}
+}
+fprintf(ans," respectively.\n");
+fprintf(ans,"\n You can get the data file :");
+fprintf(ans,"\n\t- attrib.dat = the file after [mean,sd] calculation");
+fprintf(ans,"\n\t- attrib.out = the file after using FCM clustering");
+fprintf(ans,"\n\t- result.ppm = the result image file");
+fprintf(ans,"\n\t- answer.ppm = the answer image file each region");
+fprintf(ans,"\n ----------------------------------------------------");
+fclose(ans);
+}
+}
+
+main()		/*************************************************/
+{
+iter=1;
+readdata();
+inputdata();
+initMatrixU();
+
+do {
+UpdateU(); 
+Calclustercenter();
+Caldistance();
+FCM();
+error=checknormU();
+printf("\nIteration :%4d, error=%20.15lf",iter,error);
+iter++;
+}while(error>tolerance);
+
+writeoutput(); 
+printf("\n n=%d, c=%d, tol=%lf, m=%lf,iter=%d",n,c,tolerance,m,iter-1); 
+
+Displayresult();
+SetAnswer();
+Segmentation();
+Finaloutput();
+
+fclose(infile);
+fclose(outfile);
+
+system("gimp result.ppm answer.ppm &");
+printf("\n");
+}

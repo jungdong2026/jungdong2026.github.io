@@ -1,0 +1,489 @@
+﻿
+/********************************************************************
+*                                                                   *
+*                           SUBBAND FILTERING                       *
+*                                                                   *
+*                                                                   *
+*********************************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <conio.h>
+
+char in_name[20],out_name1[20],out_name2[20];
+int height,width,select,repeat;
+long hw;
+unsigned char* origin,* image,* en_image;
+int* image1;
+double* data,* process;
+
+static int H[2][4]={
+	{ -1,  3,  3, -1},
+	{  1, -3,  3, -1}};
+
+
+static int G[2][4]={
+	{  1,  3,  3,  1},
+	{  1,  3, -3, -1}};
+
+
+void read_image();
+void Subband();
+void Inv_Subband();
+void Filtering(int);
+void Inv_Filtering(int);
+void Make_image();
+void Equal(int,int,int,int);
+void out_image();
+void Inv_out_image();
+void Exitprog();
+
+
+/**********************************************************
+*                                                         *
+*               Reading original image file               *
+*                                                         *
+***********************************************************/
+
+void read_image()
+{
+	FILE* infile;
+
+	while(1){
+		printf(" What do you want? \n");
+		printf("\t 1. Subband Trasnformation ----------> 1 \n");
+		printf("\t 2. Subband Inver Transformation ----> 2 \n");
+		printf(" Choose One : ");
+		scanf("%d",&select);
+		if(select==1 || select==2) break;
+		else printf("\n Your choice is Wrong!!! Choose again!!!");
+	}
+
+	switch(select){
+		case 1:
+			printf("\n Enter the original image file name : ");
+			scanf("%s",in_name);
+			if((infile=fopen(in_name,"rb"))==NULL){
+				printf("\n %s file not found \n",in_name);
+				printf(" Press any key!!!");
+				getch();
+				exit(-1);
+			}
+
+			printf(" Enter the transformed Data file name : ");
+			scanf("%s",out_name1);
+
+			printf(" Enter the transformed Image file name : ");
+			scanf("%s",out_name2);
+
+			printf("\n How many repeat : ");
+			scanf("%d",&repeat);
+
+			fread (&height,sizeof(int),1,infile);
+			fread (&width,sizeof(int),1,infile);
+			hw=height*width;
+
+			origin=(unsigned char*)calloc(hw,sizeof(char));
+			image=(unsigned char*)calloc(hw,sizeof(char));
+			en_image=(unsigned char*)calloc(hw,sizeof(char));
+			image1=(int*)calloc(hw,sizeof(int));
+			data=(double*)calloc(hw,sizeof(double));
+
+			fread (origin,sizeof(char),hw,infile);
+			break;
+
+		case 2:
+			int select1;
+			printf("\n Enter the Transformed image file name : ");
+			scanf("%s",in_name);
+			if((infile=fopen(in_name,"rb"))==NULL){
+				printf("\n %s file not found \n",in_name);
+				printf(" Press any key!!!");
+				getch();
+				exit(-1);
+			}
+
+			while(1){
+				printf("\n Which type is int or double? \n");
+				printf("\t 1. Int -------> 1 \n");
+				printf("\t 2. Double ----> 2 \n");
+				printf(" Choose One : ");
+				scanf("%d",&select1);
+				if(select1==1 || select1==2) break;
+				else printf("\n Your choice is Wrong!!! Choose again!!!");
+			}
+
+			printf("\n Enter the Inverse transformed image file name : ");
+			scanf("%s",out_name1);
+
+			fread (&height,sizeof(int),1,infile);
+			fread (&width,sizeof(int),1,infile);
+			fread (&repeat,sizeof(int),1,infile);
+			hw=height*width;
+
+			image=(unsigned char*)calloc(hw,sizeof(char));
+			data=(double*)calloc(hw,sizeof(double));
+			image1=(int*)calloc(hw,sizeof(int));
+
+			if(select1==1){
+				fread (image1,sizeof(int),hw,infile);
+				for(int i=0;i<hw;i++) data[i]=(double)image1[i];
+			}
+			else fread (data,sizeof(double),hw,infile);
+	}
+	fcloseall();
+}
+
+
+/**********************************************************
+*                                                         *
+*                         Subband                         *
+*                                                         *
+***********************************************************/
+
+void Subband()
+{
+	int i,grad=width;
+
+	for(i=0;i<hw;i++) data[i]=(double)origin[i];
+
+	for(i=0;i<repeat;i++){
+		Filtering(grad);
+		printf("\n ... %2dth process ended...",i+1);
+		grad/=2;
+	}
+	Make_image();
+	grad=width;
+	for(i=0;i<repeat;i++){
+		Equal(0,grad/2,grad/2,grad);
+		Equal(grad/2,grad,0,grad/2);
+		Equal(grad/2,grad,grad/2,grad);
+		grad/=2;
+	}
+}
+
+
+void Inv_Subband()
+{
+	int i,grad;
+
+	grad=(int)(width/pow(2,repeat-1));
+
+	for(i=0;i<repeat;i++){
+		Inv_Filtering(grad);
+		printf("\n ... %2dth process ended...",i+1);
+		grad*=2;
+	}	
+	Make_image();	
+}
+
+
+/**********************************************************
+*                                                         *
+*                         Filtering                       *
+*                                                         *
+***********************************************************/
+
+void Filtering(int size)
+{
+	int i,j,m,i1,j1;
+	int c_l,c_h;
+	double sum_l,sum_h;
+	double* temp;
+	
+	temp=(double*)calloc(size*size,sizeof(double));
+	
+	for(i=0;i<size;i++){
+		for(j=0;j<size;j++){
+			temp[i*size+j]=data[i*width+j];
+		}
+	}
+	for(i=0;i<size;i++){
+		c_l=0;
+		c_h=(int)(size/2);
+		for(j=0;j<size;j++){
+			sum_l=0.0;
+			sum_h=0.0;
+			if(j%2==0){
+				for(m=-3;m<1;m++){
+					j1=j+m;
+					if(j1<0) j1=size+j1;
+					sum_l+=(double)temp[i*size+j1]*H[0][-m];
+					sum_h+=(double)temp[i*size+j1]*H[1][-m];
+				}
+				data[i*width+c_l]=(double)sum_l/4;
+				data[i*width+c_h]=(double)sum_h/4;
+				c_l++;
+				c_h++;
+			}	
+		}		
+	}
+
+	for(i=0;i<size;i++){
+		for(j=0;j<size;j++){
+			temp[i*size+j]=data[i*width+j];
+		}
+	}	
+	for(j=0;j<size;j++){
+		c_l=0;
+		c_h=(int)size/2;
+		for(i=0;i<size;i++){
+			sum_l=0.0;
+			sum_h=0.0;
+			if(i%2==0){
+				for(m=-3;m<1;m++){
+					i1=i+m;
+					if(i1<0) i1=size+i1;
+					sum_l+=(double)temp[i1*size+j]*H[0][-m];
+					sum_h+=(double)temp[i1*size+j]*H[1][-m];
+				}
+				data[c_l*width+j]=(double)sum_l/4;
+				data[c_h*width+j]=(double)sum_h/4;
+				c_l++;
+				c_h++;
+			}
+		}
+	}
+	free(temp);
+}
+
+
+void Inv_Filtering(int size)
+{
+	int i,j,m,i1,j1;
+	int c_l,c_h;
+	double sum_l,sum_h;
+	double* temp_l,* temp_h;
+
+	temp_l=(double*)calloc(size*size,sizeof(double));
+	temp_h=(double*)calloc(size*size,sizeof(double));
+
+	for(j=0;j<size;j++){
+		c_l=0;
+		c_h=(int)size/2;
+		for(i=0;i<size;i++){
+			if(i%2==0){
+				temp_l[i*size+j]=data[c_l*width+j];
+				temp_h[i*size+j]=data[c_h*width+j];
+				c_l++;
+				c_h++;
+			}
+			else{
+				temp_l[i*size+j]=0.0;
+				temp_h[i*size+j]=0.0;
+			}
+		}
+	}
+	for(j=0;j<size;j++){
+		for(i=0;i<size;i++){
+			sum_l=0.0;
+			sum_h=0.0;
+			for(m=0;m<4;m++){
+				i1=i+m;1;
+				if(i1>size-1) i1-=size;				
+				sum_l+=(double)temp_l[i1*size+j]*G[0][3-m];
+				sum_h+=(double)temp_h[i1*size+j]*G[1][3-m];
+			}
+			data[i*width+j]=(double)(sum_l+sum_h)/4.0;
+		}		
+	}
+
+	for(i=0;i<size;i++){
+		c_l=0;
+		c_h=(int)size/2;
+		for(j=0;j<size;j++){
+			if(j%2==0){
+				temp_l[i*size+j]=data[i*width+c_l];
+				temp_h[i*size+j]=data[i*width+c_h];
+				c_l++;
+				c_h++;
+			}
+			else{
+				temp_l[i*size+j]=0.0;
+				temp_h[i*size+j]=0.0;
+			}
+		}
+	}	
+	for(i=0;i<size;i++){
+		for(j=0;j<size;j++){
+			sum_l=0.0;
+			sum_h=0.0;
+			for(m=0;m<4;m++){
+				j1=j+m;
+				if(j1>size-1) j1-=size;
+				sum_l+=(double)temp_l[i*size+j1]*G[0][3-m];
+				sum_h+=(double)temp_h[i*size+j1]*G[1][3-m];
+			}
+			data[i*width+j]=(double)(sum_l+sum_h)/4.0;
+		}		
+	}
+
+	free(temp_l);
+	free(temp_h);
+}
+
+
+/**********************************************************
+*                                                         *
+*                       Make Image                        *
+*        (double형의 데이터를 영상 데이터로 변형)         *
+***********************************************************/
+
+void Make_image()
+{
+	int i;
+
+	for(i=0;i<hw;i++){
+		image1[i]=(int)(data[i]+0.5);
+		if(image1[i]>255) image[i]=(unsigned char) 255;
+		else if(image1[i]<0) image[i]=(unsigned char) 0;
+		else image[i]=(unsigned char) image1[i];
+		if(select==1) en_image[i]=image[i];
+	}	
+}
+
+
+/**********************************************************
+*                                                         *
+*                   Enhancement Data                      *
+*         (고주파 영역의 히스토그램을 확장한 영상)        *
+***********************************************************/
+
+void Equal(int x1,int x2,int y1,int y2)
+{
+	int i,j,maxv,minv,imsi;
+	double ran;
+	maxv=0;
+	minv=255;
+
+	for(i=x1;i<x2;i++){
+		for(j=y1;j<y2;j++){
+			if(image[i*width+j]>maxv) maxv=image[i*width+j];
+			if(image[i*width+j]<minv) minv=image[i*width+j];
+			en_image[i*width+j]=(unsigned char)image[i*width+j];
+		}
+	}
+
+	ran=(double)255.0/(maxv-minv);
+	for(i=x1;i<x2;i++){
+		for(j=y1;j<y2;j++){
+			imsi=(int)((image[i*width+j]-minv)*ran+0.5);
+			if(imsi<0) en_image[i*width+j]=(unsigned char)0;
+			else if(imsi>255) en_image[i*width+j]=(unsigned char)255;
+			else en_image[i*width+j]=(unsigned char)imsi;
+		}
+	}
+}
+
+
+/**********************************************************
+*                                                         *
+*                        out file                         *
+*                 (Error Image 화일 출력)                 *
+***********************************************************/
+
+void out_image()
+{
+	FILE* outfile1,* outfile2,* outfile3,* outfile4;
+	char out_name3[20],out_name4[20];
+
+	if((outfile1=fopen(out_name1,"wb"))==NULL){
+		printf("\n %s file not found \n",out_name1);
+		exit(-1);
+	}
+
+	if((outfile2=fopen(out_name2,"wb"))==NULL){
+		printf("\n %s file not found \n",out_name2);
+		exit(-1);
+	}
+
+	sprintf(out_name3,"int_%s",out_name1);
+	if((outfile3=fopen(out_name3,"wb"))==NULL){
+		printf("\n %s file not found \n",out_name3);
+		exit(-1);
+	}
+
+	sprintf(out_name4,"en_%s",out_name2);
+	if((outfile4=fopen(out_name4,"wb"))==NULL){
+		printf("\n %s file not found \n",out_name4);
+		exit(-1);
+	}
+
+	fwrite (&height,4,1,outfile1);
+	fwrite (&width,4,1,outfile1);
+	fwrite (&repeat,4,1,outfile1);
+	fwrite (data,sizeof(double),hw,outfile1);
+
+	fwrite (&height,4,1,outfile2);
+	fwrite (&width,4,1,outfile2);
+	fwrite (image,1,hw,outfile2);
+
+	fwrite (&height,4,1,outfile3);
+	fwrite (&width,4,1,outfile3);
+	fwrite (&repeat,4,1,outfile3);
+	fwrite (image1,sizeof(int),hw,outfile3);
+
+	fwrite (&height,4,1,outfile4);
+	fwrite (&width,4,1,outfile4);
+	fwrite (en_image,1,hw,outfile4);
+
+	fcloseall();
+	Exitprog();
+}
+
+void Inv_out_image()
+{
+	FILE* outfile;
+
+	if((outfile=fopen(out_name1,"wb"))==NULL){
+		printf("\n %s file not found \n",out_name1);
+		exit(-1);
+	}
+
+	fwrite (&height,4,1,outfile);
+	fwrite (&width,4,1,outfile);
+	fwrite (image,1,hw,outfile);
+
+	fcloseall();
+	Exitprog();
+}
+
+
+/**********************************************************
+*                                                         *
+*                      Exit Program                       *
+*                  (Memory를 free하게 함)                 *
+***********************************************************/
+
+void Exitprog()
+{
+	free(origin);
+	free(image);
+	free(data);
+	printf("\n\n Memory Free...\n");
+}
+
+
+/**********************************************************
+*                                                         *
+*                      MAIN function                      *
+*                                                         *
+***********************************************************/
+
+void main()
+{
+	printf(" *** This program is Subband filtering ***\n\n");
+	read_image();
+	if(select==1){
+		Subband();
+		out_image();
+	}
+	if(select==2){		
+		Inv_Subband();
+		Inv_out_image();
+	}
+	printf("\n This program ended successfully!!\n");
+	printf(" Press any key!!!");
+	getch();
+}

@@ -1,0 +1,334 @@
+/********************************************************  
+*                                                       *
+*      Highpass filtering using unsharp mask.           *
+*                                                       *
+*                                                       *
+********************************************************/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <malloc.h>
+#include <graph.h>
+
+enum boolen {FALSE,TRUE};
+unsigned char original[256][256];     /* original image */
+unsigned char degraded[256][256];     /* degraded image */
+unsigned char result[256][256];       /* processed image */
+unsigned char blur[256][256];         /* result image of the unsharp filter */
+unsigned char o_linedata[256];        /* line data of the original image */
+unsigned char d_linedata[256];        /* line data of the degraded image */
+unsigned char p_linedata[256];        /* line data of the processed image */
+float b[5][5];                        /* unsharp operator */
+
+
+
+void getname(char *a, char *b)
+{
+     printf("%s", a);
+     scanf("%s",  b);
+}
+
+
+int geti(char *a)
+{
+     int b;
+
+     printf("%s", a);
+     scanf("%d", &b);
+     return(b);
+}
+
+
+void display(int count)
+{
+     if(count%50<25)  
+        switch(count%4){
+              case 0: printf("\\ %3d)th line processed !!! \\\r", count);
+                      break;
+              case 1: printf("?%3d)th line processed !!! ?r", count);      /* ascii code 179 */
+                      break;
+              case 2: printf("/ %3d)th line processed !!! /\r", count);
+                      break;
+              case 3: printf("?%3d)th line processed !!! ?r", count);      /* ascii code 196 */
+                      break;
+        }
+     else
+        switch(count%4){
+              case 0: printf("\\ %3d)th line processed !!! \\\r", count);
+                      break;
+              case 1: printf("?%3d)th line processed !!! ?r", count);      /* ascii code 196 */
+                      break;
+              case 2: printf("/ %3d)th line processed !!! /\r", count);
+                      break;
+              case 3: printf("?%3d)th line processed !!! ?r", count);      /* ascii code 179 */
+                      break;
+        }
+}
+
+
+
+/*********************************************** 
+*                                              *
+*     Reading original and degraded image.     *
+*                                              *
+***********************************************/
+
+void read_image()
+{
+     int i1,i2,datum;
+     char in_name1[21],in_name2[21];
+     FILE *infile1,*infile2;
+
+     getname("\nEnter name of the original image ( filename.img ) : ", in_name1);
+     getname("\nEnter name of the degraded image ( filename.img ) : ", in_name2);
+     if((infile1=fopen(in_name1,"rb"))==NULL){
+        puts("\n\aError from reading file !!");
+        exit(0);
+     }
+     for(i1=0;i1<70;i1++)
+        fscanf(infile1,"%c",&datum);
+     puts("\n\nReading original image ...");
+     for(i2=0;i2<256;i2++)
+        for(i1=0;i1<256;i1++){
+           fscanf(infile1,"%c",&original[i1][i2]);
+           if(i1==128)  o_linedata[i2]=original[i1][i2];
+        }
+     if((infile2=fopen(in_name2,"rb"))==NULL){
+        puts("\n\aError from reading file !!");
+        exit(0);
+     }
+     for(i1=0;i1<70;i1++)
+        fscanf(infile2,"%c",&datum);
+     puts("\nReading degraded image ...\n");
+     for(i2=0;i2<256;i2++)
+        for(i1=0;i1<256;i1++){
+           fscanf(infile2,"%c",&degraded[i1][i2]);
+           if(i1==128)  d_linedata[i2]=degraded[i1][i2];
+        }
+     fcloseall();
+}
+
+
+
+
+
+/************************************************* 
+*                                                *
+*     Highpass filtering using unsharp mask.     *
+*                                                *
+*************************************************/
+
+void unsharp()
+{
+     int i1,i2,i11,i22,d1,d2,g;
+
+     puts("\n\nLowpass filtering ...\n");
+     for(i2=0;i2<256;i2++){
+        for(i1=0;i1<256;i1++){
+           if(i1<2)  i11=2;
+           else if(i1>253)  i11=253;
+           else  i11=i1;
+           if(i2<2)  i22=2;
+           else if(i2>253)  i22=253;
+           else  i22=i2;
+           g=0;
+           for(d2=4;d2>-1;d2--)
+              for(d1=4;d1>-1;d1--)
+                 g+=b[d1][d2]*degraded[i11+2-d1][i22+2-d2];
+           blur[i1][i2]=(unsigned char)g;
+        }
+        display(i2);
+     }
+}
+
+
+void highpass()
+{
+     int i1,i2,g;
+     unsigned char datum;
+     char out_name[21];
+     FILE *infile,*outfile;
+
+     getname("\n\nEnter name of output file ( filename.hig ) : ", out_name);
+     if((outfile=fopen(out_name,"wb"))==NULL){
+        printf("Error: File creation error !!\n");
+        exit(0);
+     }
+     if((infile=fopen("jaguar.img","rb"))==NULL){
+        puts("\n\aError from reading file !!");
+        exit(0);
+     }
+     for(i1=0;i1<70;i1++){
+        fscanf(infile,"%c",&datum);
+        fprintf(outfile,"%c",datum);
+     }
+     puts("\nHighpass filtering by using unsharped image ...\n");
+     for(i2=0;i2<256;i2++){
+        for(i1=0;i1<256;i1++){
+           g=3.0*degraded[i1][i2]-2.0*blur[i1][i2];
+           if(g<0)  g=0;
+           if(g>255)  g=255;
+           fprintf(outfile,"%c",g);
+           if(i1==128)  p_linedata[i2]=(unsigned char)g;
+        }
+        display(i2);
+     }
+     fcloseall();    
+}
+
+
+
+
+/************************************* 
+*                                    *
+*       Drawing error value.         *
+*                                    *
+*************************************/
+
+void draw_error()
+{
+     int i1,data;
+     static int MAX,MIN;
+
+     _setvideomode(_VRES16COLOR);
+     _setbkcolor(15);
+     _rectangle(_GBORDER,140,20,630,170);
+     _rectangle(_GBORDER,140,215,630,315);
+     _rectangle(_GBORDER,140,360,630,460);
+
+     MAX=0;
+     MIN=255;
+     _setwindow(TRUE,0,0,255,265);
+     _setviewport(141,21,629,169);
+     _moveto_w(0,0);
+     _setcolor(13);
+     for(i1=0;i1<256;i1++){
+        data=p_linedata[i1];
+        MAX=max(data,MAX);
+        MIN=min(data,MIN);
+        _lineto_w(i1,data);
+     }
+     _moveto_w(0,MAX);
+     _setcolor(9);
+     for(i1=0;i1<256;i1+=2)
+        _setpixel_w(i1,MAX);
+     _moveto_w(0,MIN);
+     _setcolor(9);
+     for(i1=0;i1<256;i1+=2)
+        _setpixel_w(i1,MIN);
+     _settextposition(5,3);
+     printf("MAX=%3d",MAX);
+     _settextposition(8,3);
+     printf("MIN=%3d",MIN);
+     _settextposition(2,15);
+     _outtext("265");
+     _settextposition(12,17);
+     _outtext("0");
+     _settextposition(12,78);
+     _outtext("255");
+     _settextposition(12,40);
+     _outtext("Processed image");
+
+     MAX=0;
+     MIN=255;
+     _setwindow(TRUE,0,-150,255,150);
+     _setviewport(141,216,629,314);
+     _moveto_w(0,0);
+     _lineto_w(255,0);
+     _moveto_w(0,0);
+     _setcolor(12);
+     for(i1=0;i1<256;i1++){
+        data=o_linedata[i1]-p_linedata[i1];
+        MAX=max(data,MAX);
+        MIN=min(data,MIN);
+        _lineto_w(i1,data);
+     }
+     _moveto_w(0,MAX);
+     _setcolor(14);
+     for(i1=0;i1<256;i1+=2)
+        _setpixel_w(i1,MAX);
+     _moveto_w(0,MIN);
+     _setcolor(14);
+     for(i1=0;i1<256;i1+=2)
+        _setpixel_w(i1,MIN);
+     _settextposition(16,3);
+     printf("MAX=%3d",MAX);
+     _settextposition(19,3);
+     printf("MIN=%3d",MIN);
+     _settextposition(14,15);
+     _outtext("150");
+     _settextposition(20,14);
+     _outtext("-150");
+     _settextposition(21,19);
+     _outtext("0");
+     _settextposition(21,78);
+     _outtext("255");
+     _settextposition(21,32);
+     _outtext("Error value of the proecssed image");
+     
+     MAX=0;
+     MIN=255;
+     _setwindow(TRUE,0,-150,255,150);
+     _setviewport(141,361,629,459);
+     _moveto_w(0,0);
+     _lineto_w(255,0);
+     _moveto_w(0,0);
+     _setcolor(2);
+     for(i1=0;i1<256;i1++){
+        data=o_linedata[i1]-d_linedata[i1];
+        MAX=max(data,MAX);
+        MIN=min(data,MIN);
+        _lineto_w(i1,data);
+     }
+     _moveto_w(0,MAX);
+     _setcolor(4);
+     for(i1=0;i1<256;i1+=2)
+        _setpixel_w(i1,MAX);
+     _moveto_w(0,MIN);
+     _setcolor(4);
+     for(i1=0;i1<256;i1+=2)
+        _setpixel_w(i1,MIN);
+     _settextposition(25,3);
+     printf("MAX=%3d",MAX);
+     _settextposition(28,3);
+     printf("MIN=%3d",MIN);
+     _settextposition(23,15);
+     _outtext("150");
+     _settextposition(29,14);
+     _outtext("-150");
+     _settextposition(30,19);
+     _outtext("0");
+     _settextposition(30,78);
+     _outtext("255");
+     _settextposition(29,32);
+     _outtext("Error value of the degraded image");
+     getchar();
+     getchar();
+     _setvideomode(_DEFAULTMODE);
+}
+     
+
+
+
+
+/*******************************
+*                              *
+*        MAIN function         *
+*                              *
+*******************************/
+
+void main()
+{
+     int i1,i2;
+     
+     system("cls");
+     read_image();
+     for(i2=0;i2<5;i2++)
+        for(i1=0;i1<5;i1++)
+           b[i1][i2]=0.04;
+     unsharp();
+     highpass();
+     draw_error();
+}

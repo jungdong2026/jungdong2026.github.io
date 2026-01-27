@@ -1,0 +1,54 @@
+Histogram Equalization(평활화) 
+
+히스토그램 평활화는 일정한 분포를 가진 히스토그램을 생성하는 것이다. 
+즉, 히스토그램을 평탄하게 하는 것이 아니라. 명암값 분포를 재분배하는 것이다. 
+
+히스토그램 평활화는 포인트 처리이기 때문에 새로운 명암값이 추가되지 않는다. 
+즉, 기존의 명암값은 새로운 값으로 설정되지만 명암값의 실질적인 개수는 입력 영상의 
+명암값의 개수와 동일하게 된다. 
+
+히스토그램 평활화의 처리 단계이다. 
+
+1. 히스토그램을 생성 
+2. 히스토그램의 정규화된 합을 계산 
+3. 입력 영상을 변형하여 결과 영상을 생성 
+
+히스토그램 평활화의 효과는 영상이 어두운 영역 밀집되어 있거나 밝은 부분에 밀집되어 
+있는 경우에 효과적으로 수행된다. 
+
+[코드 리스트] 
+
+//******************************************************** 
+// 
+// Desc : do histogram equalization to an input image 
+// 
+//******************************************************** 
+
+Procedure EqualizeHistogram; 
+Var 
+  // 변수 선언 생략 
+Begin 
+  // Reset Hist variable. 
+  For i := 0 To HIGHEVEL Do 
+  Begin 
+    Hist[i] := 0; 
+  End; 
+
+  // Calculate Hist. 
+  For i := 0 to NOP - 1 Do // NOP = number of pixels. 
+  Begin 
+    Inc(Hist[Buff[i]]); 
+  End; 
+
+  // Calculate normalized sum of hist. 
+  SumAll := 0; 
+  For i := 0 To HIGHLEVEL Do 
+  Begin 
+    SumAll := SumAll[i] + Hist[i]; 
+    SumHist[i] := SumAll * (HIGHLEVEL / NOP) + 0.5; 
+  End; 
+   
+  // Transform source image to equalized image. 
+  For i := 0 To NOP -1 Do 
+    Buff[i] := SumHist[ Buff[i]]; 
+End;

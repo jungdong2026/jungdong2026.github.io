@@ -1,0 +1,397 @@
+<p>외곡된 영상을 만드는 요소에는 임펄스 잡음이란 것이 있는데 임펄스 잡음이 있는 영상은 0 또는 255와 같은 뚜렷하게 잘못된 
+        밝기값을 가진 많은 화소들을 가지게 됩니다. 이러한 임펄스 잡음을 제거하기 위한 효과적인 방법 중 하나가 미디언 필터링 기법입니다. 
+        미디언 필터란 말 그대로 임의의 영역에서 중간값을 출력화소로 갖는 기법입니다.</p>
+      <p>미디언 필터의 장점은 강한 에지를 보존하고 기존의 에지들을 좀더 상세하게 보존할 수 있다는 것입니다. 인간의 시각은 이러한 
+        고주파 정보에 매우 민감합니다. 이러한 상세한 에지의 보존과 강화 가능성은 필터링을 적용할 때 매우 중요합니다.</p>
+      <p>미디언 필터링은 한 영상의 화소들에 대하여 임의 크기의 윈도우를 슬라이딩하면서 오름차순으로 윈도우 안에 있는 화소들에 대하여 
+        순위를 파악하는 방법으로 수행됩니다. 중간에 해당하는 화소값은 윈도우의 중심에 대응하는 출력 영상의 위치에 채워지고, 중심값이 
+        선택되기 때문에, 미디언 필터의 윈도우가 가진 화소의 수는 홀수개가 됩니다.</p>
+      <p>아래 그림은 미디언 필터링의 과정을 보입니다. output image에는 중간값인 8이 치환됩니다. 간단하지요?...^^</p>
+      
+
+      <p> 아래 그림은 가능한 윈도우를 보입니다. block은 일반적으로 좋은 필터입니다. 수직필터는 수평적으로 관련된 잡음을 제거하는 
+        데 매우 효과적이고, 수평필터는 화소열에 나타난 잡음을 제거하기 위해 효과적입니다.</p>
+      <p>&nbsp;</p>
+    
+      <p>자 이제 미디언 필터링을 한번 해보겠습니다. 지금부터는 제가 강의를 들으면서 했던 내용이니 이 내용은 신뢰성이 전혀 없으며 
+        전혀 검증되지 않은 소스임을 미리 알려드립니다.</p>
+      <p>지금 할 시뮬레이션은 칼라 이미지에 우선 노이즈를 첨가하고 그 노이즈를 미디언 필터링으로 제거하는 것입니다. 이것을 하기 위해서는 
+        먼저 칼라 이미지에 노이즈를 첨가해야 합니다. 아래의 소스는 제가 짠 소스입니다. 노이즈는 랜덤이고 한 컬럼(줄)당 50개의 
+        노이즈가 첨가됩니다.</p>
+      <blockquote>
+        <p><font color="#0066FF">#include &lt;stdio.h&gt;<br>
+          #include &lt;string.h&gt;<br>
+          #include &lt;malloc.h&gt; <br>
+          </font></p>
+        <p><font color="#0066FF">extern image_ptr read_pnm(char *filename, int 
+          *rows, int *cols, int *type);<br>
+          void noise_generation(pixel_ptr source, int cols, int rows, char *filename);<br>
+          unsigned long add_noise_place_chk(int cols, int i);<br>
+          unsigned long noi_chk[50]; //noise를 삽입할 column의 중복여부 체크를 위한 배열</font></p>
+        <p><font color="#0066FF">int main(int argc, char *argv[])<br>
+          {<br>
+          char filein[100]; <br>
+          char fileout[100]; <br>
+          int rows, cols; <br>
+          image_ptr buffer; <br>
+          int type; </font></p>
+        <p><font color="#0066FF"> if(argc == 3){<br>
+          strcpy(filein, argv[1]);<br>
+          strcpy(fileout, argv[2]);<br>
+          }else{<br>
+          printf(&quot;Input name of input file\n&quot;);<br>
+          gets(filein);<br>
+          printf(&quot;\nInput name of output file\n&quot;);<br>
+          gets(fileout);<br>
+          printf(&quot;\n&quot;);<br>
+          }<br>
+          buffer = read_pnm(filein, &amp;rows, &amp;cols, &amp;type);<br>
+          <b>noise_generation(buffer, cols, rows, fileout);</b><br>
+          IP_FREE(buffer);<br>
+          return 0;<br>
+          }</font></p>
+        <p><font color="#0066FF">void noise_generation(pixel_ptr source, int cols, 
+          int rows, char *filename){<br>
+          int x, y, i; <br>
+          unsigned long destadd; <br>
+          unsigned long sourceadd; <br>
+          pixel *dest; <br>
+          FILE *fp; <br>
+          int color_line; <br>
+          unsigned long noise;</font></p>
+        <p><font color="#0066FF">dest=malloc(cols); <br>
+          color_line = cols * 3;<br>
+          <br>
+          if((fp=fopen(filename, &quot;wb&quot;)) == NULL){<br>
+          printf(&quot;Unable to open %s for output\n&quot;,filename);<br>
+          exit(1);<br>
+          }<br>
+          fprintf(fp, &quot;P6\n%d %d\n255\n&quot;, cols, rows); /* print out 
+          header */<br>
+          <br>
+          for(i=0;i&lt;50;i++) noi_chk[i]=cols+1; //배열을 cols+1의 값으로 초기화</font></p>
+        <p><font color="#0066FF"> for(y=0; y&lt;rows; y++){<br>
+          sourceadd=(unsigned long) cols * y;<br>
+          destadd=0;<br>
+          for(x=0; x&lt;cols; x++){ //한 column의 원본 이미지의 RGB값을 dest에 비트카피<br>
+          dest[destadd].r = source[sourceadd].r;<br>
+          dest[destadd].g = source[sourceadd].g;<br>
+          dest[destadd++].b = source[sourceadd++].b;<br>
+          }<br>
+          for(i=0;i&lt;50;i++){ //dest의 중복되지 않는 임의의 장소에 RGB각각의 0~255의 random값을 
+          비트카피 (50/column)<br>
+          noi_chk[i] = noise = <b>add_noise_place_chk(cols,i);</b> //한 컬럼의 noise첨가 
+          장소의 중복을 피하는 함수 호출<br>
+          dest[noise].r = rand()%256; //칼라 노이즈 삽입<br>
+          dest[noise].g = rand()%256; //흑백 노이즈는 각각 30을 넣었<br>
+          dest[noise].b = rand()%256; //습니다.<br>
+          }<br>
+          for(i=0;i&lt;50;i++) noi_chk[i]=cols+1; //다음 column을 위하여 배열을 cols+1의 
+          값으로 초기화<br>
+          fwrite(dest,1,color_line,fp);<br>
+          }<br>
+          fclose(fp);<br>
+          } </font></p>
+        <p><font color="#0066FF">unsigned long add_noise_place_chk(int cols, int 
+          i){ //noise발생 장소 중복 피하는 함수<br>
+          unsigned long noise;<br>
+          int flag=1;<br>
+          int j;<br>
+          do{<br>
+          noise = (unsigned long) (rand() % (cols+1)); //0~cols 사이의 random값 발생<br>
+          for(j=0;j&lt;i+1;j++){<br>
+          if(noi_chk[j]!=noise){ //기존의 noise첨가 장소와 현재 발생한 noise값 비교<br>
+          flag=1; //틀리면 flag=1<br>
+          }else{<br>
+          flag=0; //같다면 flag=0<br>
+          break;<br>
+          }<br>
+          }<br>
+          }while(!flag); //flag=0이면 do-while문 다시 실행<br>
+          return noise;<br>
+          }</font></p>
+        <p>&nbsp;</p>
+      <p>&nbsp;</p>
+
+
+      
+      <p>자 이제 노이즈를 첨가했으니 미디언 필터를 이용해서 제거해야 겠습니다.</p>
+      <blockquote>
+        <p><font color="#0066FF">#include &lt;stdio.h&gt;<br>
+          #include &lt;string.h&gt;<br>
+          #include &lt;malloc.h&gt; <br>
+          #include &lt;process.h&gt;<br>
+          #include &lt;math.h&gt;<br>
+          </font></p>
+        <p><font color="#0066FF">extern image_ptr read_pnm(char *filename, int 
+          *rows, int *cols, int *type);<br>
+          void color_median(pixel_ptr source, int cols, int rows, int kwidth, 
+          char *filename);<br>
+          int find_color_median(pixel_ptr window, int wsize);<br>
+          int main(int argc, char *argv[])<br>
+          {<br>
+          char filein[100]; <br>
+          char fileout[100]; <br>
+          image_ptr buffer; <br>
+          int rows, cols; <br>
+          int type; <br>
+          int kwidth=3;<br>
+          if(argc == 3)<br>
+          {<br>
+          strcpy(filein, argv[1]);<br>
+          strcpy(fileout, argv[2]);<br>
+          }<br>
+          else<br>
+          {<br>
+          printf(&quot;Input name of input file\n&quot;);<br>
+          gets(filein);<br>
+          printf(&quot;\nInput name of output file\n&quot;);<br>
+          gets(fileout);<br>
+          printf(&quot;\n&quot;);<br>
+          }<br>
+          buffer = read_pnm(filein, &amp;rows, &amp;cols, &amp;type);<br>
+          color_median(buffer, cols, rows, kwidth, fileout);<br>
+          IP_FREE(buffer);<br>
+          return 0;<br>
+          }</font></p>
+        <p><font color="#0066FF">void color_median(pixel_ptr source, int cols, 
+          int rows, int kwidth, char *filename)<br>
+          {<br>
+          int x, y, i; <br>
+          int kernx, kerny; <br>
+          int index; <br>
+          int xextra, yextra; <br>
+          int conv_line; <br>
+          unsigned long destadd; <br>
+          unsigned long sourceadd, sourcebase; <br>
+          pixel dest[1024]; <br>
+          FILE *fp; <br>
+          unsigned char left[25];<br>
+          unsigned char right[25];<br>
+          int xpad, ypad; <br>
+          int last_line; <br>
+          int color_line; <br>
+          pixel_ptr window; <br>
+          int wsize; </font></p>
+        <p><font color="#0066FF"> xextra = (kwidth/2)*2;<br>
+          xpad = xextra/2;<br>
+          yextra = xextra;<br>
+          ypad = xpad;<br>
+          conv_line = cols - xextra;<br>
+          color_line = conv_line * 3;<br>
+          wsize = kwidth * kwidth;<br>
+          window = malloc(wsize * sizeof(pixel));</font></p>
+        <p><font color="#0066FF"> if((fp=fopen(filename, &quot;wb&quot;)) == NULL)<br>
+          {<br>
+          printf(&quot;Unable to open %s for output\n&quot;,filename);<br>
+          exit(1);<br>
+          }<br>
+          fprintf(fp, &quot;P6\n%d %d\n255\n&quot;, cols, rows); /* print out 
+          header */<br>
+          last_line = rows - yextra;<br>
+          for(y=0; y&lt;last_line; y++)<br>
+          {<br>
+          sourcebase=(unsigned long) cols * y;<br>
+          destadd=0;<br>
+          for(x=xpad; x&lt;(cols - xpad); x++)<br>
+          {<br>
+          index=0;<br>
+          for(kerny=0; kerny&lt;kwidth; kerny++)<br>
+          for(kernx=0; kernx&lt;kwidth; kernx++)<br>
+          {<br>
+          sourceadd=sourcebase+kernx+kerny*cols;<br>
+          window[index].r = source[sourceadd].r;<br>
+          window[index].g = source[sourceadd].g;<br>
+          window[index++].b = source[sourceadd].b;<br>
+          }<br>
+          index = find_color_median(window, wsize);</font></p>
+        <p><font color="#0066FF"> dest[destadd].r = window[index].r;<br>
+          dest[destadd].g = window[index].g;<br>
+          dest[destadd++].b = window[index].b;<br>
+          sourcebase++;<br>
+          } /* for x */<br>
+          for(i=0; i&lt;xpad*3; i+=3)<br>
+          {<br>
+          left[i]=dest[0].r;<br>
+          left[i+1]=dest[0].g;<br>
+          left[i+2]=dest[0].b;<br>
+          }<br>
+          for(i=0; i&lt;xpad*3; i++)<br>
+          {<br>
+          right[i]=dest[conv_line-1].r;<br>
+          right[i+1]=dest[conv_line-1].g;<br>
+          right[i+2]=dest[conv_line-1].b;<br>
+          }<br>
+          if(y==0)<br>
+          for(i=0; i&lt;ypad; i++)<br>
+          {<br>
+          fwrite(left, 1, xpad*3, fp);<br>
+          fwrite(dest, 1, color_line, fp);<br>
+          fwrite(right, 1, xpad*3, fp);<br>
+          }<br>
+          fwrite(left, 1, xpad*3, fp);<br>
+          fwrite(dest, 1, color_line, fp);<br>
+          fwrite(right, 1, xpad*3, fp);<br>
+          if(y==(last_line-1))<br>
+          for(i=0; i&lt;ypad; i++)<br>
+          {<br>
+          fwrite(left, 1, xpad*3, fp);<br>
+          fwrite(dest, 1, color_line, fp);<br>
+          fwrite(right, 1, xpad*3, fp);<br>
+          }<br>
+          } /* for y */<br>
+          }</font></p>
+        <p><font color="#0066FF">int find_color_median(pixel_ptr window, int wsize)<br>
+          {<br>
+          int i, j; <br>
+          unsigned int vec_sum; <br>
+          unsigned int min_sum; <br>
+          int index; </font></p>
+        <p><font color="#0066FF"> min_sum = 10000;<br>
+          index = 0;<br>
+          for(i=0; i&lt;wsize; i++)<br>
+          {<br>
+          vec_sum = 0;<br>
+          for(j=0; j&lt;wsize; j++)<br>
+          {<br>
+          vec_sum += abs(window[i].r - window[j].r);<br>
+          vec_sum += abs(window[i].g - window[j].g);<br>
+          vec_sum += abs(window[i].b - window[j].b);<br>
+          }<br>
+          if(vec_sum &lt;= min_sum)<br>
+          {<br>
+          min_sum = vec_sum;<br>
+          index = i;<br>
+          }<br>
+          }<br>
+          return index;<br>
+          }</font></p>
+
+
+      
+      <p>이번에는 Lowpass filter를 이용해서 한 번 노이즈를 제거해보겠습니다. RGB Channel 별로 filtering을 
+        하는 방법입니다.</p>
+      <p></p>
+      <blockquote> 
+        <p><font color="#0066FF">#include &lt;stdio.h&gt; <br>
+          #include &lt;string.h&gt; <br>
+          #include &lt;malloc.h&gt; <br>
+          #include &lt;process.h&gt; <br>
+          </font></p>
+        <p><font color="#0066FF">void color_convolve(pixel_ptr source, int cols, 
+          int rows, int kwidth, int kheight, float *kernel, int bias, char *filename); 
+          <br>
+          extern image_ptr read_pnm(char *filename, int *rows, int *cols, int 
+          *type); </font></p>
+        <p><font color="#0066FF">int main(int argc, char *argv[]){ <br>
+          int kheight=3,kwidth=3; <br>
+          int bias=0; <br>
+          float k=0.1111111111;<br>
+          float kernel[9]={k,k,k,k,k,k,k,k,k};<br>
+          char filein[100]; <br>
+          char fileout[100]; <br>
+          int rows, cols; <br>
+          image_ptr source; <br>
+          int type; <br>
+          if(argc == 3){ <br>
+          strcpy(filein, argv[1]); <br>
+          strcpy(fileout, argv[2]); <br>
+          }else{ <br>
+          printf(&quot;Input name of input file\n&quot;); <br>
+          gets(filein); <br>
+          printf(&quot;\nInput name of output file\n&quot;); <br>
+          gets(fileout); <br>
+          printf(&quot;\n&quot;); <br>
+          } <br>
+          source = read_pnm(filein, &amp;rows, &amp;cols, &amp;type); <br>
+          color_convolve(source,cols,rows,kwidth,kheight,kernel,bias,fileout); 
+          <br>
+          IP_FREE(source); <br>
+          return 0; <br>
+          } </font></p>
+        <p><font color="#0066FF">void color_convolve(pixel_ptr source, int cols, 
+          int rows, int kwidth, int kheight, float *kernel, int bias, char *filename){ 
+          <br>
+          int x, y, i; <br>
+          int kernx, kerny; <br>
+          int index; <br>
+          int xextra, yextra; <br>
+          unsigned long destadd; <br>
+          unsigned long sourceadd; <br>
+          unsigned long sourcebase; <br>
+          pixel dest[1024]; <br>
+          FILE *fp; <br>
+          unsigned char left[25]; <br>
+          unsigned char right[25]; <br>
+          int xpad, ypad; <br>
+          int last_line; <br>
+          int conv_line; <br>
+          int color_line;<br>
+          float r_sum,g_sum,b_sum;</font></p>
+        <p><font color="#0066FF"> xextra = (kwidth/2)*2; <br>
+          xpad = xextra/2; <br>
+          yextra = (kheight/2)*2; <br>
+          ypad = yextra/2; <br>
+          conv_line = cols - xextra; <br>
+          color_line = conv_line * 3;<br>
+          if((fp=fopen(filename, &quot;wb&quot;)) == NULL){ <br>
+          printf(&quot;Unable to open %s for output\n&quot;,filename); <br>
+          exit(1); <br>
+          } <br>
+          fprintf(fp, &quot;P6\n%d %d\n255\n&quot;, cols, rows); /* print out 
+          header */ <br>
+          last_line = rows - yextra; <br>
+          for(y=0; y&lt;last_line; y++){ <br>
+          sourcebase=(unsigned long) cols * y; <br>
+          destadd=0; <br>
+          for(x=xpad; x&lt; (cols-xpad); x++){ <br>
+          r_sum=0.0;<br>
+          g_sum=0.0;<br>
+          b_sum=0.0;<br>
+          index=0; <br>
+          for(kerny=0; kerny&lt;kheight; kerny++) <br>
+          for(kernx=0; kernx&lt;kwidth; kernx++){ <br>
+          sourceadd = sourcebase + kernx + kerny * cols; <br>
+          //컬러의 RGB별로 sum 저장<br>
+          r_sum += (source[sourceadd].r * kernel[index]); <br>
+          g_sum += (source[sourceadd].g * kernel[index]); <br>
+          b_sum += (source[sourceadd].b * kernel[index++]);<br>
+          }<br>
+          r_sum += bias;<br>
+          g_sum += bias;<br>
+          b_sum += bias;<br>
+          CLIP(r_sum,0.0,255.0); <br>
+          CLIP(g_sum,0.0,255.0); <br>
+          CLIP(b_sum,0.0,255.0); <br>
+          dest[destadd].r=(unsigned char) r_sum; <br>
+          dest[destadd].g=(unsigned char) g_sum; <br>
+          dest[destadd++].b=(unsigned char) b_sum; <br>
+          sourcebase++; <br>
+          } /* for x */ <br>
+          for(i=0; i&lt;xpad*3; i+=3){<br>
+          left[i]=dest[0].r;<br>
+          left[i+1]=dest[0].g;<br>
+          left[i+2]=dest[0].b;<br>
+          }<br>
+          for(i=0; i&lt;xpad*3; i++){<br>
+          right[i]=dest[conv_line-1].r;<br>
+          right[i+1]=dest[conv_line-1].g;<br>
+          right[i+2]=dest[conv_line-1].b;<br>
+          }<br>
+          if(y==0)<br>
+          for(i=0; i&lt;ypad; i++){<br>
+          fwrite(left, 1, xpad*3, fp);<br>
+          fwrite(dest, 1, color_line, fp);<br>
+          fwrite(right, 1, xpad*3, fp);<br>
+          }<br>
+          fwrite(left, 1, xpad*3, fp);<br>
+          fwrite(dest, 1, color_line, fp);<br>
+          fwrite(right, 1, xpad*3, fp);<br>
+          if(y==(last_line-1))<br>
+          for(i=0; i&lt;ypad; i++){<br>
+          fwrite(left, 1, xpad*3, fp);<br>
+          fwrite(dest, 1, color_line, fp);<br>
+          fwrite(right, 1, xpad*3, fp);<br>
+          }<br>
+          }/* for y */<br>
+          }</font></p>

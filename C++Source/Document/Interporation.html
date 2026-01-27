@@ -1,0 +1,230 @@
+<p> 보간법(interpolation)</p>
+      <p>&nbsp;</p>
+      <p> * 가장 인접한 이웃 화소 보간법</p>
+      <p>이 보간법의 기본 개념은 출력 화소로 생성된 주소에 가장 가까운 원시 화소를 출력 화소로 할당하는 것입니다. 이러한 기법을 
+        가지고, 원시 화소에 대하여 계산된 분수 주소는 가장 가까운 유효한 화소 주소로 반올림되어집니다.<br>
+        이 보간법은 하나의 입력 화소의 값을 갖는 출력 화소들의 수가 크면 클수록 출력은 더 나쁘게 보입니다. </p>
+      <blockquote> 
+        <blockquote> 
+          <blockquote> 
+            <p>floatx = x_mapping_function(X_dest);<br>
+              floaty = y_mapping_function(Y_dest);<br>
+              X_source = (int) (floatx + 0.5);<br>
+              Y_source = (int) (floaty + 0.5);</p>
+          </blockquote>
+        </blockquote>
+      </blockquote>
+      <p><br>
+        * 양선형 보간법</p>
+      <p>이 보간법에서 새롭게 생성된 화소는 네 개의 가장 가까운 화소들에 가중치를 곱한 값들의 합입니다. 각각의 가중치는 각각의 존재하는 
+        화소로부터 거리에 반비례합니다. 아래의 알고리즘에서 EWweight 와 NSweight 가 가중치입니다.</p>
+      <blockquote> 
+        <blockquote> 
+          <blockquote>
+            <p>EWweight = floatx - floor(x);<br>
+              NSweight = floaty - floor(y);</p>
+            <p>EWtop = NW + Ewweight*(NE-NW);<br>
+              EWbottom = SW + Ewweight*(SE-SW);</p>
+            <p>dest_pixel = (char) EWtop + NSweight*(EWbottom-EWtop);</p>
+          </blockquote>
+        </blockquote>
+      </blockquote>
+      
+
+      <p> * 고등 차수 보간법</p>
+      <p>고등 차수 보간법에는 3차 회선(cubic convolution)과 B-스플라인이 있습니다. 이 보간법은 출력 화소를 생성하기 
+        위해서 16개의 가장 가까운 화소들을 요구합니다.</p>
+      <p>아래 그림은 2차원 보간법의 설명 그림입니다. X축으로 1차원 보간법을 하고 그 4개를 다시 보간함으로써 2차원 보간을 하는 
+        것입니다.</p>
+            <p>&nbsp;</p>
+
+      <p> 3차 회선 보간법(Cubic Convolution Interpolation)</p>
+      <p>3차 회선 함수는 아래와 같이 정의되어집니다. a를 위하여 제안된 값들은 -0.5, -0.75 그리고 -1.0 입니다.</p>
+      <blockquote>
+      <p>아래 그림은 a의 값에 따른 3차 회선 보간입니다.</p>
+        
+      <p>아래 코드는 3차 회선 보간법의 코드입니다.</p>
+      <p>
+      <blockquote>
+        <pre>
+	  
+<font color="#0066FF">/***************************************************************************
+ * Func: cubic_interpolation                                               *
+ *                                                                         *
+ * Desc: takes 16 unsigned characters in an array and outputs the results  *
+ *       of a cubic interpolation.  The sample points of the interpolation *
+ *       function f(-1-d) and f(-d) are evaluated as f(1+d) and f(d).  The *
+ *       computed constants are a0 = f(1+d)                                *
+ *                              a1 = f(d)                                  *
+ *                              a2 = f(1-d)                                *
+ *                              a3 = f(2-d)                                *
+ *                                                                         *
+ * Params: image - array of 16 image sample points                         *
+ *                 (0,0)           (0,3)                                   *
+ *                   *---*---*---*---*                                     *
+ *                   |   |   |   |   |                                     *
+ *                   *---*---*---*---*                                     *
+ *                   |   | o |   |   |    o is point to be interpolated    *
+ *                   *---*---*---*---*                                     *
+ *                   |   |   |   |   |                                     *
+ *                   *---*---*---*---*                                     *
+ *                 (3,0)           (3,3)                                   *
+ *                                                                         *
+ *         x_diff - x difference from interpolated address to image sample *
+ *         y_diff - y difference from interpolated address to image sample *
+ *         a - cubic spline interpolation function constant                *
+ *                                                                         *
+ * Returns: interpolated value                                             *
+ ***************************************************************************/
+
+unsigned char cubic_interpolation(unsigned char image[4][4],
+				  float x, float y, double a)
+    {
+    double column[4];                /* storage for row interpolation results */
+    double a0, a1, a2, a3;           /* interpolation coefficients */
+    double x_plus_1, y_plus_1;       /* x + 1, y + 1 */
+    double one_minus_x, one_minus_y; /* 1 - x, 1 - y */
+    double two_minus_x, two_minus_y; /* 2 - x, 2 - y */
+    int i;                           /* loop index */
+    double pixel;                    /* newly interpolated value */
+
+    /* Do we really need to interpolate ? */
+    if((x == 0.0) && (y == 0.0))
+	return image[1][1];
+
+    if(x == 0.0)                   /* Do we need to interpolate the rows? */
+	for(i=0; i<4; i++)         /* NO */
+	    column[i] = (double) image[i][1];
+    else                           /* YES, we do need to interpolate rows */
+	{
+	x_plus_1 = x + 1.0;
+	one_minus_x = 1.0 - x;
+	two_minus_x = 2.0 - x;
+
+	a0 = ((a * x_plus_1 - 5.0 * a) * x_plus_1 + 8.0 * a) * x_plus_1 - 4.0 * a;
+	a1 = ((a + 2.0) * x - (a + 3.0)) * x * x + 1;
+	a2 = ((a + 2.0) * one_minus_x - (a + 3.0)) * one_minus_x * one_minus_x + 1;
+	a3 = ((a * two_minus_x - 5.0 * a) * two_minus_x + 8.0 * a) * two_minus_x - 4.0 * a;
+
+	if(y == 0.0)   /* can we just process one row */
+	    {
+	    pixel = a0 * image[1][0] + a1 * image[1][1] +
+		    a2 * image[1][2] + a3 * image[1][3];
+	    CLIP(pixel, 0.0, 255.0);
+	    return (unsigned char) pixel;
+	    }
+	else
+	    for(i=0; i<4; i++)
+		column[i] = a0 * image[i][0] + a1 * image[i][1] +
+			    a2 * image[i][2] + a3 * image[i][3];
+	}
+
+    /* interpolate the resulting column */
+
+    y_plus_1 = y + 1.0;
+    one_minus_y = 1.0 - y;
+    two_minus_y = 2.0 - y;
+
+    a0 = ((a * y_plus_1 - 5.0 * a) * y_plus_1 + 8.0 * a) * y_plus_1 - 4.0 * a;
+    a1 = ((a + 2.0) * y - (a + 3.0)) * y * y + 1;
+    a2 = ((a + 2.0) * one_minus_y - (a + 3.0)) * one_minus_y * one_minus_y + 1;
+    a3 = ((a * two_minus_y - 5.0 * a) * two_minus_y + 8.0 * a) * two_minus_y - 4.0 * a;
+
+    pixel = column[0] * a0 + column[1] * a1 + column[2] * a2 + column[3] * a3;
+    CLIP(pixel, 0.0, 255.0);
+    return (unsigned char) pixel;
+    }</font>
+</pre>
+
+      <p>5. B-스플라인 보간법</p>
+      <p>이상적인 보간 함수는 저주파 통과필터이고 B-스플라인 함수는 상당히 좋은 저주파 통과 필터를 만듭니다. 보간하는 동안에, 이 
+        함수는 네 번 샘플되어질 것입니다. 오프셋이 무엇이든지, 가중치 함수의 샘플 점들의 합은 1일 것입니다. 3차 회선 함수와는 
+        다르게 이 함수값은 모다가 양의 값을 가집니다. 출력이 0보다 작은 상태에 대해서 걱정할 필요가 없습니다.</p>
+      <p>B-스플라인 함수는 아래와 같이 정의됩니다.</p>
+      
+      <p align="center">&nbsp;</p>
+
+
+      <p>아래 코드는 B-스플라인 보간법의 코드입니다.</p>
+      <p>
+      <blockquote>
+        <pre>
+	  
+<font color="#0066FF">/***************************************************************************
+ * Func: spline_interpolation                                              *
+ *                                                                         *
+ * Desc: takes 16 unsigned characters in an array and outputs the results  *
+ *       of a B-spline interpolation.  The sample points of the            *
+ *       interpolation function f(-1-d) and f(-d) are evaluated as f(1+d)  *
+ *       and f(d).  The computed constants are a0 = f(1+d)                 *
+ *                                             a1 = f(d)                   *
+ *                                             a2 = f(1-d)                 *
+ *                                             a3 = f(2-d)                 *
+ *                                                                         *
+ * Params: image - array of 16 image sample points                         *
+ *                 (0,0)           (0,3)                                   *
+ *                   *---*---*---*---*                                     *
+ *                   |   |   |   |   |                                     *
+ *                   *---*---*---*---*                                     *
+ *                   |   | o |   |   |    o is point to be interpolated    *
+ *                   *---*---*---*---*                                     *
+ *                   |   |   |   |   |                                     *
+ *                   *---*---*---*---*                                     *
+ *                 (3,0)           (3,3)                                   *
+ *                                                                         *
+ *         x_diff - x difference from interpolated address to image sample *
+ *         y_diff - y difference from interpolated address to image sample *
+ *                                                                         *
+ * Returns: interpolated value                                             *
+ ***************************************************************************/
+
+unsigned char spline_interpolation(unsigned char image[4][4], float x, float y)
+    {
+    double column[4];                /* storage for row interpolation results */
+    double a0, a1, a2, a3;           /* interpolation coefficients */
+    double x_plus_1, y_plus_1;       /* x + 1, y + 1 */
+    double one_minus_x, one_minus_y; /* 1 - x, 1 - y */
+    int i;                           /* loop index */
+    double pixel;                    /* newly interpolated pixel value */
+
+    /* Do we even need to interpolate ? */
+    if((x == 0.0) && (y == 0.0))
+	return image[1][1];
+
+    if(x == 0.0)                    /* Do we need to interpolate the rows? */
+	for(i=0; i<4; i++)          /* NO */
+	    column[i] = (double) image[i][1];
+    else                            /* YES, interpolate the rows */
+	{
+	x_plus_1 = x + 1.0;
+	one_minus_x = 1.0 - x;
+	two_minus_x = 2.0 - x;
+
+	a0 = ((-0.16666666 * x_plus_1 + 1.0) * x_plus_1 - 2.0) * x_plus_1 + 1.33333;
+	a1 = (0.5 * x - 1.0) * x * x + 0.666666667;
+	a2 = (0.5 * one_minus_x - 1.0) * one_minus_x * one_minus_x + 0.66666667;
+	a3 = 1.0 - a0 - a1 - a2;
+
+	if(y == 0.0)
+	    return (unsigned char) (a0 * image[1][0] + a1 * image[1][1] +
+				    a2 * image[1][2] + a3 * image[1][3]);
+	for(i=0; i<4; i++)
+	    column[i] = a0 * image[i][0] + a1 * image[i][1] +
+			a2 * image[i][2] + a3 * image[i][3];
+	}
+
+    /* interpolate the resulting column */
+
+    y_plus_1 = y + 1.0;
+    one_minus_y = 1.0 - y;
+    two_minus_y = 2.0 - y;
+
+    a0 = ((-0.16666666 * y_plus_1 + 1.0) * y_plus_1 - 2.0) * y_plus_1 + 1.33333;
+    a1 = (0.5 * y - 1.0) * y * y + 0.666666667;
+    a2 = (0.5 * one_minus_y - 1.0) * one_minus_y * one_minus_y + 0.666666667;
+    a3 = 1.0 - a0 - a1 - a2;
+
+    pixel = column[0] * a0 + column[1] * a1 + column[2] * a2 + column[3] * a3;
+    return (unsigned char) pixel;
+    }</font>
+</pre>

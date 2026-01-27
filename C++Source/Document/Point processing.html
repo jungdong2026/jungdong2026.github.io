@@ -1,0 +1,100 @@
+<p>포인트 처리는 보통 룩업테이블을 이용해서 합니다. 룩업테이블은 배열의 인덱스로 화소값을 사용하는 배열입니다. 말이 조금 어려운가요.. 
+        출력 영상의 새로운 픽셀값은 배열의 인덱스에 의해 지시되는 배열의 요소이지요. 출력영상은 원본영상의 각 화소에 대해서 이런 작업을 
+        반복함으로써 생성됩니다.</p>
+      <p>그렇다면 왜 포인트 처리에서는 룩업테이블을 이용할까요?</p>
+      <p>룩업테이블을 이용하면 불필요한 계산을 피할 수 있어서 속도가 훨씬 빠릅니다. 예를 들면, 8비트 영상으로 작업한다고 하면 영상의 
+        크기와 무관하게 256개(2의 8승)의 요소를 갖는 테이블, 즉, 룩업테이블만이 필요합니다. 만일 512 X 512 흑백 영상 
+        안의 모든 화소에 일정한 값을 더한다면 264,144번의 연산이 필요합니다. 또한, 오버플로우와 언더플로우를 검사하기 위해 264,144의 
+        두배에 해당하는 비교 연산이 필요합니다. 하지만, 이것을 룩업테이블을 이용한다면 256개의 입력 자료가 존재하므로 단지 256번의 
+        산술연산 및 비교연산만이 필요할 것입니다.</p>
+      <p>이처럼 룩업테이블을 이용하면 계산상의 복잡도를 줄일 수 있습니다. 그래서 포인트 처리에서는 룩업테이블을 이용해서 잡업을 하는 
+        것입니다.</p>
+      <p>다음 그림은 3비트(0~7까지 2의 3승 가지의 필셀값을 가집니다) 룩업테이블에 대한 설명이 나와있습니다. input image의 
+        어떠한 위치(4,0)에 2라는 값이 저장되어 있습니다. 그러면 룩업테이블에서 2라는 인덱스의 값을 output image의 같은 
+        위치(4.0)에 그냥 그 값(1)을 대입시키면 되는 것이지요. 룩업테이블은 이미 어떠한 규칙에 의해서 만들어져 있는 것입니다.</p>
+      
+
+
+      <p>그러면 룩업테이블을 이용한 포인트처리의 예제를 한 번 해 보겠습니다. 산술 포인트 연산을 해 보겠습니다. 소스 왼쪽에 <font color="#FF0000">1</font>이라고 
+        표시된 부분을 보시면 짐작하시겠지만 0~255의 값에 각각 1.9를 곱한 값으로룩업테이블을 만들것입니다. 따라서, 자신이 원하는 
+        연산으로 룩업테이블을 만들고자 한다면 이 부분을 수정하시면 되겠습니다. 그 예로, VALUE에 40을 더한다면</p>
+      <font color="#0066FF"><BLOCKQUOTE>
+        <p>#define operation(VALUE) ((float) VALUE + 40.)</p>
+      </BLOCKQUOTE></font>
+      <p>로수정하시면 됩니다.</p>
+      <p>그럼 아래의 소스를 Visual C++의 입력창에 입력하시던가 아니면 선택하고 복사, 붙여넣기를 하세요. 프로그램을 실행하는 
+        설명은 앞서 했기때문에 여기에서는 그냥 넘어가겠습니다.</p>
+      <BLOCKQUOTE>
+        <p><font color="#0066FF">#include &lt;stdio.h&gt;<br>
+          #include &lt;string.h&gt;<br>
+          #include &lt;malloc.h&gt; <br>
+          </font></p>
+        <p><font color="#0066FF">#define operation(VALUE) ((float) VALUE * 1.9)</font></p>
+        <p><font color="#0066FF">extern void write_pnm(image_ptr ptr, char filein[], 
+          int rows,int cols,</font><font color="#0066FF"><br>
+          int magic_number);<br>
+          extern image_ptr read_pnm(char *filename, int *rows, int *cols,<br>
+          int *type);</font></p>
+        <p><font color="#0066FF">int main(int argc, char *argv[])<br>
+          {<br>
+          char filein[100]; /* name of input file */<br>
+          char fileout[100]; /* name of output file */<br>
+          int rows, cols; /* image rows and columns */<br>
+          unsigned long i; /* counting index */<br>
+          unsigned long bytes_per_pixel; /* number of bytes per image pixel */<br>
+          unsigned char LUT[256]; /* array for Look-up table */<br>
+          image_ptr buffer; /* pointer to image buffer */<br>
+          unsigned long number_of_pixels; /* total number of pixels in image */<br>
+          int temp; /* temporary variable */<br>
+          int type; /* what type of image data */</font></p>
+        <p><font color="#0066FF"><br>
+          /* set input filename and output file name */<br>
+          /* 이 프로그램은 3개의 argument가 필요하네요. 첫번째는 실행화일, 두번째는 원본영상화일이름, 세번째는 출력영상 
+          화일이름. 이 부분을 체크하는 부분입니다.*/<br>
+          </font><font color="#0066FF">if(argc == 3)<br>
+          {<br>
+          strcpy(filein, argv[1]);<br>
+          strcpy(fileout, argv[2]);<br>
+          }<br>
+          else<br>
+          {<br>
+          printf(&quot;Input name of input file\n&quot;);<br>
+          gets(filein);<br>
+          printf(&quot;\nInput name of output file\n&quot;);<br>
+          gets(fileout);<br>
+          printf(&quot;\n&quot;);<br>
+          }</font></p>
+        <p><font color="#0066FF">/* IPLIB.C안에 있는 read_pnm함수를 이용해서 buffer에 원본영상을 
+          포인팅하게끔 하는 부분입니다.*/<br>
+          </font></p>
+        <p><font color="#0066FF"> buffer = read_pnm(filein, &amp;rows, &amp;cols, 
+          &amp;type);</font></p>
+        <p><font color="#0066FF"> /* initialize Look-up table */<br>
+          /* <font color="#FF0000">1</font>의 부분에 define된 operation을 이용하여 룩업테이블을 
+          생성하는 부분입니다.*/<br>
+          for(i=0; i&lt;256; i++)<br>
+          {<br>
+          temp = operation(i);<br>
+          CLIP(temp, 0, 255); //temp의 값이 0 이하이거나 255이상이면 그 값을 0, 255로...<br>
+          LUT[i] = temp; //temp의 값을 룩업테이블의 i번째 방에 저장합니다.<br>
+          }</font></p>
+        <p><font color="#0066FF"> /* determine bytes_per_pixel, 3 for <b>color</b>, 
+          1 for <b>gray-scale</b> */<br>
+          if(type == PPM)<br>
+          bytes_per_pixel = 3;<br>
+          else<br>
+          bytes_per_pixel = 1;<br>
+          <br>
+          /*이미지의 픽셀 수를 구하는 부분입니다.*/</font></p>
+        <p><font color="#0066FF"> number_of_pixels = bytes_per_pixel * rows * 
+          cols;</font></p>
+        <p><font color="#0066FF"> /* process image via the Look-up table */<br>
+          for(i=0; i&lt;number_of_pixels; i++)<br>
+          buffer[i] = LUT[buffer[i]]; //이 부분이 앞장의 그림부분입니다. 잘 보세요..^^</font></p>
+        <p><font color="#0066FF"> /*IPLIB.C의 write_pnm함수를 이용하여 fileout에 buffer의 
+          내용을 적습니다*/<br>
+          write_pnm(buffer, fileout, rows, cols, type);<br>
+          IP_FREE(buffer);<br>
+          return 0;<br>
+          }</font></p></BLOCKQUOTE>
+        <p>&nbsp;</p>

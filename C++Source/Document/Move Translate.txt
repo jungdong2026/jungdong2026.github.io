@@ -1,0 +1,86 @@
+이동은 기하학적 처리들 중 가장 간단합니다. 이것은 영상의 일부분을 영상 안의 다른 위치로 이동하는 것으로 이루어져 있습니다. 메모리의 사용을 최소화하기 위해서는 같은 영상 버퍼 안에서 이러한 모든 처리를 수행하는 것이 바람직합니다. 하지만 이것은 재귀적인 연산이 발생할 수도 있기 때문에 잘못된 생각입니다. 즉, 화소들이 움직이는 동안에, 목적 영상이 원시 윈도우에 중첩될 가능성이 있습니다. 원시 화소들을 목적 화소들로 복사하는 과정에서 어떤 원시 화소들은 목적 영상의 이동에 의하여 최근에 복사되어진 것일 수 있습니다. 그때 결과 영상은 특정한 원시 화소들의 여러 복사본을 포함하게 됩니다. 하지만 여기의 소스 코드는 두개의 버퍼를 사용했습니다.
+
+자 그럼 소스 코드를 보이고, 결과 예제를 보이겠습니다.
+
+ 
+
+이동에 대한 소스 코드
+
+#include <stdio.h>
+
+extern void write_pnm(image_ptr ptr, char filein[], int rows, int cols, int magic_number);
+extern image_ptr read_pnm(char *filename, int *rows, int *cols, int *type);
+void trans_pgm(image_ptr buffer, image_ptr out_buffer, int rows, int cols, int x_start, int y_start, int x_end, int y_end, int width, int height,char *fileout, int type);
+
+int main(int argc, char *argv[])
+{
+char filein[100]; /* name of input file */
+char fileout[100]; /* name of output file */
+int rows, cols; /* image rows and columns */
+image_ptr buffer,out_buffer; /* pointer to image buffer */
+int type; /* what type of image data */
+//float angle = 45.;
+int x_start=92,y_start=64,x_end=264,y_end=64,width=154,height=317; //지정...
+
+/* set input filename and output file name */
+if(argc == 3)
+{
+strcpy(filein, argv[1]);
+strcpy(fileout, argv[2]);
+}
+else
+{
+printf("Input name of input file\n");
+gets(filein);
+printf("\nInput name of output file\n");
+gets(fileout);
+printf("\n");
+}
+
+out_buffer=buffer = read_pnm(filein, &rows, &cols, &type);
+trans_pgm( buffer, out_buffer, rows, cols, x_start, y_start, x_end, y_end, width, height,fileout,type);
+IP_FREE(buffer);
+return 0;
+}
+
+/*****************************************************
+* Func: trans_pgm *
+* *
+* Desc: translates a block in an image *
+* *
+* Params: buffer - pointer to image in memory *
+* out_buffer - pointer to output image in memory *
+* rows - number of rows in image *
+* cols - number of columns in image *
+* x_start - Upper left x coordinate of block to move *
+* y_start - Upper left y coordinate of block to move *
+* x_end - x coordinate of destination *
+* y_end - y coordinate of destination *
+* width - width of block to move *
+* height - height of block to move *
+*******************************************************/
+
+void trans_pgm(image_ptr buffer, image_ptr out_buffer, int rows, int cols, int x_start, int y_start, int x_end, int y_end, int width, int height, char *fileout,int type)
+{
+int x,y; /* column and row indices in image */
+unsigned long sourceadd, destadd;/* address in source and dest images */
+unsigned long index; /* index into images */
+
+/* copy source image to destination */
+index = 0;
+for(y=0; y<rows; y++)
+for(x=0; x<cols; x++)
+out_buffer[index] = buffer[index++];
+
+/* translate specific block */
+for(y=0; y<height; y++)
+for(x=0; x<width; x++)
+{
+sourceadd = ((unsigned long)y_start+y) * cols + x_start + x;
+destadd = ((unsigned long)y_end+y) * cols + x_end +x;
+out_buffer[destadd] = buffer[sourceadd];
+
+}
+
+write_pnm(out_buffer, fileout, rows, cols, type);
+}

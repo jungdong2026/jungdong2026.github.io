@@ -1,0 +1,137 @@
+회전의 역변화 식
+
+X_Source = (X_Dest - center_x) * cos(angle) + (Y_Dest - center_y) * sin(angle)
+Y_Source = (Y_Dest - center_y) * cos(angle) - (X_Dest - center_y) * sin(angle)
+
+여기서 center_x, center_y 는 원시 영상의 중심 좌표입니다. 원시 x 와 y 좌표들이 계산되어지면, 목적 영상을 위한 실제값은 보간되어집니다.
+
+여기에선 양선형 보간법을 이용해서 회전을 보이겠습니다.
+
+ 
+
+회전에 해당하는 소스입니다. 중간에 각도를 지정하는 부분이 있습니다. 여기에서는 45도로 했습니다.
+
+ 
+
+#include <stdio.h>
+
+
+extern image_ptr read_pnm(char *filename, int *rows, int *cols,
+int *type);
+void rotate_pgm(image_ptr buffer, char *fileout, int rows, int cols, float angle);
+
+int main(int argc, char *argv[])
+{
+char filein[100]; /* name of input file */
+char fileout[100]; /* name of output file */
+int rows, cols; /* image rows and columns */
+image_ptr buffer; /* pointer to image buffer */
+int type; /* what type of image data */
+float angle = 45.; //각도 지정.
+
+/* set input filename and output file name */
+if(argc == 3)
+{
+strcpy(filein, argv[1]);
+strcpy(fileout, argv[2]);
+}
+else
+{
+printf("Input name of input file\n");
+gets(filein);
+printf("\nInput name of output file\n");
+gets(fileout);
+printf("\n");
+}
+
+buffer = read_pnm(filein, &rows, &cols, &type);
+rotate_pgm( buffer, fileout, rows, cols, angle);
+IP_FREE(buffer);
+return 0;
+}
+
+void rotate_pgm(image_ptr buffer, char *fileout, int rows, int cols, float angle)
+{
+float angle2; /* 90 degrees - angle */
+long x,y; /* column and row indices */
+int index; /* index into output line buffer */
+unsigned long source_add; /* address of source pixels */
+float floatx, floaty; /* floating point values of source x and y */
+int intx, inty; /* integer value of source x and y */
+int centerx, centery; /* center of new image */
+float EWweight, NSweight; /* linear weights for interpolation */
+float NW, NE, SW, SE; /* northwest, northeast, southwest, southeast*/
+float top, bottom; /* interpolated top and bottom values */
+float cosine, sine; /* cosine and sine of angle */
+unsigned char *line_buff; /* output line buffer */
+int new_rows, new_cols; /* number of rows and columns of new image */
+FILE *fp; /* output file pointer */
+int xdiff, ydiff; /* difference between new and old rows and cols */
+
+/* open new output file */
+if((fp=fopen(fileout, "wb")) == NULL)
+{
+printf("Unable to open %s for output\n",fileout);
+exit(1);
+}
+
+while(angle >= 360.0)
+angle -=360.0;
+
+/* miscellaneous trig */
+angle *= ((double) 3.14159265/(double) 180.0); /* convert to RADs */
+angle2 = 1.570796327 - angle;
+cosine = cos(angle);
+sine = sin(angle);
+
+/* determine new size of output image */
+new_cols = rows * fabs(cos(angle2)) + cols * fabs(cosine);
+new_rows = rows * fabs(cosine) + cols * fabs(cos(angle2));
+
+
+centerx = cols/2;
+centery = rows/2;
+xdiff = (new_cols - cols)/2;
+ydiff = (new_rows - rows)/2;
+
+/* print out the portable bitmap header */
+fprintf(fp, "P5\n%d %d\n255\n", new_cols, new_rows);
+
+line_buff = (unsigned char *) malloc(new_cols);
+
+for(y=-1*ydiff; y<(new_rows-ydiff); y++)
+{
+index = 0;
+for(x=-1*xdiff; x<(new_cols-xdiff); x++)
+{
+floatx = (x-centerx) * cosine + (y-centery) * sine;
+floatx += centerx;
+floaty = (y-centery) * cosine - (x-centerx) * sine;
+floaty += centery;
+intx = (int) floatx;
+inty = (int) floaty;
+
+/* check if pixel is outside of source image */
+if((intx < 0) || (intx >= cols-1) || (inty < 0) || (inty >= rows-1))
+line_buff[index++] = 255;
+else /* interpolate new value */
+{
+EWweight = floatx - (float) intx;
+NSweight = floaty - (float) inty;
+source_add = (unsigned long) inty * cols + intx;
+NW = (float) buffer[source_add];
+NE = (float) buffer[source_add+1];
+SW = (float) buffer[source_add+cols];
+SE = (float) buffer[source_add+cols+1];
+
+top = NW + EWweight*(NE-NW);
+bottom = SW + EWweight*(SE-SW);
+line_buff[index++] = (char) (top + NSweight*(bottom-top));
+}
+}
+fwrite(line_buff, 1, new_cols, fp);
+}
+fclose(fp);
+}
+
+ 

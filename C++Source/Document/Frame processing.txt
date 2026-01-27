@@ -1,0 +1,486 @@
+프레임 처리는 2개 또는 그 이상의 서로 다른 영상을 포함하는 연산을 기반으로 하는 화소값을 생성합니다.
+
+프레임 처리에는 덧셈 연산, 뺄셈 연산, AND/OR 연산, 평균 연산이 있습니다.
+
+덧셈 연산은 두 개의 이전 영상에 덧셈 연산을 수행하는 것입니다.
+
+뺄셈 연산은 두 영상 사이의 차이를 결정하기 위해서 사용됩니다.
+
+AND/OR연산중 AND연산은 입력 자료가 모두 1일 경우에는 1을 출력하고 그렇지 않을 경우에는 0을 출력합니다. OR연산은 입력 자료 중 하나가 1이면 1을 출력하고 그렇지 않을 경우에는 0을 출력합니다.
+
+평균 연산은 두 개의 화소를 합한 후 2로 나누는 연산입니다. 평균 연산자는 영상 전송시 생성되는 잡음을 제거하기 위해서 사용됩니다.
+
+ 
+
+결과 영상은 0.5로 스케일된 영상과 원래 영상을 평균연산을 이용해서 아래와 같은 결과 영상을 만드는 것입니다. 그럴려면 우선 0.5로 스케일링 된 이미지가 필요할 것입니다. 저는 두가지 방법으로 이 과제를 했습니다.
+
+첫번째 방법은 우선 원본영상으로 0.5스케일 4개의 영상을 파일로 만들고 그 파일과 원본화일을 가지고 평균연산을 하는 것입니다. 만든 0.5스케일 4개의 영상과 원본영상은 사이즈가 정확히 일치하기 때문에 처음엔 이 방법이 구현이 쉬워서 이렇게 했습니다. 하지만 단점은 프로그램을 두 번 실행해야 했습니다.
+
+두번째 방법은 하나의 프로그램에서 0.5로 스케일된 영상과 원본영상을 전달인자로 받아서 결과영상을 파일로 쓰는 방법을 썼습니다. 첫번째 방법의 단점을 보완하여 프로그램을 한번만 실행하도록 했습니다.
+
+첫번째 방법
+
+* 0.5 scale한 이미지 4개를 원본 영상의 사이즈와 같게 합치는 소스(전달인자로는 원본영상과 출력영상이면 됩니다. 프로그램 자체에서 스케일도 하고 스케일된 이미지 4개를 화일에 쓰기 때문입니다.)
+
+전달인자 : trainsta.pgm output.pgm
+
+#include <stdio.h>
+
+extern image_ptr read_pnm(char *filename, int *rows, int *cols, int *type);
+void scale_pnm(image_ptr buffer, char *fileout, int rows, int cols, float x_scale, float y_scale, int type);
+
+int main(int argc, char *argv[]){
+char filein[100];
+char fileout[100];
+int rows, cols;
+image_ptr buffer;
+int type;
+float x_scale=0.5;
+float y_scale=0.5;
+
+if(argc == 3){
+strcpy(filein, argv[1]);
+strcpy(fileout, argv[2]);
+}else{
+printf("Input name of input file\n");
+gets(filein);
+printf("\nInput name of output file\n");
+gets(fileout);
+printf("\n");
+}
+
+buffer = read_pnm(filein, &rows, &cols, &type);
+scale_pnm(buffer, fileout, rows, cols, x_scale, y_scale, type);
+IP_FREE(buffer);
+return 0;
+}
+
+
+void scale_pnm(image_ptr buffer, char *fileout, int rows, int cols, float x_scale, float y_scale, int type){
+unsigned long x,y,z;
+unsigned long index;
+unsigned long source_index;
+unsigned char *line_buff;
+int new_rows, new_cols;
+unsigned line;
+FILE *fp;
+unsigned long X_Source, Y_Source;
+pixel_ptr color_buff;
+
+if((fp=fopen(fileout, "wb")) == NULL){
+printf("Unable to open %s for output\n",fileout);
+exit(1);
+}
+new_cols = cols * x_scale * 2; //가로로 두번
+new_rows = rows * y_scale;
+fprintf(fp, "P%d\n%d %d\n255\n", type, new_cols, rows);
+if(type == 5) /* PGM file */
+line = new_cols;
+else /* PPM file */
+{
+line = new_cols * 3;
+color_buff = (pixel_ptr) buffer;
+}
+line_buff = (unsigned char *) malloc(line);
+for(z=0; z<2; z++){ //세로로 두번 반복
+for(y=0; y<new_rows; y++){
+index = 0;
+for(x=0; x<new_cols; x++){
+X_Source = (unsigned long)((x / x_scale) + 0.5);
+Y_Source = (unsigned long)((y / y_scale) + 0.5);
+source_index = Y_Source * cols + X_Source;
+if(type == 5) /* PGM */
+line_buff[index++] = buffer[source_index];
+else /* PPM */
+{
+line_buff[index++] = color_buff[source_index].r;
+line_buff[index++] = color_buff[source_index].g;
+line_buff[index++] = color_buff[source_index].b;
+}
+}
+fwrite(line_buff, 1, line, fp);
+}
+}
+fclose(fp);
+}
+
+ 
+
+* Size가 같은 영상을 합성하는 소스
+
+전달인자 : 0.5스케일4개로만든영상.pgm trainsta.pgm output.pgm (3개입니다.)
+
+#include <stdio.h>
+#define frame_operation(X1, X2) (((unsigned int) (X1) + (X2))/2)
+extern int getnum(FILE *fp);
+int main(int argc, char *argv[]){
+char file1[100];
+char file2[100];
+char fileout[100];
+int rows, cols;
+unsigned long i,j;
+unsigned long bytes_per_pixel;
+unsigned char *buff1, *buff2;
+unsigned char *buff_out;
+int file_type;
+FILE *fp1, *fp2;
+FILE *fpout;
+int firstchar, secchar;
+int line;
+int temp;
+if(argc == 4){
+strcpy(file1, argv[1]);
+strcpy(file2, argv[2]);
+strcpy(fileout, argv[3]);
+}else{
+printf("Input name of first input file\n");
+gets(file1);
+printf("Input name of second input file\n");
+gets(file2);
+printf("\nInput name of output file\n");
+gets(fileout);
+printf("\n");
+}
+if((fpout = fopen(fileout, "wb")) == NULL){
+printf("Unable to open %s for writing\n",fileout);
+exit(1);
+}
+if((fp1 = fopen(file1, "rb")) == NULL){
+printf("Unable to open %s for reading\n",file1);
+exit(1);
+}
+firstchar = getc(fp1);
+secchar = getc(fp1);
+if(firstchar != 'P'){
+printf("You silly goof... This is not a PPM file!\n");
+exit(1);
+}
+cols = getnum(fp1);
+rows = getnum(fp1);
+getnum(fp1);
+if((fp2 = fopen(file2, "rb")) == NULL){
+printf("Unable to open %s for reading\n",file2);
+exit(1);
+}
+firstchar = getc(fp2);
+if(getc(fp2) != secchar){
+printf("Input files are different types...exiting\n");
+exit(1);
+}
+if(firstchar != 'P'){
+printf("You silly goof... This is not a PPM file!\n");
+exit(1);
+}
+if(getnum(fp2) != cols){
+printf("different column sizes...exiting\n");
+exit(1);
+}
+if(getnum(fp2) != rows){
+printf("different row sizes...exiting\n");
+exit(1);
+}
+getnum(fp2);
+if(toupper(secchar) == 'P'){
+bytes_per_pixel = 3;
+file_type = PPM;
+}else{
+bytes_per_pixel = 1;
+file_type = PGM;
+}
+line = bytes_per_pixel * cols;
+buff1 = malloc(line);
+buff2 = malloc(line);
+buff_out = malloc(line);
+if((buff1 == NULL) || (buff2 == NULL) || (buff_out == NULL)){
+printf("unable to malloc enough memory for measley frame process\n");
+exit(1);
+}
+fprintf(fpout,"P%c\n%d %d\n255\n",secchar, cols, rows);
+for(i=0; i<rows; i++){
+fread(buff1, 1, line, fp1);
+fread(buff2, 1, line, fp2);
+for(j=0; j<line; j++){
+temp = frame_operation(buff1[j], buff2[j]);
+CLIP(temp, 0, 255);
+buff_out[j] = temp;
+}
+fwrite(buff_out, 1, line, fpout);
+}
+free(buff1);
+free(buff2);
+free(buff_out);
+fclose(fp1);
+fclose(fp2);
+fclose(fpout);
+return 0;
+}
+
+ 
+
+두번째 방법
+
+이 전 페이지의 프로그램에서 FILE *fp3; 와 unsigned char *buff1_1, *buff1_2, *buff3;을 추가로 선언했습니다. 0.5스케일 영상을 세로로 두번 쓰기 위해선 0.5스케일에 대한 FILE포인터가 하나더 필요했고 0.5스케일을 가로로 두번 쓰기 위해선 buff포인터가 각 FILE 포인터에 하나씩 필요했습니다( buff1_1 은 buff1의 두배 크기이며 buff1_2는 buff3의 두배크기),
+즉,프로그램의 전체 맥락은
+① file2(원본 영상) -> FILE *fp2 -> buff2 -> buff1_1 또는 buff1_2와의 합성 ->buffout -> fileout
+② file1(0.5스케일영상) -> FILE *fp1 -> buff1 -> buff1_1(buff1의 두배) -> buff2와의 합성 -> buffout -> fileout
+③ file1(0.5스케일영상) -> FILE *fp3 -> buff3 -> buff1_2(buff3의 두배) -> buff2와의 합성 -> buffout -> fileout
+으로 이루어 졌습니다.
+
+전달인자 : 0.5로스케일된영상.pgm trainsta.pgm output.pgm (3개입니다.)
+
+#include <stdio.h>
+
+#define frame_operation(X1, X2) (((unsigned int) (X1) + (X2))/2)
+extern int getnum(FILE *fp);
+int main(int argc, char *argv[]){
+char file1[100];
+char file2[100];
+char fileout[100];
+int rows, cols, f_cols, f_rows;
+unsigned long i,j,k,h;
+unsigned long bytes_per_pixel;
+unsigned char *buff1, *buff2, *buff1_1, *buff1_2, *buff3;
+unsigned char *buff_out;
+int file_type;
+FILE *fp1, *fp2,*fp3;
+FILE *fpout;
+int firstchar, secchar;
+int line;
+int temp;
+
+if(argc == 4){
+strcpy(file1, argv[1]);
+strcpy(file2, argv[2]);
+strcpy(fileout, argv[3]);
+}else{
+printf("Input name of first input file\n");
+gets(file1);
+printf("Input name of second input file\n");
+gets(file2);
+printf("\nInput name of output file\n");
+gets(fileout);
+printf("\n");
+}
+if((fpout = fopen(fileout, "wb")) == NULL){
+printf("Unable to open %s for writing\n",fileout);
+exit(1);
+}
+if((fp1 = fopen(file1, "rb")) == NULL){
+printf("Unable to open %s for reading\n",file1);
+exit(1);
+}
+if((fp3 = fopen(file1, "rb")) == NULL){
+printf("Unable to open %s for reading\n",file1);
+exit(1);
+}
+firstchar = getc(fp1);
+secchar = getc(fp1);
+firstchar = getc(fp3);
+secchar = getc(fp3);
+if(firstchar != 'P'){
+printf("You silly goof... This is not a PPM file!\n");
+exit(1);
+}
+cols = getnum(fp1);
+rows = getnum(fp1);
+cols = getnum(fp3);
+rows = getnum(fp3);
+getnum(fp1);
+getnum(fp3);
+if((fp2 = fopen(file2, "rb")) == NULL){
+printf("Unable to open %s for reading\n",file2);
+exit(1);
+}
+firstchar = getc(fp2);
+if(getc(fp2) != secchar){
+printf("Input files are different types...exiting\n");
+exit(1);
+}
+if(firstchar != 'P'){
+printf("You silly goof... This is not a PPM file!\n");
+exit(1);
+}
+if(getnum(fp2) != cols*2){
+printf("different column sizes...exiting\n");
+exit(1);
+}
+if(getnum(fp2) != rows*2){
+printf("different row sizes...exiting\n");
+exit(1);
+}
+getnum(fp2);
+if(toupper(secchar) == 'P'){
+bytes_per_pixel = 3;
+file_type = PPM;
+}else{
+bytes_per_pixel = 1;
+file_type = PGM;
+}
+line = bytes_per_pixel * cols ;
+buff1 = malloc(line);
+buff3 = malloc(line);
+buff1_1 = malloc(line * 2);
+buff1_2 = malloc(line * 2);
+buff2 = malloc(line*2);
+buff_out = malloc(line*2);
+
+if((buff1 == NULL) || (buff2 == NULL) || (buff_out == NULL)){
+printf("unable to malloc enough memory for measley frame process\n");
+exit(1);
+}
+f_cols = cols * 2;
+f_rows = rows * 2;
+fprintf(fpout,"P%c\n%d %d\n255\n",secchar, f_cols, f_rows);
+
+for(i=0; i<rows; i++){
+fread(buff1, 1, line, fp1);
+k = 0;
+for(h=0;h<2;h++){
+for(j=0; j<line; j++) buff1_1[k++] = buff1[j];
+}
+fread(buff2, 1, line*2, fp2);
+for(j=0; j<line*2; j++){
+temp = frame_operation(buff1_1[j], buff2[j]);
+CLIP(temp, 0, 255);
+buff_out[j] = temp;
+}
+fwrite(buff_out, 1, line*2, fpout);
+}
+for(i=0; i<rows; i++){
+fread(buff3, 1, line, fp3);
+k = 0;
+for(h=0;h<2;h++){
+for(j=0; j<line; j++) buff1_2[k++] = buff3[j];
+}
+fread(buff2, 1, line*2, fp2);
+for(j=0; j<line*2; j++){
+temp = frame_operation(buff1_2[j], buff2[j]);
+CLIP(temp, 0, 255);
+buff_out[j] = temp;
+}
+fwrite(buff_out, 1, line*2, fpout);
+}
+free(buff1);
+free(buff2);
+free(buff3);
+free(buff_out);
+fclose(fp1);
+fclose(fp2);
+fclose(fp3);
+fclose(fpout);
+return 0;
+}
+이번에는 0.7로 scaling 된 trainsta.pgm과 1.3 scaling 된 Birdgirl.pgm을 합성하는 것을 해보겠습니다. 이것은 두영상의 size가 다를 때 작은 크기의 영상으로 setting 하고 큰영상의 우측과 하단은 제거하는 방법입니다.
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <malloc.h>
+#include <math.h>
+#include "ip.h"
+#define frame_operation(X1, X2) (((unsigned int) (X1) + (X2))/2)
+extern int getnum(FILE *fp);
+int main(int argc, char *argv[]){
+char file1[100];
+char file2[100];
+char fileout[100];
+int rows, cols, cols1, cols2, rows1, rows2;
+unsigned long i,j;
+unsigned long bytes_per_pixel;
+unsigned char *buff1, *buff2;
+unsigned char *buff_out;
+int file_type;
+FILE *fp1, *fp2;
+FILE *fpout;
+int firstchar, secchar;
+int line;
+int temp;
+if(argc == 4){
+strcpy(file1, argv[1]);
+strcpy(file2, argv[2]);
+strcpy(fileout, argv[3]);
+}else{
+printf("Input name of first input file\n");
+gets(file1);
+printf("Input name of second input file\n");
+gets(file2);
+printf("\nInput name of output file\n");
+gets(fileout);
+printf("\n");
+}
+if((fpout = fopen(fileout, "wb")) == NULL){
+printf("Unable to open %s for writing\n",fileout);
+exit(1);
+}
+if((fp1 = fopen(file1, "rb")) == NULL){
+printf("Unable to open %s for reading\n",file1);
+exit(1);
+}
+firstchar = getc(fp1);
+secchar = getc(fp1);
+if(firstchar != 'P'){
+printf("You silly goof... This is not a PPM file!\n");
+exit(1);
+}
+if((fp2 = fopen(file2, "rb")) == NULL){
+printf("Unable to open %s for reading\n",file2);
+exit(1);
+}
+firstchar = getc(fp2);
+if(getc(fp2) != secchar){
+printf("Input files are different types...exiting\n");
+exit(1);
+}
+if(firstchar != 'P'){
+printf("You silly goof... This is not a PPM file!\n");
+exit(1);
+}
+// 두개의 입력화일중 작은 사이즈를 결과영상의 사이즈로 취합니다.
+cols1=getnum(fp1);
+rows1=getnum(fp1);
+cols2=getnum(fp2);
+rows2=getnum(fp2);
+getnum(fp1); /* consume max value from input file header */
+if(cols1 <=cols2) cols=cols1;
+else cols=cols2;
+if(rows1 <=rows2) rows=rows1;
+else rows=rows2;
+getnum(fp2); /* consume max value from input file header */
+if(toupper(secchar) == 'P'){
+bytes_per_pixel = 3;
+file_type = PPM;
+}else{
+bytes_per_pixel = 1;
+file_type = PGM;
+}
+line = bytes_per_pixel * cols;
+buff1 = malloc(bytes_per_pixel * cols1);
+buff2 = malloc(bytes_per_pixel * cols2);
+buff_out = malloc(line);
+if((buff1 == NULL) || (buff2 == NULL) || (buff_out == NULL)){
+printf("unable to malloc enough memory for measley frame process\n");
+exit(1);
+}
+fprintf(fpout,"P%c\n%d %d\n255\n",secchar, cols, rows);
+for(i=0; i<rows; i++){
+fread(buff1, 1, bytes_per_pixel * cols1, fp1);
+fread(buff2, 1, bytes_per_pixel * cols2, fp2);
+for(j=0; j<bytes_per_pixel * cols; j++){
+temp = frame_operation(buff1[j], buff2[j]);
+CLIP(temp, 0, 255);
+buff_out[j] = temp;
+}
+fwrite(buff_out, 1, line, fpout);
+}
+free(buff1);
+free(buff2);
+free(buff_out);
+fclose(fp1);
+fclose(fp2);
+fclose(fpout);
+return 0;
+}
+

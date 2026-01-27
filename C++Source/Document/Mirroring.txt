@@ -1,0 +1,44 @@
+영상을 미러하는 것은 영상을 x축 또는 y축에 대해서 단순하게 뒤집는 것입니다.
+
+아래는 미러링의 소스 코드입니다. 상당히 짧다는 것을 느낄 수 있습니다.
+
+#include <stdio.h>
+extern void write_pnm(image_ptr ptr, char filein[], int rows, int cols, int magic_number);
+extern image_ptr read_pnm(char *filename, int *rows, int *cols, int *type);
+void trans_pgm(image_ptr buffer, image_ptr out_buffer, int rows, int cols, char *fileout,int type);
+int main(int argc, char *argv[]){
+char filein[100];
+char fileout[100];
+int rows, cols;
+image_ptr buffer, out_buffer;
+int type;
+if(argc == 3){
+strcpy(filein, argv[1]);
+strcpy(fileout, argv[2]);
+}else{
+printf("Input name of input file\n");
+gets(filein);
+printf("\nInput name of output file\n");
+gets(fileout);
+printf("\n");
+}
+buffer = read_pnm(filein, &rows, &cols, &type);
+//IP_MALLOC 함수를 이용하여 원본영상과 같은 사이즈의 메모리를 확보
+out_buffer = (image_ptr) IP_MALLOC(cols*rows); //pgm화일 일때.
+trans_pgm(buffer, out_buffer, rows, cols, fileout, type);
+IP_FREE(buffer);
+return 0;
+}
+void trans_pgm(image_ptr buffer, image_ptr out_buffer, int rows, int cols, char *fileout,int type){
+int x,y;
+//*********************************************수평 미러링
+for(y=0; y<rows; y++)
+for(x=0; x<cols; x++)
+out_buffer[y*cols+x] = buffer[y*cols+(cols-1-x)];
+//*********************************************수직 미러링
+for(y=0; y<rows; y++)
+for(x=0; x<cols; x++)
+out_buffer[y*cols+x] = buffer[(rows-1-y)*cols+x];
+write_pnm(out_buffer, fileout, rows, cols, type);
+}
+
