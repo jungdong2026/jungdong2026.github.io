@@ -1,0 +1,318 @@
+/********************************************************************
+*                                                                   *
+*                        Edge-Detection method                      *
+*                                                                   *
+*                                                                   *
+*********************************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <math.h>
+
+char in_name1[20];
+int height,width,r;
+long hw;
+unsigned char* origin,* result_h,* result_v,* result,* edge_h,* edge_v,* edge;
+int* temp_h,* temp_v,* temp;
+
+static int Sobel[2][3][3]={
+	{{-1, -2, -1},
+	{  0,  0,  0},
+	{  1,  2,  1}},
+	{{-1,  0,  1},
+	{ -2,  0,  2},
+	{ -1,  0,  1}}};
+
+static int Prewitt[2][3][3]={
+	{{-1, -1, -1},
+	{  0,  0,  0},
+	{  1,  1,  1}},
+	{{-1,  0,  1},
+	{ -1,  0,  1},
+	{ -1,  0,  1}}};
+
+static int Laplacian[3][3][3]={
+	{{ 0, -1,  0},
+	{ -1,  4, -1},
+	{  0, -1,  0}},
+	{{ 1, -2,  1},
+	{ -2,  4, -2},
+	{  1, -2,  1}},
+	{{-1, -1, -1},
+	{ -1,  8, -1},
+	{ -1, -1, -1}}};
+
+void read_image();
+void out_image();
+void Operate(int);
+void Operate_Laplacian();
+void Detect_Edge();
+
+
+/**********************************************************
+*                                                         *
+*                  Reading original image                 *
+*                                                         *
+***********************************************************/
+
+void read_image()
+{
+	FILE* infile1;
+
+	printf(" Enter the original image file name : ");
+	scanf("%s",&in_name1);
+	if((infile1=fopen(in_name1,"rb"))==NULL){
+		printf("\n %s file not found \n", in_name1);
+		exit(-1);
+	}
+
+	do{
+		printf("\n \t What do you want? \n");
+		printf("\t Sobel operate     ---> 1 \n");
+		printf("\t Prewitt operate   ---> 2 \n");
+		printf("\t Laplacian operate ---> 3 \n");
+		printf("\n\t Choose one ---> : ");
+		scanf("%d",&r);
+	} while(r<1 || r>3);
+
+	fread (&width,4,1,infile1);
+	fread (&height,4,1,infile1);
+	hw=height*width;
+
+	origin=(unsigned char*)calloc(hw, sizeof(char));
+	result_h=(unsigned char*)calloc(hw, sizeof(char));
+	result_v=(unsigned char*)calloc(hw, sizeof(char));
+	result=(unsigned char*)calloc(hw, sizeof(char));
+	edge_h=(unsigned char*)calloc(hw, sizeof(char));
+	edge_v=(unsigned char*)calloc(hw, sizeof(char));
+	edge=(unsigned char*)calloc(hw, sizeof(char));
+	temp_h=(int*)calloc(hw, sizeof(int));
+	temp_v=(int*)calloc(hw, sizeof(int));
+	temp=(int*)calloc(hw, sizeof(int));
+	
+	fread(origin,1,hw,infile1);
+
+	fcloseall();
+}
+
+
+/**********************************************************
+*                                                         *
+*                       Edge Operate                      *
+*                                                         *
+***********************************************************/
+
+void Operate(int edge_oper[2][3][3])
+{
+	int i,j,i1,j1,m,n,direction,sum;
+	
+	for(direction=0;direction<2;direction++){
+		for(i=0;i<height;i++){
+			for(j=0;j<width;j++){
+				sum=0;
+				for(m=0;m<3;m++){
+					i1=i+m-1;
+					if(i1<0) i1=0;
+					if(i1>height-1) i1=height-1;
+					for(n=0;n<3;n++){
+						j1=j+n-1;
+						if(j1<0) j1=0;
+						if(j1>width-1) j1=width-1;
+						sum+=(edge_oper[direction][m][n]*origin[width*i1+j1]);
+					}
+				}
+				if(direction==0) temp_h[width*i+j]=sum;
+				else if(direction==1) temp_v[width*i+j]=sum;
+			}
+		}
+	}
+	for(i=0;i<hw;i++){
+		temp[i]=(int)(sqrt(pow(temp_h[i],2.0)+pow(temp_v[i],2.0))+0.5);
+	}
+}
+
+
+void Operate_Laplacian()
+{
+	int i,j,i1,j1,m,n,direction,sum;
+	
+	for(direction=0;direction<3;direction++){
+		for(i=0;i<height;i++){
+			for(j=0;j<width;j++){
+				sum=0;
+				for(m=0;m<3;m++){
+					i1=i+m-1;
+					if(i1<0) i1=0;
+					if(i1>height-1) i1=height-1;
+					for(n=0;n<3;n++){
+						j1=j+n-1;
+						if(j1<0) j1=0;
+						if(j1>width-1) j1=width-1;
+						sum+=(Laplacian[direction][m][n]*origin[width*i1+j1]);
+					}
+				}
+				if(direction==0) temp_h[width*i+j]=sum;
+				else if(direction==1) temp_v[width*i+j]=sum;
+				else if(direction==2) temp[width*i+j]=sum;
+			}
+		}
+	}	
+}
+
+
+/**********************************************************
+*                                                         *
+*                      Edge Detect                        *
+*            (경계를 검출하여 2진 영상으로 표현)          *
+***********************************************************/
+
+void Detect_Edge()
+{
+	int i;
+
+	for(i=0;i<hw;i++){
+		if(temp_h[i]>255) result_h[i]=255;
+		else if(temp_h[i]<0) result_h[i]=0;
+		else result_h[i]=(unsigned char)temp_h[i];
+
+		if(temp_v[i]>255) result_v[i]=255;
+		else if(temp_v[i]<0) result_v[i]=0;
+		else result_v[i]=(unsigned char)temp_v[i];
+
+		if(temp[i]>255) result[i]=255;
+		else if(temp[i]<0) result[i]=0;
+		else result[i]=(unsigned char)temp[i];
+
+		if(temp_h[i]>=128) edge_h[i]=255;
+		else edge_h[i]=0;
+		if(temp_v[i]>=128) edge_v[i]=255;
+		else edge_v[i]=0;
+		if(temp[i]>=128) edge[i]=255;
+		else edge[i]=0;
+	}
+}
+
+
+/**********************************************************
+*                                                         *
+*                        out file                         *
+*                                                         *
+***********************************************************/
+
+void out_image()
+{
+	FILE* outfile1,* outfile2,* outfile3,* outfile4,* outfile5,* outfile6;
+
+	char out_name1[20],out_name2[20],out_name3[20],out_name4[20],out_name5[20],out_name6[20];
+	if(r==1){
+		sprintf(out_name1,"So_h_%s",in_name1);
+		sprintf(out_name2,"So_v_%s",in_name1);
+		sprintf(out_name3,"So_%s",in_name1);
+		sprintf(out_name4,"Sob_h_%s",in_name1);
+		sprintf(out_name5,"Sob_v_%s",in_name1);
+		sprintf(out_name6,"Sob_%s",in_name1);
+	}
+	else if(r==2){
+		sprintf(out_name1,"Pre_h_%s",in_name1);
+		sprintf(out_name2,"Pre_v_%s",in_name1);
+		sprintf(out_name3,"Pre_%s",in_name1);
+		sprintf(out_name4,"Preb_h_%s",in_name1);
+		sprintf(out_name5,"Preb_v_%s",in_name1);
+		sprintf(out_name6,"Preb_%s",in_name1);
+	}
+	else if(r==3){
+		sprintf(out_name1,"La_1_%s",in_name1);
+		sprintf(out_name2,"La_2_%s",in_name1);
+		sprintf(out_name3,"La_3_%s",in_name1);
+		sprintf(out_name4,"Lab_1_%s",in_name1);
+		sprintf(out_name5,"Lab_2_%s",in_name1);
+		sprintf(out_name6,"Lab_3_%s",in_name1);
+	}
+
+	if((outfile1=fopen(out_name1,"wb"))==NULL){
+		printf("\n %s file not found \n", out_name1);
+		exit(-1);
+	}
+	if((outfile2=fopen(out_name2,"wb"))==NULL){
+		printf("\n %s file not found \n", out_name2);
+		exit(-1);
+	}
+	if((outfile3=fopen(out_name3,"wb"))==NULL){
+		printf("\n %s file not found \n", out_name3);
+		exit(-1);
+	}
+	if((outfile4=fopen(out_name4,"wb"))==NULL){
+		printf("\n %s file not found \n", out_name4);
+		exit(-1);
+	}
+	if((outfile5=fopen(out_name5,"wb"))==NULL){
+		printf("\n %s file not found \n", out_name5);
+		exit(-1);
+	}
+	if((outfile6=fopen(out_name6,"wb"))==NULL){
+		printf("\n %s file not found \n", out_name6);
+		exit(-1);
+	}
+
+	fwrite (&width,4,1,outfile1);
+	fwrite (&height,4,1,outfile1);
+	fwrite (result_h,1,hw,outfile1);
+
+	fwrite (&width,4,1,outfile2);
+	fwrite (&height,4,1,outfile2);
+	fwrite (result_v,1,hw,outfile2);
+
+	fwrite (&width,4,1,outfile3);
+	fwrite (&height,4,1,outfile3);
+	fwrite (result,1,hw,outfile3);
+
+	fwrite (&width,4,1,outfile4);
+	fwrite (&height,4,1,outfile4);
+	fwrite (edge_h,1,hw,outfile4);
+
+	fwrite (&width,4,1,outfile5);
+	fwrite (&height,4,1,outfile5);
+	fwrite (edge_v,1,hw,outfile5);
+
+	fwrite (&width,4,1,outfile6);
+	fwrite (&height,4,1,outfile6);
+	fwrite (edge,1,hw,outfile6);
+
+	free(origin);
+	free(result_h);
+	free(result_v);
+	free(result);
+	free(edge_h);
+	free(edge_v);
+	free(edge);
+	free(temp_h);
+	free(temp_v);
+	free(temp);
+
+	fcloseall();
+}
+
+
+
+/**********************************************************
+*                                                         *
+*                      MAIN function                      *
+*                                                         *
+***********************************************************/
+
+void main()
+{
+	printf(" *** This program is a Edge-Detection Program. ***\n\n");
+	
+	read_image();
+	if(r==1) Operate(Sobel);
+	if(r==2) Operate(Prewitt);
+	if(r==3) Operate_Laplacian();
+	Detect_Edge();
+	out_image();
+
+	printf("\n This program ended successfully!!\n");
+	printf(" Press any key!!!");
+	getch();
+}

@@ -1,0 +1,125 @@
+/********************************************************************  
+*                                                                   *
+*        Edge sharpening.                                           *
+*                                                                   *
+*                -  Using nonlinear Laplacian operator.             *
+*                                                                   *
+*                                                                   *
+********************************************************************/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+unsigned char input[256][256];          
+
+
+void getname(char *a, char *b)
+{
+     printf("%s", a);
+     scanf("%s",  b);
+}
+
+
+void display(int count)
+{
+     if(count%50<25)  
+	switch(count%4){
+	      case 0: printf("\\ %3d)th line processed !!! \\\r", count);
+		      break;
+	      case 1: printf("?%3d)th line processed !!! ?r", count);      /* ascii code 179 */
+		      break;
+	      case 2: printf("/ %3d)th line processed !!! /\r", count);
+		      break;
+	      case 3: printf("?%3d)th line processed !!! ?r", count);      /* ascii code 196 */
+		      break;
+	}
+     else
+	switch(count%4){
+	      case 0: printf("\\ %3d)th line processed !!! \\\r", count);
+		      break;
+	      case 1: printf("?%3d)th line processed !!! ?r", count);      /* ascii code 196 */
+		      break;
+	      case 2: printf("/ %3d)th line processed !!! /\r", count);
+		      break;
+	      case 3: printf("?%3d)th line processed !!! ?r", count);      /* ascii code 179 */
+		      break;
+	}
+}
+
+
+void read_image()
+{
+     int i1,i2,datum;
+     char in_name[21];
+     FILE *infile;
+
+     getname("\nEnter name of the input image : ", in_name);
+     if((infile=fopen(in_name,"rb"))==NULL){
+	puts("\n\aError from reading file !!");
+	exit(0);
+     }
+     for(i1=0;i1<70;i1++)
+	fscanf(infile,"%c",&datum);
+     puts("\n\nReading input image ...");
+     for(i2=0;i2<256;i2++)
+	for(i1=0;i1<256;i1++)
+	   fscanf(infile,"%c",&input[i1][i2]);
+     fclose(infile);
+}
+
+
+void edge_sharpen_ing()
+{
+     int i1,i2,i11,i22,datum;
+     float T1,T2,A,B,add;  
+     char out_name[21];
+     FILE *infile,*outfile;
+
+     getname("\n\nEnter name of the output image : ", out_name);
+     if((outfile=fopen(out_name,"wb"))==NULL){
+	puts("\n\n\aFile Creation Error !!\n");
+	exit(0);
+     }
+     if((infile=fopen("jaguar.img","rb"))==NULL){
+	puts("\n\n\aError from reading file !!\n");
+	exit(0);
+     }
+     for(i1=0;i1<70;i1++){
+	fscanf(infile,"%c",&datum);
+	fprintf(outfile,"%c",datum);
+     }
+     printf("\n");
+     for(i2=0;i2<256;i2++){
+	for(i1=0;i1<256;i1++){
+	   if(i1<1)  i11=1;
+	   else if(i1>254)  i11=254;
+	   else  i11=i1;
+	   if(i2<1)  i22=1;
+	   else if(i2>254)  i22=254;
+	   else  i22=i2;
+	   T1=(float)(input[i11-1][i22-1]+input[i11-1][i22+1]+input[i11+1][i22-1]+input[i11+1][i22+1])/4.0;
+	   T2=(float)(input[i11-1][i22]+input[i11][i22-1]+input[i11][i22+1]+input[i11+1][i22])/4.0; 
+	   A=(float)input[i1][i2]-T1;
+	   B=(float)input[i1][i2]-T2;
+	   if(A*B<0.0)                add=0.0;     
+	   else if((A>0.0)&&(B>0.0))  add=min(fabs(A),fabs(B));
+	   else                       add=-min(fabs(A),fabs(B)); 
+	   datum=(int)input[i1][i2]+(int)add;
+	   if(datum<0)    datum=0; 
+	   if(datum>255)  datum=255;
+	   fprintf(outfile,"%c",datum);
+	}
+	display;           
+     }
+     fcloseall();
+}
+
+
+void main()
+{
+     system("cls");
+     read_image();
+     edge_sharpen_ing();
+}

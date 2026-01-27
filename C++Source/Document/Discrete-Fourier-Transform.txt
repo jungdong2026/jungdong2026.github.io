@@ -1,0 +1,175 @@
+/****************************************************
+
+  Discrete Fourier Transform.  
+
+*****************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <malloc.h>
+#include <graph.h>
+
+typedef unsigned char far* far* image;
+typedef float far* far* matrix;
+typedef int far* far* imatrix;
+typedef float far* vector;
+typedef int far* ivector;
+
+enum boolen {FALSE,TRUE};
+vector datain;           
+vector dataout_re;           
+vector dataout_im;           
+char out_name[21];                      
+int N;
+
+void getname(char *a, char *b)
+{
+     printf("%s", a);
+     scanf("%s", b);
+}
+
+int geti(char *a)
+{
+     int b;
+
+     printf("%s",a);
+     scanf("%d",&b);
+     return(b);
+}
+
+float far* vec(unsigned int i)
+{
+     float far* m;
+   
+     m=(float far*)_fmalloc(i*sizeof(float));
+     if(m==NULL){  
+	_ffree(m);
+	return(NULL);
+     }
+     return(m);
+}
+
+void read_data()
+{
+     int i1,i2,datum;
+     char in_name[21];
+     FILE *infile;
+
+     N=geti("Input size of sequence : "); 
+     datain=vec(N);           
+     dataout_re=vec(N);                      
+     dataout_im=vec(N);                      
+     for(i1=0;i1<N;i1++){
+	dataout_re[i1]=0.0;                      
+	dataout_im[i1]=0.0;                      
+     }
+     getname("\nEnter name of the image : ", in_name);
+     getname("\nEnter name of the output file : ", out_name);
+     if((infile=fopen(in_name,"rb"))==NULL){
+	puts("\n\aError from reading file !!");
+	exit(0);
+     }
+     for(i1=0;i1<70;i1++)
+	fscanf(infile,"%c",&datum);
+     for(i2=0;i2<N;i2++)
+	for(i1=0;i1<256;i1++){
+	   fscanf(infile,"%c",&datum);
+	   if(i1==128)  datain[i2]=(float)datum*pow(-1.0,(double)i2);
+	}
+     fclose(infile);
+}
+
+void dft()
+{
+     int n,k,p;
+     vector cf_re,cf_im;         
+     double arg;
+
+/* Create the coefficients */
+     cf_re=vec(N); 
+     cf_im=vec(N); 
+     if((!cf_re)||(!cf_im)){
+	printf("\n\aUnable to allocate memory for coefficients.\n");
+	exit(0);
+     }
+     arg=-8.0*atan(1.0)/N;
+     for(n=0;n<N;n++){
+	cf_re[n]=(float)cos(arg*n);
+	cf_im[n]=(float)sin(arg*n);
+     }
+
+/* Perform the DFT calculation */
+    for(k=0;k<N;k++)
+       for(n=0;n<N;n++){
+	  p=(int)((long)(n*k)%N);
+	  dataout_re[k]+=datain[n]*cf_re[p];
+	  dataout_im[k]+=datain[n]*cf_im[p];
+       }
+}
+
+void out_file()
+{
+     int i1;
+     double f1,f2;
+     FILE *outfile;
+
+     if((outfile=fopen(out_name,"w"))==NULL){
+	printf("\n\n\aFile creation error !!\n");
+	exit(0);
+     }
+     for(i1=0;i1<N;i1++){
+	f1=pow(dataout_re[i1],2.0)+pow(dataout_im[i1],2.0);
+	f2=sqrt(f1);
+	datain[i1]=(float)f2;
+	fprintf(outfile,"F[%3d] = %10.2f + j(%10.2f)\n", i1,dataout_re[i1],dataout_im[i1]);
+     }
+     fclose(outfile);
+}
+
+void draw()
+{
+     int i1;
+     float data,MAX,MIN;
+
+     _setvideomode(_VRES16COLOR);
+     _setbkcolor(4);
+     _rectangle(_GBORDER,100,50,620,400);
+
+     MAX=0.0;
+     MIN=1000.0;
+     _setwindow(TRUE,0,0,N-1,3000);
+     _setviewport(101,51,619,399);
+     _moveto_w(0,0);
+     _setcolor(2);
+     for(i1=0;i1<N;i1++){
+	data=datain[i1];
+	MAX=max(data,MAX);
+	MIN=min(data,MIN);
+	_lineto_w(i1,data);
+     }
+     _moveto_w(0,MAX);
+     _setcolor(9);
+     for(i1=0;i1<256;i1+=2)
+	_setpixel_w(i1,MAX);
+     _moveto_w(0,MIN);
+     _setcolor(9);
+     for(i1=0;i1<256;i1+=2)
+	_setpixel_w(i1,MIN);
+     _settextposition(8,2);
+     printf("MAX=%.1f",MAX);
+     _settextposition(16,2);
+     printf("MIN=%.1f",MIN);
+     getchar();
+     getchar();
+     getchar();
+     _setvideomode(_DEFAULTMODE);
+}
+
+void main()
+{
+     system("cls");
+     read_data();
+     dft();
+     out_file();
+     draw();
+}
