@@ -1,0 +1,321 @@
+// 이 프로그램은 Backpropagation algorithm 을 이용한 lena lmage filtering program 입니다.
+// 원본 레나 파일 ( lena.bin ) 과 가우시안 noise 가 섞인 파일 ( gaulena.bin ) 을 포함했습니다.
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#include<time.h>
+
+#define Number_of_input                   9
+#define Number_of_hidden_neuron          10
+#define Size                            256
+#define Etha                            0.2
+#define Epoch                          1000
+
+struct Hidden_layer
+{
+        double weight[Number_of_input];
+        double output;
+        double delta;
+        double activation;
+        double bias;
+}hidden[Number_of_hidden_neuron];
+
+struct Output_neuron
+{
+        double weight[Number_of_hidden_neuron];
+        double output;
+        double delta;
+        double bias;
+        double activation;
+}output;
+
+double input[Size][Size];
+double target[Size][Size];
+double bp_image[Size][Size];
+double Error ;
+
+void Title(void);
+void Menu(void);
+void Initialize_random(void);
+void Initialize_weight(void);
+void Backpropagation(void);
+void Input_data(void);
+double Sigmoid(double sig);
+void Calculate_output(int , int);
+void Calculate_delta(int , int);
+void Update_weight(int , int);
+void Broadcast_BP_image(void);
+void Read_weight(void);
+void Record_weight(void);
+void Test(void);
+void Broadcast_test_BP_image(void);
+
+void Title()
+{
+        printf("*********************************************************************\n");
+        printf("       Lena image filter using the Backpropagation algorithm         \n");
+        printf("                                       2000.7.25 - 26  bssim         \n");
+        printf("*********************************************************************\n");
+
+        printf("\n                                  If you want to training - [1]\n");
+        printf("                                                       Test - [2]\n");
+        printf("                                                       Quit - [Ctrl-C]\n");
+}
+
+ 
+
+//트레이닝을 할 것인지, 테스트를 할 것인지 메뉴 선택
+void Menu(void)
+{
+        int number;
+        printf("Select number : ");
+        scanf("%d" , &number);
+        printf("\n");
+
+        switch(number)
+        {
+                case 1 :
+                {       printf("\n\nStart training ! \n\n");
+                        Initialize_weight();
+                        Backpropagation();
+                        printf("----------END----------\n");
+                        break;
+                }
+                case 2 :
+                {       printf("Start Test ! \n\n");
+                        Test();
+                        printf("----------END----------\n");
+                        break;
+                }
+                default :
+                {
+                        printf("\n Invalid choice ! \n ");
+                         exit (1) ;
+                }
+        }
+}
+
+//랜덤 함수의 초기화
+void Initialize_random()
+{
+        time_t t;
+        srand (( unsigned int ) time ( &t ));
+}
+
+//weight 값의 초기화
+void Initialize_weight()
+{
+        int a,b,c ;
+        Initialize_random();
+        for( a=0 ; a < Number_of_hidden_neuron ; a++ )
+        {
+                for( b=0 ; b < Number_of_input ; b++ )
+                {
+                        hidden[a].weight[b] = (double) ( rand() % 65536 ) / 65535 ;
+                }
+                 hidden[a].bias = (double) ( rand() % 65536 ) / 65535 ;
+        }
+                for( c=0 ; c < Number_of_hidden_neuron ; c++ )
+                {
+                        output.weight[c] = (double) ( rand() % 65536 ) / 65535 ;
+                }
+                output.bias = (double) ( rand() % 65536 ) / 65535 ;
+}
+ 
+void Input_data() //가우시안 노이즈가 들어간 이미지와 레나 이미지를 입력받는다
+{
+        int i,j ;
+        FILE *fp_input , *fp_target ;
+        fp_input = fopen("/home/stuff/work/image/gaulena.bin","r");
+        fp_target = fopen("/home/stuff/work/image/lena256.bin","r") ;
+         for( j=0 ; j < Size ; j++ )
+        {
+                for( i=0 ; i < Size ; i++ )
+                {
+                        input[i][j] = (double) fgetc (fp_input);
+                        input[i][j] = ( input[i][j] / 256 ) ; // Normalize of data
+                        target[i][j] = (double) fgetc (fp_target);
+                        target[i][j] = ( target[i][j] / 256 ) ; // Normalize of data
+                }
+        }
+        fclose(fp_input);
+        fclose(fp_target);
+}
+
+double Sigmoid(double sig)
+{
+        return( 1 / (1 + exp(-sig))) ;
+}
+
+ // output 값을 게산한다
+void Calculate_output(int a , int b) 
+{
+        int i,j ;
+        double sum = 0 ;
+        for ( i = 0 ; i < Number_of_hidden_neuron ; i++ )
+        {
+                hidden[i].activation = hidden[i].bias +
+                                       hidden[i].weight[0] * input[a][b] +
+                                       hidden[i].weight[1] * input[a+1][b] +
+                                       hidden[i].weight[2] * input[a+2][b] +
+                                       hidden[i].weight[3] * input[a][b+1] +
+                                       hidden[i].weight[4] * input[a+1][b+1] +
+                                       hidden[i].weight[5] * input[a+2][b+1] +
+                                       hidden[i].weight[6] * input[a][b+2] +
+                                       hidden[i].weight[7] * input[a+1][b+2] +
+                                       hidden[i].weight[8] * input[a+2][b+2] ;
+                hidden[i].output = Sigmoid ( hidden[i].activation );
+        }
+
+        for ( j = 0 ; j < Number_of_hidden_neuron ; j++ )
+        sum += output.weight[j] * hidden[j].output ;
+        output.activation = output.bias + sum ;
+        output.output = Sigmoid( output.activation) ;
+        bp_image[a+1][b+1] = output.output * 256 ;
+        Error += 0.5*(target[a+1][b+1] - output.output)*(target[a+1][b+1] - output.output);
+}
+
+void Calculate_delta(int a , int b)
+{
+        int i ;
+        output.delta = ( target[a+1][b+1] - output.output ) * output.output * ( 1 - 	output.output ) ;
+        for( i=0 ; i < Number_of_hidden_neuron ; i++ )
+        {
+                hidden[i].delta =hidden[i].output * ( 1 - hidden[i].output ) * output.delta * 			output.weight[i] ;
+        }
+}
+
+void Update_weight(int a, int b)
+{
+        int i , j ;
+        for( i=0 ; i < Number_of_hidden_neuron ; i++ )
+        {
+                output.weight[i] += Etha * output.delta * hidden[i].output ;
+        }
+        output.bias = Etha * output.delta ;
+        for( j=0 ; j < Number_of_hidden_neuron ; j++ )
+        {
+                hidden[j].bias += Etha * hidden[j].delta ;
+                hidden[j].weight[0] += Etha * hidden[j].delta * input[a][b] ;
+                hidden[j].weight[1] += Etha * hidden[j].delta * input[a+1][b] ;
+                hidden[j].weight[2] += Etha * hidden[j].delta * input[a+2][b] ;
+                hidden[j].weight[3] += Etha * hidden[j].delta * input[a][b+1] ;
+                hidden[j].weight[4] += Etha * hidden[j].delta * input[a+1][b+1] ;
+                hidden[j].weight[5] += Etha * hidden[j].delta * input[a+2][b+1] ;
+                hidden[j].weight[6] += Etha * hidden[j].delta * input[a][b+2] ;
+                hidden[j].weight[7] += Etha * hidden[j].delta * input[a+1][b+2] ;
+                hidden[j].weight[8] += Etha * hidden[j].delta * input[a+2][b+2] ;
+        }
+}
+
+void Backpropagation() //BP 알고리즘을 이용해 trainning 시키는 함수
+{
+        int i ;
+        int a ,b ;
+         for( i=0 ; i < Epoch ; i++ )
+        {
+                Error = 0 ;
+                for( a=0 ; a < (Size - 2) ; a++ )
+                {
+                        for( b=0 ; b < (Size -2) ; b++ )
+                        {
+                                Calculate_output(a , b);
+                                Calculate_delta(a , b);
+                                Update_weight(a , b);
+                        }
+                }
+                printf("Error = %f      Epoch = %d \n\n",Error , (i+1));
+		Broadcast_BP_image();
+                Record_weight();
+        }
+}
+
+void Broadcast_BP_image() // BP 알고리즘에 의해 filtering 된 이미지를 뿌려주는 함수
+{
+        FILE *fp ;
+        int i , j ;
+        fp = fopen("/home/stuff/work/image/bp_lena2.bin" , "w");
+        for( j=0 ; j < Size ; j++ )
+        {
+                for( i=0 ; i < Size ; i++ )
+                fputc(bp_image[i][j] , fp );
+        }
+        fclose(fp);
+}
+
+void Record_weight() //weight 값을 기록하는 함수
+{
+        FILE *fp ;
+        int i , j , k ;
+        fp = fopen("/home/stuff/work/weight2.dat" , "wt");
+        for( i=0 ; i < Number_of_hidden_neuron ; i++ )
+        {
+                fprintf( fp , "%f \n" , hidden[i].bias );
+                for( j=0 ; j < Number_of_input ; j++ )
+                {
+                        fprintf( fp , "%f \n" , output.weight[j]);
+                }
+        }
+        fprintf( fp ,"%f \n" , output.bias );
+        for( k=0 ; k < Number_of_hidden_neuron ; k++ )
+        {
+                fprintf( fp , "%f \n" , output.weight[k] );
+        }
+        fclose(fp);
+}
+
+void Read_weight() //weight 값을 읽어들이는 함수
+{
+        FILE *fp ;
+        int i , j , k ;
+        fp = fopen("/home/stuff/work/weight2.dat" , "r");
+        for( i=0 ; i < Number_of_hidden_neuron ; i++ )
+        {
+                fscanf( fp , "%lf" , &hidden[i].bias );
+                for( j=0 ; j < Number_of_input ; j++ )
+                {
+                        fscanf( fp, "%lf" , &hidden[i].weight[j]);
+                }
+        }
+        fscanf( fp, "%lf" , &output.bias );
+        for( k=0 ; k < Number_of_hidden_neuron ; k++ )
+        {
+                fscanf( fp, "%lf" , &output.weight[k] );
+        }
+        fclose(fp);
+}
+
+void Test() //Optimal weight 값으로 filtering 된 이미지를 테스트 하는 함수
+{
+        int i , j ;
+        Read_weight() ;
+        for( i=0 ; i < Size ; i++ )
+        {
+                for( j=0 ; j < Size ; j++ )
+                {
+                        Calculate_output(i , j);
+                }
+        }
+        Broadcast_test_BP_image();
+}
+        
+void Broadcast_test_BP_image()
+{
+        FILE *fp ;
+        int i , j ;
+        fp = fopen("/home/stuff/work/image/bp_lena2_test.bin" , "w" );
+        for( j=0 ; j < Size ; j++ )
+        {
+                for( i=0 ; i < Size ; i++ )
+                fputc( bp_image[i][j] , fp );
+        }
+        fclose(fp);
+}
+int main(void)
+{
+        Title() ;
+        Input_data() ;
+        Menu();
+        return 0;
+ }
