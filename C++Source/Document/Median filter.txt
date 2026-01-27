@@ -76,13 +76,11 @@ void display(int count)
                    break;  /* ascii code 196 */
      }
 }
-
 /************************************************ 
 *                                               *
 *     Reading original and degraded image.      *
 *                                               *
 ************************************************/
-
 void read_image()
 {
      int i1,i2,datum;
