@@ -1,0 +1,81 @@
+﻿#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int sizeHeight,sizeWidth;
+unsigned char *image1,*image2;
+char iname1[30],iname2[30];
+
+readImage()
+{
+   FILE *fi1,*fi2;
+   if((fi1=fopen(iname1,"rb"))==NULL){
+      printf(" file not found!"); exit(0);
+      }
+   if((fi2=fopen(iname2,"rb"))==NULL){
+      printf(" file not found!"); exit(0);
+      }
+  fread(&sizeHeight,4,1,fi1); 
+  fread(&sizeWidth,4,1,fi1); 
+  image1=(unsigned char *)calloc(sizeHeight*sizeWidth,sizeof(char));
+  image2=(unsigned char *)calloc(sizeHeight*sizeWidth,sizeof(char));
+  fread(image1,1,sizeHeight*sizeWidth,fi1);
+  fread(&sizeHeight,4,1,fi2); 
+  fread(&sizeWidth,4,1,fi2); 
+  fread(image2,1,sizeHeight*sizeWidth,fi2);
+  fclose(fi1); fclose(fi2);
+}
+
+double
+snrComp(sigE,noiseE)
+double *sigE,*noiseE;
+{
+   int row,col;
+   double snr,sigSum,noiseSum,temp,sAvg;
+   int value1,value2,valued,pxlNum;
+   double temp1;
+   pxlNum=sizeHeight*sizeWidth;
+   sigSum=0.0; noiseSum=0.0; snr=0.0; sAvg=0.0;
+   for(row=0;row<sizeHeight;row++){
+      for(col=0;col<sizeWidth;col++){
+         temp1=(double)image1[row*sizeWidth+col];
+         sAvg+=(temp1/(double)pxlNum); 
+         }
+      }
+   for(row=0;row<sizeHeight;row++){
+      for(col=0;col<sizeWidth;col++){
+         value1=(int)image1[row*sizeWidth+col];
+         value2=(int)image2[row*sizeWidth+col];
+         valued=value2-value1;
+         value1-=(int)sAvg;
+         sigSum+=((double)(value1*value1)/pxlNum);
+         noiseSum+=((double)(valued*valued)/pxlNum);
+         }
+      } 
+   *sigE=sigSum;
+   *noiseE=noiseSum;
+   temp=sigSum/noiseSum;
+   snr=10.0*log10(temp);
+   return(snr);
+}
+
+int
+main(argc,argv)
+int argc;
+char *argv[];
+{
+   static double snr,sigE,noiseE;
+   strcpy(iname1,argv[1]);
+   strcpy(iname2,argv[2]);
+   printf("\n\n  This program is for certifying SNR in a image!\n");
+   printf(" =================================================\n\n");
+   readImage();
+   snr=snrComp(&sigE,&noiseE);
+   printf("\n\n >> SNR comparison between %s and %s is\n",iname1,iname2);
+   printf(" >> ----------------------------------------\n\n");
+   printf(" >> Signal Energy =%10.3f\n",sigE);
+   printf(" >> Noise  Energy =%10.3f\n\n\n",noiseE);
+   printf(" SSSSoooo, \n\n   SNR = %10.3f dB \n",snr);
+   printf("   ----------------------!\n   Certification OK! \n\n\n\a\a\a");
+   return 1;
+}

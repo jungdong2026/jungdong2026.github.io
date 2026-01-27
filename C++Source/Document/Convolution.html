@@ -1,0 +1,324 @@
+<p>이산 회선(convolution)은 영상 스무딩, 영상강화(crispening, shapening),에지검출 등의 효과를 위해서 
+        빈번하게 사용되는 영상처리 기법입니다.</p>
+      <p>회선기법은 원시 화소에 이웃한 화소들 각각에 가중치를 곱한 합이라고 할 수 있습니다. 가중치는 회선마스크 혹은 회선커널이라고 
+        하는 작은 행렬로 결정됩니다. 이것은 보통 원시화소가 중앙에 위치하도록 홀수를 사용합니다. 중앙의 위치는 출력화소의 위치에 대응됩니다.</p>
+      <p>새로운 화소값은 아래와 같이 이웃한 화소들이 가진 값과 이에 대응하는 회선마스크의 가중치를 곱한 후, 곱해진 값들을 더함으로써 
+        만들어지는 것입니다.</p>
+           
+      <p>회선 마스크에서 계수들의 합이 1 이라면 회선된 영상은 원영상과 같은 평균 밝기값을 갖게 됩니다. 하지만 일부 회선 마스크들은 
+        음의 계수들을 가지며 그들의 합은 0 이 됩니다. 음의 계수를 가지는 경우는 에지 검출에 사용될때를 말합니다.</p>
+      <p>회선 함수의 구현에 있어서 문제점이 하나 있는데 그것은 바로 영상의 경계부분을 어떻게 처리해야 하는 것입니다. 회선 윈도우가 
+        영상의 (0,0) 위치에 그 중심이 놓여질때가 대표적이다. 이럴경우에 영상의 바깥 부분에 위치한 회선 계수들과 곱해지는 것은 
+        어떤 값들일까요? 이러한 문제점의 해결책에는 몇가지 방법이 있습니다.</p>
+      <p>첫째, 회선 윈도우의 빈 셀들의 계수를 0으로 가정하는 것입니다. 이것을 바로 0 삽입(zero-padding)이라고 합니다.</p>
+      <p>두번째, 윈도우가 영상과 중첩되는 첫 위치에서 회선이 시작되도록 하는 것입니다. 회선 마스크의 크기가 3X3일 경우 (0,0) 
+        위치의 화소에 윈도우의 중심 셀을 놓는 대신, (1,1) 위치의 화소에서 회선이 시작되도록 하는 것입니다.</p>
+      <p>여기서는 둘 다 해보이도록 하겠습니다.</p>
+
+      <p>영상의 가능한 부분만 convolution 한 후 경계 pixel을 복사하는 방법</p>
+      
+<p>이전의 방법 중 두번째 방법 먼저 해보겠습니다. 예는 엠보싱(embossing)을 해보겠습니다. </p>
+      <p>소스코드는 아래와 같습니다.</p>
+      <blockquote>
+        <p><font color="#0066FF">#include &lt;stdio.h&gt; <br>
+          #include &lt;string.h&gt; <br>
+          #include &lt;malloc.h&gt; <br>
+          <br>
+           </font></p>
+        <p><font color="#0066FF">void convolve(image_ptr source, int cols, int 
+          rows, int kwidth, int kheight, float *kernel, int bias, char *filename); 
+          <br>
+          extern void write_pnm(image_ptr ptr, char filein[], int rows, int cols, 
+          int magic_number); <br>
+          extern image_ptr read_pnm(char *filename, int *rows, int *cols, int 
+          *type); </font></p>
+        <p><font color="#0066FF">int main(int argc, char *argv[]){ <br>
+          <br>
+          //*************kernel에 따라서 추가,수정해야 할 부분.***<br>
+          int kheight=3,kwidth=3; //3X3의 커널을 의미합니다.<br>
+          int bias=128; //일정한 값을 더해주는데 여기선 128로 한 것입니다.<br>
+          float kernel[9]={-1.,0.,0.,0.,0.,0.,0.,0.,1.}; <br>
+          //****************************************************** <br>
+          <br>
+          char filein[100]; <br>
+          char fileout[100]; <br>
+          int rows, cols; <br>
+          image_ptr source; <br>
+          int type; <br>
+          /* set input filename and output file name */ <br>
+          if(argc == 3){ //argc가 3이므로 이 프로그램은 2개의 argument가 필요합니다.<br>
+          strcpy(filein, argv[1]); //합니다. 원본영상과 출력영상의 이름<br>
+          strcpy(fileout, argv[2]); <br>
+          }else{ <br>
+          printf(&quot;Input name of input file\n&quot;); <br>
+          gets(filein); <br>
+          printf(&quot;\nInput name of output file\n&quot;); <br>
+          gets(fileout); <br>
+          printf(&quot;\n&quot;); <br>
+          } <br>
+          source = read_pnm(filein, &amp;rows, &amp;cols, &amp;type); <br>
+          convolve(source,cols,rows,kwidth,kheight,kernel,bias,fileout);//convolve호출부분<br>
+          IP_FREE(source); <br>
+          return 0; <br>
+          } </font></p>
+        <p><font color="#0066FF">void convolve(image_ptr source, int cols, int 
+          rows, int kwidth, int kheight, float *kernel, int bias, char *filename){ 
+          <br>
+          int x, y, i; <br>
+          int kernx, kerny;<br>
+          int index; <br>
+          int xextra, yextra; <br>
+          int conv_line; <br>
+          float sum; <br>
+          unsigned long destadd; <br>
+          unsigned long sourceadd; <br>
+          unsigned long sourcebase; <br>
+          unsigned char *dest; <br>
+          FILE *fp; <br>
+          unsigned char left[25]; <br>
+          unsigned char right[25]; <br>
+          int xpad, ypad; <br>
+          int last_line; </font></p>
+        <p><font color="#0066FF"> yextra = (kheight/2)*2; <br>
+          ypad = yextra/2; <br>
+          xextra = (kwidth/2)*2; <br>
+          xpad = xextra/2; <br>
+          conv_line = cols - xextra; <br>
+          last_line = rows - yextra; <br>
+          dest = malloc(cols); </font></p>
+        <p><font color="#0066FF"> if((fp=fopen(filename, &quot;wb&quot;)) == NULL){ 
+          <br>
+          printf(&quot;Unable to open %s for output\n&quot;,filename); <br>
+          exit(1); <br>
+          } <br>
+          fprintf(fp, &quot;P5\n%d %d\n255\n&quot;, cols, rows); /* print out 
+          header */ <br>
+          for(y=0; y&lt;last_line; y++){ <br>
+          sourcebase=(unsigned long) cols * y; <br>
+          destadd=0; <br>
+          for(x=xextra/2; x&lt; (cols-xpad); x++){ <br>
+          sum=0.0; <br>
+          index=0; <br>
+          for(kerny=0; kerny&lt;kheight; kerny++) <br>
+          for(kernx=0; kernx&lt;kwidth; kernx++){ <br>
+          sourceadd = sourcebase + kernx + kerny * cols; <br>
+          sum += (source[sourceadd] * kernel[index++]); <br>
+          } <br>
+          sum += bias; <br>
+          CLIP(sum,0.0,255.0); <br>
+          dest[destadd++]=(unsigned char) sum; <br>
+          sourcebase++; <br>
+          } /* for x */ <br>
+          for(i=0; i&lt;xpad; i++) left[i]=dest[0]; <br>
+          for(i=0; i&lt;xpad; i++) right[i]=dest[conv_line-1]; <br>
+          if(y==0) <br>
+          for(i=0; i&lt;ypad; i++){ <br>
+          fwrite(left, 1, xpad, fp); <br>
+          fwrite(dest, 1, conv_line, fp); <br>
+          fwrite(right, 1, xpad, fp); <br>
+          } <br>
+          fwrite(left, 1, xpad, fp); <br>
+          fwrite(dest, 1, conv_line, fp); <br>
+          fwrite(right, 1, xpad, fp); <br>
+          if(y==(last_line-1)) <br>
+          for(i=0; i&lt;ypad; i++){ <br>
+          fwrite(left, 1, xpad, fp); <br>
+          fwrite(dest, 1, conv_line, fp); <br>
+          fwrite(right, 1, xpad, fp); <br>
+          } <br>
+          } /* for y */ <br>
+          }</font><br>
+        </p>
+        <p>여기서 엠보싱이라고 알 수 있는 부분은 <font color="#FF0000">1 <font color="#000000">번 
+          부분의 커널 배열 부분입니다. 엠보싱 마스크의 계수는 중앙값으로 0을 가지며, 계수의 합도 0이 됩니다. 이 마스크의 기본 
+          특징은 중앙에 위치한 계수에 대하여 다른 계수들을 상쇄시키는 것입니다. 결과영상은 영역처리의 소개 부분에 있습니다.</font></font></p>
+        <p><font color="#000000">지금의 이 코드를 잘 보세요. 영역처리의 거의 모든 것들을 이 소스코드로 할 것입니다. 
+          물론 <font color="#FF0000">1</font> 번 부분을 수정함으로써 가능합니다.</font></p>
+
+
+      <p> 0 삽입방법 (zero-padding)</p>
+      <p>이전의 방법 중 첫번째 방법입니다. 예는 엠보싱(embossing)을 해보겠습니다. 참고로 이 소스는 제가 강의과제로 했기때문에 
+        전혀 검증되지 않은 0 삽입 소스코드임을 알려드립니다.</p>
+      <p>소스코드는 아래와 같습니다.</p>
+      <blockquote> 
+        <p><font color="#0066FF">#include &lt;stdio.h&gt; <br>
+          #include &lt;string.h&gt; <br>
+          #include &lt;malloc.h&gt; <br>
+           <br>
+          </font></p>
+        <p><font color="#0066FF">void convolve(image_ptr source, int cols, int 
+          rows, int kwidth, int kheight, float *kernel, int bias, char *filename, 
+          char *filein); <br>
+          extern void write_pnm(image_ptr ptr, char filein[], int rows, int cols, 
+          int magic_number); <br>
+          extern image_ptr read_pnm(char *filename, int *rows, int *cols, int 
+          *type); <br>
+          image_ptr zero_buffer_make(char *filename, int xextra, int yextra);<br>
+          extern int getnum(FILE *fp);</font></p>
+        <p><font color="#0066FF">int main(int argc, char *argv[]){ <br>
+          //*************kernel에 따라서 추가,수정해야 할 부분.*******<br>
+          int kheight=3,kwidth=3; <br>
+          int bias=128; <br>
+          float kernel[9]={-1.,0.,0.,0.,0.,0.,0.,0.,1.}; <br>
+          //****************************************************** <br>
+          char filein[100]; <br>
+          char fileout[100]; <br>
+          int rows, cols; <br>
+          image_ptr source; <br>
+          int type; <br>
+          <br>
+          if(argc == 3) <br>
+          { <br>
+          strcpy(filein, argv[1]); <br>
+          strcpy(fileout, argv[2]); <br>
+          } <br>
+          else <br>
+          { <br>
+          printf(&quot;Input name of input file\n&quot;); <br>
+          gets(filein); <br>
+          printf(&quot;\nInput name of output file\n&quot;); <br>
+          gets(fileout); <br>
+          printf(&quot;\n&quot;); <br>
+          } <br>
+          source = read_pnm(filein, &amp;rows, &amp;cols, &amp;type); <br>
+          convolve(source, cols, rows, kwidth, kheight, kernel, bias, fileout, 
+          filein); <br>
+          IP_FREE(source); <br>
+          return 0; <br>
+          } </font></p>
+        <p><font color="#0066FF">void convolve(image_ptr source, int cols, int 
+          rows, int kwidth, int kheight, float *kernel, int bias, char *filename, 
+          char *filein){ <br>
+          int x, y; <br>
+          int kernx, kerny; <br>
+          int index; <br>
+          int xextra, yextra; <br>
+          int conv_line; <br>
+          int last_line; <br>
+          float sum; <br>
+          unsigned long destadd; <br>
+          unsigned long sourceadd; <br>
+          unsigned long sourcebase,copybase; <br>
+          unsigned char *dest; <br>
+          FILE *fp; <br>
+          int xpad, ypad; <br>
+          image_ptr zero; //제로페딩에 쓸 이미지 포인터 변수<br>
+          int zero_cols,zero_rows; // 위 이미지 포인터의 cols, rows</font></p>
+        <p><font color="#0066FF"> yextra = (kheight/2)*2; <br>
+          ypad = yextra/2; <br>
+          xextra = (kwidth/2)*2; <br>
+          xpad = xextra/2; <br>
+          <br>
+          zero_cols=cols+xextra;<br>
+          zero_rows=rows+yextra;<br>
+          zero = zero_buffer_make(filein, xextra, yextra); //입력화일과 xextra,yextra를 
+          전달인자로 해서 zero에 메모리 할당<br>
+          dest = malloc(cols);<br>
+          <br>
+          //zero-padding 시작<br>
+          index=0;<br>
+          for(y=0;y&lt;zero_rows;y++)<br>
+          for(x=0;x&lt;zero_cols;x++)<br>
+          zero[index++]=0;<br>
+          index=0;<br>
+          for(y=ypad;y&lt;rows+ypad;y++){ //<br>
+          copybase=(unsigned long)zero_cols*y+xpad;<br>
+          for(x=xpad;x&lt;cols+xpad;x++)<br>
+          zero[copybase++]=source[index++];<br>
+          }<br>
+          //zero-padding 끝</font></p>
+        <p><font color="#0066FF"> if((fp=fopen(filename, &quot;wb&quot;)) == NULL) 
+          <br>
+          { <br>
+          printf(&quot;Unable to open %s for output\n&quot;,filename); <br>
+          exit(1); <br>
+          } <br>
+          fprintf(fp, &quot;P5\n%d %d\n255\n&quot;, cols, rows); /* print out 
+          header */ <br>
+          conv_line=zero_cols-xextra;<br>
+          last_line=zero_rows-yextra;</font></p>
+        <p><font color="#0066FF"> for(y=0; y&lt;last_line; y++){ <br>
+          sourcebase=(unsigned long) zero_cols * y; <br>
+          destadd=0; <br>
+          for(x=xextra/2; x&lt;zero_cols-xpad; x++){ <br>
+          sum=0.0; <br>
+          index=0; <br>
+          for(kerny=0; kerny&lt;kheight; kerny++) <br>
+          for(kernx=0; kernx&lt;kwidth; kernx++){ <br>
+          sourceadd = sourcebase + kernx + kerny * zero_cols; <br>
+          sum += (zero[sourceadd] * kernel[index++]); <br>
+          } <br>
+          sum += bias; <br>
+          CLIP(sum,0.0,255.0); <br>
+          dest[destadd++]=(unsigned char) sum; <br>
+          sourcebase++; <br>
+          } <br>
+          fwrite(dest, 1, cols, fp); <br>
+          } <br>
+          IP_FREE(zero); <br>
+          }</font></p>
+        <p><font color="#0066FF">image_ptr zero_buffer_make(char *filename, int 
+          xextra, int yextra)<br>
+          {<br>
+          int row_size; <br>
+          int maxval; <br>
+          int rows,cols,type;<br>
+          FILE *fp; <br>
+          int firstchar, secchar; <br>
+          image_ptr ptr; <br>
+          unsigned long total_size,zero_total_size; <br>
+          float scale; <br>
+          int add_rows,add_cols; //추가될 rows와 cols변수</font></p>
+        <p><font color="#0066FF"> /* open input file */<br>
+          if((fp = fopen(filename, &quot;rb&quot;)) == NULL)<br>
+          {<br>
+          printf(&quot;Unable to open %s for reading\n&quot;,filename);<br>
+          exit(1);<br>
+          }</font></p>
+        <p><font color="#0066FF"> firstchar = getc(fp);<br>
+          secchar = getc(fp);</font></p>
+        <p><font color="#0066FF"> if(firstchar != 'P')<br>
+          {<br>
+          printf(&quot;You silly goof... This is not a PPM file!\n&quot;);<br>
+          exit(1);<br>
+          }</font></p>
+        <p><font color="#0066FF"> cols = getnum(fp);<br>
+          rows = getnum(fp);<br>
+          type = secchar - '0';</font></p>
+        <p><font color="#0066FF"> switch(secchar)<br>
+          {<br>
+          case '4': /* PBM */<br>
+          scale = 0.125;<br>
+          maxval = 1;<br>
+          break;<br>
+          case '5': /* PGM */<br>
+          scale = 1.0;<br>
+          maxval = getnum(fp);<br>
+          break;<br>
+          case '6': /* PPM */ <br>
+          scale = 3.0;<br>
+          maxval = getnum(fp);<br>
+          break;<br>
+          default : /* Error */<br>
+          printf(&quot;read_pnm: This is not a Portable bitmap RAWBITS file\n&quot;);<br>
+          exit(1);<br>
+          break;<br>
+          }<br>
+          <br>
+          row_size = (int)(cols * scale);<br>
+          total_size = (unsigned long) rows * row_size; //원래 이미지의 total size<br>
+          add_rows=(int)((cols+xextra)*scale*yextra);//add_rows계산<br>
+          add_cols=(int)(xextra*scale*rows); //add_cols 계산<br>
+          zero_total_size = (unsigned long)(total_size + add_rows + add_cols); 
+          //zero-padding에 쓸 이미지 포인터의 전체 크기 계산<br>
+          ptr = (image_ptr) IP_MALLOC(zero_total_size); //ptr변수에 메모리 할당<br>
+          <br>
+          if(ptr == NULL)<br>
+          {<br>
+          printf(&quot;Unable to malloc %lu bytes\n&quot;,zero_total_size);<br>
+          exit(1);<br>
+          }</font></p>
+        <p><font color="#0066FF"> fclose(fp);<br>
+          return ptr; //ptr 리턴<br>
+          }</font></p>
+        <p>&nbsp;</p>

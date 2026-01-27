@@ -1,0 +1,234 @@
+<p>명암변환은 미리 지정된 함수를 기반으로 하여 이전 화소를 새로운 화소로 변환하는 포인트 처리입니다. 이런 변환은 단순한 룩업테이블을 사용하여 쉽게 구현될 수 있습니다.</p>
+
+<p>이 소스는 명암변환의 기본이 되는 소스이고 6째줄의 바뀔부분의 transform함수만 바꿈으로써 여러가지 명암변환을 할 수 있습니다.</p>
+
+      <p>명암변환은 미리 지정된 함수를 기반으로 하여 이전 화소를 새로운 화소로 변환하는 포인트 처리입니다. 이런 변환은 단순한 룩업테이블을 
+        사용하여 쉽게 구현될 수 있습니다.</p>
+      <p>이 소스는 명암변환의 기본이 되는 소스이고 6째줄의 바뀔부분의 transform함수만 바꿈으로써 여러가지 명암변환을 할 수 
+        있습니다. 뒤에서는 이 부분만을 제공할 것입니다.</p>
+      <blockquote>
+        <p><font color="#0066FF">#include &lt;stdio.h&gt; <br>
+          #include &lt;string.h&gt; <br>
+          #include &lt;malloc.h&gt; <br>
+          #include &lt;math.h&gt; <br>
+          </font></p>
+        <p><font color="#FF6600">#define transform(x) x //바뀔 부분</font></p>
+        <p><font color="#0066FF">extern void write_pnm(image_ptr ptr, char filein[], 
+          int rows, int cols, int magic_number); <br>
+          extern image_ptr read_pnm(char *filename, int *rows, int *cols, int 
+          *type); </font></p>
+        <p><font color="#0066FF">int main(int argc, char *argv[]){ <br>
+          char filein[100]; /* name of input file */ <br>
+          char fileout[100]; /* name of output file */ <br>
+          int rows, cols; /* image rows and columns */ <br>
+          unsigned long bytes_per_pixel; /* number of bytes per image pixel */ 
+          <br>
+          unsigned char LUT[256];/* array for Look-up table */ <br>
+          image_ptr buffer; /* pointer to image buffer */ <br>
+          unsigned long number_of_pixels; /* total number of pixels in image */ 
+          <br>
+          int temp; /* temporary variable */ <br>
+          int type; /* what type of image data */ <br>
+          unsigned long index; <br>
+          </font><font color="#0066FF"><br>
+          /* set input filename and output file name */ <br>
+          if(argc == 3){ <br>
+          strcpy(filein, argv[1]); <br>
+          strcpy(fileout, argv[2]); <br>
+          }else{ <br>
+          printf(&quot;Input name of input file\n&quot;); <br>
+          gets(filein); <br>
+          printf(&quot;\nInput name of output file\n&quot;); <br>
+          gets(fileout); <br>
+          printf(&quot;\n&quot;); <br>
+          }<br>
+          <br>
+          buffer = read_pnm(filein, &amp;rows, &amp;cols, &amp;type); <br>
+          <br>
+          <b>for(index=0;index&lt;256;index++){ <br>
+          temp = (unsigned char)transform(index); <br>
+          CLIP(temp,0,255);<br>
+          LUT[index] = temp; <br>
+          }<br>
+          </b><br>
+          /* determine bytes_per_pixel, 3 for color, 1 for gray-scale */ <br>
+          if(type == PPM) bytes_per_pixel = 3; <br>
+          else bytes_per_pixel = 1; </font></p>
+        <p><font color="#0066FF"> number_of_pixels = bytes_per_pixel * rows * 
+          cols; <br>
+          <br>
+          for(index=0;index&lt;number_of_pixels;index++) <br>
+          buffer[index]=LUT[buffer[index]]; <br>
+          <br>
+          write_pnm(buffer, fileout, rows, cols, type); <br>
+          IP_FREE(buffer); <br>
+          return 0; <br>
+          }</font></p>
+        <p>&nbsp;</p>
+
+
+      <p>원본영상은 trainsta.pgm을 사용했습니다. 소스부분을 명암변화 첫번째 장의 바뀔부분에 복사하세요.</p>
+      <p> * 널변환 (New_pixel = Original_pixel)</p>
+      <p>소스 : #define transform(x) x</p>
+            <p>&nbsp;</p>
+
+
+      <p>* 역변환 (New_pixel = 255 - Original_pixel)</p>
+       
+        
+      <p>소스 : #define transform(x) 255 - x</p>
+            
+
+      <p>* 명암 대비 변환(New_pixel = a * Original_pixel + b)</p>
+       
+        
+      <p>소스 : 이 소스에서 32와 192는 임의로 준 것입니다.</p>
+      <p>int transform(unsigned long x){<br>
+        if(x&gt;=0 &amp;&amp; x&lt;32) return 0;<br>
+        else if(x&gt;=192 &amp;&amp; x&lt;=255) return 255;<br>
+        return (51*x)/32 - 51;<br>
+        }<br>
+      </p>
+      <p>-&gt; input의 범위가 output의 범위보다 작습니다. 1차 함수이며, 기울기가 1 보다 크고, output절편이 
+        음수의 값을 갖습니다. 즉 어느정도까지의(이 함수의 경우 0~32의 input)input은 output이 0 이 되고 어느정도까지의(이 
+        함수의 경우 192~255의 input)input은 output이 255가 됩니다. 따라서, 원본 이미지의 흰색에 가까운 색은 
+        완전한 흰색(255)이 되고 검정색에 가까운 값은 완전한 검정색(0)이 됩니다.</p>
+      <p>&nbsp; </p>
+                  <p>&nbsp;</p>
+
+
+      <p>* 명암 대비 압축 변환 (New_pixel = a * Original_pixel + b)</p>
+       
+        
+      <p>소스 : </p>
+      <p>int transform(unsigned long x){<br>
+        return (192*x)/255 + 32;<br>
+        }<br>
+      </p>
+      <p>-&gt; input은 모든 값을 가지고 output은 모든 값을 가지지 않습니다.(여기서는 임의로 32~224) output값이 
+        작기 때문에 완전한 흰색(255)과 완전한 검정색(0)이 output에는 없습니다.전체적으로 뿌연 이미지가 생성됩니다.</p>
+           
+      <p>&nbsp;</p>
+
+
+      <p>* 8 레벨 포스터라이징 변환</p>
+       
+        
+      <p>소스 : 각각의 범위와 리턴값은 임의로 준 것입니다.</p>
+      <p>int transform(unsigned long x){<br>
+        if(x&gt;=0 &amp;&amp; x&lt;32) return 0; <br>
+        else if(x&gt;=32 &amp;&amp; x&lt;64) return 36; <br>
+        else if(x&gt;=64 &amp;&amp; x&lt;96) return 72; <br>
+        else if(x&gt;=96 &amp;&amp; x&lt;128) return 108; <br>
+        else if(x&gt;=128 &amp;&amp; x&lt;160) return 144; <br>
+        else if(x&gt;=160 &amp;&amp; x&lt;192) return 180; <br>
+        else if(x&gt;=192 &amp;&amp; x&lt;224) return 216; <br>
+        else if(x&gt;=224 &amp;&amp; x&lt;=255) return 255; <br>
+        else return 0; <br>
+        }<br>
+        <br>
+      </p>
+      <p>-&gt; output을 8개의 레벨로 뒀습니다. 즉, input이 (0~31), (32~63), (64~95), (96~127), 
+        (128~159), (160~191), (192~223), (224~255) 범위의 값이 각각 0, 36, 72, 108, 144, 
+        180, 216, 255 의 8레벨의output값을 갖는다. 즉 output이미지는 8가지의 명암으로 이루어져 있다.</p>
+      <p>&nbsp;</p>
+           
+      <p>&nbsp;</p>
+
+
+      <p>* 임계값을 이용한 변환</p>
+      <p>소스 : 여기서 128이란 임계값은 임의로 준 것입니다.</p>
+      <p>#define transform(x) (x&gt;128) ? 255 : 0<br>
+        <br>
+      </p>
+      <p>-&gt; O 임의의 명암값(여기선 128)을 기준으로 input이 그 값보다 크면 흰색(255), 그 값보다 작으면 검정색(0)을 
+        줍니다. 따라서 output 이미지는 흰색과 검정색 두 값으로 이루어져 있습니다.</p>
+      <p>&nbsp;</p>
+                  <p>&nbsp;</p>
+
+
+      <p>* 범위가 주어지는 임계값을 이용한 변환</p>
+       
+        
+      <p>소스 : 여기서의 범위는 임의로 준 것입니다.</p>
+      <p>int transform(unsigned long x){ <br>
+        if(x&gt;96 &amp;&amp; x&lt;=127) return 96; <br>
+        else if(x&gt;127 &amp;&amp; x&lt;160) return 160; <br>
+        else return (int)x; <br>
+        }<br>
+        <br>
+        <br>
+      </p>
+      <p>-&gt; 중간 명암에 범위를 주어서 input이 96~127사이면 output을 96으로 input이 128~159 사이면 
+        output을 160으로 하여서 중간 명암을 갖는 input은 둘 중 하나의 output을 가집니다.</p>
+      <p>&nbsp;</p>
+                  <p>&nbsp;</p>
+
+
+      <p>* 2비트 클리핑 변환</p>
+       
+        
+      <p>소스 : 여기서의 범위는 임의로 준 것입니다.</p>
+      <p>int transform(unsigned long x){<br>
+        if(x&gt;=0 &amp;&amp; x&lt;64) return x;<br>
+        else if(x&gt;=64 &amp;&amp; x&lt;128) return (x-64);<br>
+        else if(x&gt;=128 &amp;&amp; x&lt;192) return (x-128);<br>
+        else if(x&gt;=192 &amp;&amp; x&lt;=255) return (x-192);<br>
+        else return 255;<br>
+        }<br>
+        <br>
+      </p>
+      <p>-&gt; 각각의 범위에 따라서 output의 절편이 양수가 아닌 1차 함수를 적용한 것입니다.</p>
+      <p>&nbsp;</p>
+                 <p>&nbsp;</p>
+
+
+      <p>* 등명암 윤곽화 변환</p>
+       
+        
+      <p>소스 : 여기서의 범위는 임의로 준 것입니다.</p>
+      <p>int transform(unsigned long x){<br>
+        if(x&gt;=50 &amp;&amp; x&lt;60 || x&gt;=90 &amp;&amp; x&lt;100 || x&gt;=150 
+        &amp;&amp; x&lt;160 || x&gt;=230 &amp;&amp; x&lt;240) return 0;<br>
+        else return x;<br>
+        }<br>
+        <br>
+      </p>
+      <p>-&gt; 임의의 중간중간input값 범위(여기서는 50~60, 90~100, 150~160, 230~240)는 모두 검정색(0)을 
+        output으로 줍니다. 따라서 임의의 중간중간 input은 검은 점으로 output 됩니다.</p>
+      <p></p>
+      <p>&nbsp;</p>
+                  <p>&nbsp;</p>
+
+
+      <p>* 솔라라이징 변환</p>
+       
+        
+      <p>소스 : 여기서의 2차함수는 임의로 만들어서 한것입니다.</p>
+      <p>int transform(unsigned long x){<br>
+        return (-255/16256)*x*x + (65025/16256)*x;<br>
+        }<br>
+        <br>
+      </p>
+      <p>-&gt; 완전한 흰색(255)와 완전한 검정색(0)으로부터 같은 거리에 있는 input의 검정색과 흰색은 같은 검정색을 output으로 
+        주고, 중간 명암의 input들은 점점 흰색(255)을 갖습니다. 따라서 흰색과 검은색에 가까운 이미지는 검은색이 되고 중간의 
+        회색은 흰색이 됩니다.</p>
+      <p></p>
+      <p>&nbsp;</p>
+                  <p>&nbsp;</p>
+
+
+      <p>* 파라볼라 변환</p>
+       
+        
+      <p>소스 : 여기서의 2차함수는 임의로 만들어서 한것입니다.</p>
+      <p>int transform(unsigned long x){<br>
+        return (255/16256)*(x)*(x) - (65025/16256)*(x) + 255;<br>
+        }<br>
+        <br>
+      </p>
+      <p>-&gt; 완전한 흰색(255)와 완전한 검정색(0)으로부터 같은 거리에 있는 input의 검정색과 흰색은 같은 흰색을 output으로 
+        주고, 중간 명암의 input들은 점점 검정색(0)을 갖습니다. 따라서 흰색과 검은색에 가까운 이미지는 흰색이 되고 중간의 회색은 
+        검정색이 됩니다.</p>
+<p></p>
+        <p>지금까지 명암변환이었습니다..</p>

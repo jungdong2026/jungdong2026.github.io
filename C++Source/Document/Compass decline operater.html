@@ -1,0 +1,157 @@
+<p>1. Compass 기울기 연산자</p>
+      <p>이 연산자는 여덟 개의 다른 방향을 가진 마스크를 이용하여 에지를 검출합니다. 처리 방법은 여덟 개의 다른 회선 마스크로 영상을 
+        회선하는 것입니다. 연산의 출력은 8번의 회선 중 최대값을 가진 것이 됩니다. </p>
+      <p>여기서는 제가 강의 과제로 했던 Kirsch 연산자만을 하겠습니다. 연산에 필요한 마스크는 소스코드에 담았습니다.</p>
+      <blockquote>
+        <p><font color="#0066FF">#include &lt;stdio.h&gt; <br>
+          #include &lt;string.h&gt; <br>
+          #include &lt;malloc.h&gt; <br>
+          #include &lt;process.h&gt;<br>
+           </font></p>
+        <p><font color="#0066FF">extern image_ptr read_pnm(char *filename, int 
+          *rows, int *cols, int *type); <br>
+          void convolve(image_ptr source, int cols, int rows, int kwidth, int 
+          kheight,float *com1,float *com2,float *com3, float *com4, float *com5,float 
+          *com6,float *com7,float *com8,int bias, char *filename); <br>
+          float maximum(float s1,float s2,float s3,float s4,float s5,float s6,float 
+          s7,float s8);</font></p>
+        <p><font color="#0066FF">int main(int argc, char *argv[]){ <br>
+          char filein[100]; <br>
+          char fileout[100]; <br>
+          int rows, cols; <br>
+          <b>// Kirsh compass Operator</b><br>
+          float com1[9]={5.0,-3.0,-3.0,5.0,0.0,-3.0,5.0,-3.0,-3.0}; <br>
+          float com2[9]={-3.0,-3.0,-3.0,5.0,0.0,-3.0,5.0,5.0,-3.0}; <br>
+          float com3[9]={-3.0,-3.0,-3.0,-3.0,0.0,-3.0,5.0,5.0,5.0}; <br>
+          float com4[9]={-3.0,-3.0,-3.0,-3.0,0.0,5.0,-3.0,5.0,5.0}; <br>
+          float com5[9]={-3.0,-3.0,5.0,-3.0,0.0,5.0,-3.0,-3.0,5.0}; <br>
+          float com6[9]={-3.0,5.0,5.0,-3.0,0.0,5.0,-3.0,-3.0,-3.0}; <br>
+          float com7[9]={5.0,5.0,5.0,-3.0,0.0,-3.0,-3.0,-3.0,-3.0}; <br>
+          float com8[9]={5.0,5.0,-3.0,5.0,0.0,-3.0,-3.0,-3.0,-3.0}; <br>
+          int kwidth=3; <br>
+          int kheight=3; <br>
+          int bias=0; <br>
+          image_ptr buffer; <br>
+          int type; <br>
+          <br>
+          if(argc == 3) <br>
+          { <br>
+          strcpy(filein, argv[1]); <br>
+          strcpy(fileout, argv[2]); <br>
+          } <br>
+          else <br>
+          { <br>
+          printf(&quot;Input name of input file\n&quot;); <br>
+          gets(filein); <br>
+          printf(&quot;\nInput name of output file\n&quot;); <br>
+          gets(fileout); <br>
+          printf(&quot;\n&quot;); <br>
+          } <br>
+          buffer = read_pnm(filein, &amp;rows, &amp;cols, &amp;type); <br>
+          convolve( buffer, cols, rows, kwidth, kheight, com1, com2, com3, com4, 
+          com5, com6, com7, com8, bias, fileout); <br>
+          IP_FREE(buffer); <br>
+          return 0; <br>
+          } </font></p>
+        <p><font color="#0066FF">void convolve(image_ptr source, int cols, int 
+          rows, int kwidth, int kheight,float *com1,float *com2,float *com3, float 
+          *com4, float *com5,float *com6,float *com7,float *com8,int bias, char 
+          *filename) <br>
+          { <br>
+          int x, y, i; /* image loop variables */ <br>
+          int kernx, kerny; /* kernel loop variables */ <br>
+          int index; /* image index */ <br>
+          int xextra, yextra; /* size of boundary */ <br>
+          int conv_line; /* size of output line */ <br>
+          float sum,sum1,sum2,sum3,sum4,sum5,sum6,sum7,sum8; /* accumulator used 
+          during convolution */ <br>
+          unsigned long destadd; /* destination image address */ <br>
+          unsigned long sourceadd; /* index into source image */ <br>
+          unsigned long sourcebase; /* address of line */ <br>
+          unsigned char *dest; /* destination image line */ <br>
+          FILE *fp; /* output file pointer */ <br>
+          unsigned char left[25]; /* storage of left pixel for duplication */ 
+          <br>
+          unsigned char right[25]; /* storage of right pixel for duplication */ 
+          <br>
+          int xpad, ypad; /* number of pixels to duplicate at edges */ <br>
+          int last_line; /* last line to process */ <br>
+          int k;<br>
+          yextra = (kheight/2)*2; <br>
+          ypad = yextra/2; <br>
+          xextra = (kwidth/2)*2; <br>
+          xpad = xextra/2; <br>
+          conv_line = cols - xextra; <br>
+          last_line = rows - yextra; <br>
+          dest = malloc(cols); </font></p>
+        <p><font color="#0066FF"> if((fp=fopen(filename, &quot;wb&quot;)) == NULL) 
+          <br>
+          { <br>
+          printf(&quot;Unable to open %s for output\n&quot;,filename); <br>
+          exit(1); <br>
+          } <br>
+          fprintf(fp, &quot;P5\n%d %d\n255\n&quot;, cols, rows); /* print out 
+          header */ </font></p>
+        <p><font color="#0066FF"> for(y=0; y&lt;last_line; y++) <br>
+          { <br>
+          sourcebase=(unsigned long) cols * y; <br>
+          destadd=0; <br>
+          for(x=xextra/2; x&lt; (cols-xpad); x++) <br>
+          { <br>
+          sum1=sum2=sum3=sum4=sum5=sum6=sum7=sum8=0.0; <br>
+          index=0; <br>
+          for(kerny=0; kerny&lt;kheight; kerny++) <br>
+          for(kernx=0; kernx&lt;kwidth; kernx++) <br>
+          { <br>
+          sourceadd = sourcebase + kernx + kerny * cols; <br>
+          k=index++; <br>
+          sum1 += (source[sourceadd] * com1[k]); <br>
+          sum2 += (source[sourceadd] * com2[k]); <br>
+          sum3 += (source[sourceadd] * com3[k]); <br>
+          sum4 += (source[sourceadd] * com4[k]); <br>
+          sum5 += (source[sourceadd] * com5[k]); <br>
+          sum6 += (source[sourceadd] * com6[k]); <br>
+          sum7 += (source[sourceadd] * com7[k]); <br>
+          sum8 += (source[sourceadd] * com8[k]); <br>
+          } <br>
+          sum=maximum(sum1,sum2,sum3,sum4,sum5,sum6,sum7,sum8);<br>
+          sum += bias; <br>
+          CLIP(sum,0.0,255.0); <br>
+          dest[destadd++]=(unsigned char) sum; <br>
+          sourcebase++; <br>
+          } /* for x */ <br>
+          for(i=0; i&lt;xpad; i++) left[i]=dest[0]; <br>
+          for(i=0; i&lt;xpad; i++) right[i]=dest[conv_line-1]; <br>
+          if(y==0) <br>
+          for(i=0; i&lt;ypad; i++) <br>
+          { <br>
+          fwrite(left, 1, xpad, fp); <br>
+          fwrite(dest, 1, conv_line, fp); <br>
+          fwrite(right, 1, xpad, fp); <br>
+          } <br>
+          fwrite(left, 1, xpad, fp); <br>
+          fwrite(dest, 1, conv_line, fp); <br>
+          fwrite(right, 1, xpad, fp); <br>
+          if(y==(last_line-1)) <br>
+          for(i=0; i&lt;ypad; i++) <br>
+          { <br>
+          fwrite(left, 1, xpad, fp); <br>
+          fwrite(dest, 1, conv_line, fp); <br>
+          fwrite(right, 1, xpad, fp); <br>
+          } <br>
+          } /* for y */ <br>
+          }</font></p>
+        <p><font color="#0066FF">float maximum(float s1,float s2,float s3,float 
+          s4,float s5,float s6,float s7,float s8){ <br>
+          float max; /* current maximum difference */ <br>
+          max = s1; <br>
+          if(s2 &gt;max ) max = s2; <br>
+          if(s3 &gt;max ) max = s3; <br>
+          if(s4 &gt;max ) max = s4; <br>
+          if(s5 &gt;max ) max = s5; <br>
+          if(s6 &gt;max ) max = s6; <br>
+          if(s7 &gt;max ) max = s7; <br>
+          if(s8 &gt;max ) max = s8; <br>
+          return max; <br>
+          }</font><br>
+        </p>
