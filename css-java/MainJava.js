@@ -58,7 +58,15 @@ $(document).ready(function () {
         });
         $(document).ready(function () {
             $('.nav-5 a').click(function () {
-                $('#wrapper').load('https://dong3640.dothome.co.kr/guestbook_list.php', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/lightbox/galleryPhoto.html', function () {
+                    $(this).fadeIn();
+                });
+                return false;
+            });
+        });
+        $(document).ready(function () {
+            $('.nav-6 a').click(function () {
+                $('#wrapper').load('https://jungdong2026.github.io/lightbox/galleryPainting.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
@@ -90,9 +98,19 @@ $(document).ready(function () {
                 return false;
             });
         });
+
         $(document).ready(function () {
             $('.nav-10 a').click(function () {
                 $('#wrapper').load('https://jungdong2026.github.io/MusicBox/MusicBox.html', function () {
+                    $(this).fadeIn();
+                });
+                return false;
+            });
+        });
+
+        $(document).ready(function () {
+            $('.nav-11 a').click(function () {
+                $('#wrapper').load('https://dong3640.dothome.co.kr/guestbook_list.php', function () {
                     $(this).fadeIn();
                 });
                 return false;
