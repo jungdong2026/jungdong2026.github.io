@@ -58,7 +58,7 @@ $(document).ready(function () {
         });
         $(document).ready(function () {
             $('.nav-5 a').click(function () {
-                $('#wrapper').load('https://http://dong3640.dothome.co.kr/guestbook_list.php', function () {
+                $('#wrapper').load('https://dong3640.dothome.co.kr/guestbook_list.php', function () {
                     $(this).fadeIn();
                 });
                 return false;
