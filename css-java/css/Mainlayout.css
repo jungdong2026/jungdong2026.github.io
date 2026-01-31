@@ -208,6 +208,31 @@ pre.article {
 #navMain li {
   list-style: none;
 }
+#navMain ul li { 
+    position: relative; /* 하위 메뉴 위치 기준 */ 
+    display: inline-block; /* 가로 배치 */ 
+}
+
+/* 하위 메뉴 숨기기 */ 
+#navMain ul li ul { 
+    display: none; 
+    position: absolute; 
+    top: 100%; /* 부모 메뉴 바로 아래 */ 
+    left: 0; 
+    background: #074788;
+    padding: 0; margin: 0; 
+}
+
+/* 마우스 올렸을 때 보이기 */ 
+#navMain ul li:hover ul { 
+    display: block; 
+}
+
+/* 하위 메뉴 항목 스타일 */ 
+#navMain ul li ul li { 
+    display: block; 
+    padding: 8px 12px; 
+}
 
 #navMain a {
     display: block;
