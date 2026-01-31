@@ -1094,7 +1094,6 @@ pre {
 }
 
 #navAfter li {
-    float: left;
     list-style :none;
     margin: 0px 10px 0px 10px;
     padding: 0px 10px 0px 10px;
@@ -1103,7 +1102,6 @@ pre {
 
 #navAfter ul li { 
     position: relative; /* 하위 메뉴 위치 기준 */ 
-    display: inline-block; /* 가로 배치 */ 
 }
 
 /* 하위 메뉴 숨기기 */ 
@@ -1115,24 +1113,30 @@ pre {
     background: #074788;
     padding: 0; 
     margin: 0;
-    min-width: 200px; /* ✅ 폭을 넓히는 부분 */ 
-    }
-
-#navAfter ul li ul li a {
-    display: block;
-    text-align: center;      /* 가로 중앙 */
-    height: 30px;            /* 메뉴 높이 */
-    line-height: 30px;       /* 세로 중앙 */
+    width: fit-content; /* 글자 길이에 맞는 최소 폭까지만 확장 */ 
+    gap: 10px; /* 항목 사이 고정 간격 (10px) */ 
+    white-space: nowrap; /* ✅ 줄바꿈 절대 허용 안 함 */ 
 }
 
 /* 마우스 올렸을 때 보이기 */ 
 #navAfter ul li:hover ul { 
-    display: block; 
+    display: flex; /* hover 시 flex로 보이기 */
 }
 
 /* 하위 메뉴 항목 스타일 */ 
 #navAfter ul li ul li { 
-    display: block; 
-    padding: 8px 12px; 
-    white-space: nowrap; /* ✅ 줄바꿈 방지 */
+    flex: 1; 
+    overflow: hidden; /* 넘치는 글자 숨기기 */ 
 }
+
+#navAfter ul li ul li a {
+    display: block;
+    min-width: 80px; /* 예시: 최소 폭 지정 */
+    text-align: center;      /* 가로 중앙 */
+    height: 30px;            /* 메뉴 높이 */
+    line-height: 30px;       /* 세로 중앙 */
+    overflow: hidden; /* 넘치는 글자 숨기기 */ 
+    text-overflow: ellipsis; /* ✅ 말줄임(...) 처리 */ 
+    white-space: nowrap; /* ✅ 항상 한 줄 유지 */
+}
+
