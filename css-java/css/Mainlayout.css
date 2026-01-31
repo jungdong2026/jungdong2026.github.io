@@ -198,6 +198,25 @@ pre.article {
     z-index: 2000; /* 박스보다 위에 오도록 */
     }
 
+#navMain a {
+    width: 100%; /* li 전체를 클릭 가능하게 */
+    display: block;
+    font-size: 12pt;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: Verdana, sans-serif;   
+    text-align : center;
+    text-decoration: none;
+    color: white;
+    padding: 10px 10px;
+    color: #fff;
+}
+
+#navMain a:hover {
+    color: black;
+    background-color: white;
+}          
+
 #navMain ul {
   display: flex;
   background: #074788;
@@ -208,6 +227,7 @@ pre.article {
 #navMain li {
   list-style: none;
 }
+
 #navMain ul li { 
     position: relative; /* 하위 메뉴 위치 기준 */ 
     display: inline-block; /* 가로 배치 */ 
@@ -243,28 +263,6 @@ pre.article {
     padding: 8px 12px; 
     white-space: nowrap; /* ✅ 줄바꿈 방지 */
 }
-
-#navMain a {
-    display: block;
-    font-size: 12pt;
-    font-weight: bold;
-    text-decoration: none;
-    font-family: Verdana, sans-serif;   
-    text-align : center;
-    text-decoration: none;
-    color: white;
-    padding: 10px 10px;
-    color: #fff;
-}
-
-#navMain a {
-  width: 100%; /* li 전체를 클릭 가능하게 */
-}
-
-#navMain a:hover {
-    color: black;
-    background-color: white;
-}          
 
 /*//////////////툴 팁/////////////////////////////////////////////////////////////////*/ 
 a.tip {
@@ -1066,22 +1064,6 @@ pre {
     display: block;
 }
 
-#navAfter ul {
-    position: relative;
-    width: 100%;
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-    height: 30px;
-}
-
-#navAfter li {
-    float: left;
-    list-style :none;
-    margin: 0px 10px 0px 10px;
-    padding: 0px 10px 0px 10px;
-    border-bottom: #eefbe9 1px solid ;
-}
-
 #navAfter a {
     font-size: 11pt;
     font-weight: lighter;
@@ -1098,3 +1080,55 @@ pre {
     color: black;
     background-color: white;
 }   
+
+#navAfter ul {
+    position: relative;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    height: 30px;
+}
+
+#navAfter li {
+    float: left;
+    list-style :none;
+    margin: 0px 10px 0px 10px;
+    padding: 0px 10px 0px 10px;
+    border-bottom: #eefbe9 1px solid ;
+}
+
+#navAfter ul li { 
+    position: relative; /* 하위 메뉴 위치 기준 */ 
+    display: inline-block; /* 가로 배치 */ 
+}
+
+/* 하위 메뉴 숨기기 */ 
+#navAfter ul li ul { 
+    display: none; 
+    position: absolute; 
+    top: 100%; /* 부모 메뉴 바로 아래 */ 
+    left: 0; 
+    background: #074788;
+    padding: 0; 
+    margin: 0;
+    min-width: 200px; /* ✅ 폭을 넓히는 부분 */ 
+    }
+
+#navAfter ul li ul li a {
+    display: block;
+    text-align: center;      /* 가로 중앙 */
+    height: 30px;            /* 메뉴 높이 */
+    line-height: 30px;       /* 세로 중앙 */
+}
+
+/* 마우스 올렸을 때 보이기 */ 
+#navAfter ul li:hover ul { 
+    display: block; 
+}
+
+/* 하위 메뉴 항목 스타일 */ 
+#navAfter ul li ul li { 
+    display: block; 
+    padding: 8px 12px; 
+    white-space: nowrap; /* ✅ 줄바꿈 방지 */
+}
