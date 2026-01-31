@@ -58,16 +58,7 @@ $(document).ready(function () {
         });
         $(document).ready(function () {
             $('.nav-5 a').click(function () {
-                $('#wrapper').load('https://jungdong2026.github.io/lightbox/galleryPhoto.html', function () {
-                    $(this).fadeIn();
-                });
-                return false;
-            });
-        });
-
-        $(document).ready(function () {
-            $('.nav-6 a').click(function () {
-                $('#wrapper').load('https://jungdong2026.github.io/lightbox/galleryPainting.html', function () {
+                $('#wrapper').load('https://http://dong3640.dothome.co.kr/guestbook_list.php', function () {
                     $(this).fadeIn();
                 });
                 return false;
