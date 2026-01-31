@@ -224,12 +224,12 @@ pre.article {
     margin: 0;
     min-width: 200px; /* ✅ 폭을 넓히는 부분 */ 
     }
-    
+
 #navMain ul li ul li a {
     display: block;
     text-align: center;      /* 가로 중앙 */
-    height: 40px;            /* 메뉴 높이 */
-    line-height: 40px;       /* 세로 중앙 */
+    height: 30px;            /* 메뉴 높이 */
+    line-height: 30px;       /* 세로 중앙 */
 }
 
 /* 마우스 올렸을 때 보이기 */ 
