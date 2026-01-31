@@ -1071,13 +1071,10 @@ pre {
 #navAfter a {
     font-size: 11pt;
     font-weight: lighter;
-    text-decoration: none;
     font-family: Verdana, sans-serif;   
     text-align : center;
     text-decoration: none;
     color: white;
-    margin:  0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
 }
 
 #navAfter a:hover {
@@ -1086,8 +1083,8 @@ pre {
 }   
 
 #navAfter ul {
-    position: relative;
-    width: 100%;
+    display: flex; /* 상위 메뉴도 가로 배치 */
+    align-items: center;
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
     height: 50px;
@@ -1097,7 +1094,7 @@ pre {
     list-style :none;
     margin: 0px 10px 0px 10px;
     padding: 0px 10px 0px 10px;
-    border-bottom: #eefbe9 1px solid ;
+    position: relative; /* 하위 메뉴 위치 기준 */
 }
 
 #navAfter ul li { 
