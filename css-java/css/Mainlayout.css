@@ -220,8 +220,10 @@ pre.article {
     top: 100%; /* 부모 메뉴 바로 아래 */ 
     left: 0; 
     background: #074788;
-    padding: 0; margin: 0; 
-}
+    padding: 0; 
+    margin: 0;
+    min-width: 200px; /* ✅ 폭을 넓히는 부분 */ 
+    }
 
 /* 마우스 올렸을 때 보이기 */ 
 #navMain ul li:hover ul { 
@@ -232,6 +234,7 @@ pre.article {
 #navMain ul li ul li { 
     display: block; 
     padding: 8px 12px; 
+    white-space: nowrap; /* ✅ 줄바꿈 방지 */
 }
 
 #navMain a {
