@@ -133,6 +133,7 @@ pre.article {
 /* SNS */ 
 #nav-sns {
   margin-left: auto;            /* 오른쪽 끝으로 밀기 */
+  padding-right: 20px; /* 오른쪽 여백 추가 */
 }
 
 #nav-sns h5 {
@@ -174,7 +175,7 @@ pre.article {
   justify-content: center;
   gap: 40px;
   margin: 0;
-  padding: 15px 30px;
+  padding: 15px 50px;
   list-style: none;
 }
 
@@ -201,6 +202,7 @@ pre.article {
   left: 0;
   background: #fff;
   border: 1px solid #ddd;
+  border-radius: 10px; /* 라운드 추가 */
   border-radius: 6px;
   min-width: 220px;
   box-shadow: 0 6px 12px rgba(0,0,0,0.1);
