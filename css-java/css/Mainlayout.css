@@ -280,7 +280,7 @@ a.tip:hover span {
     width: 100%;
     padding-left: 0px;
     padding-right: 0px;
-    background-color: #f9f7f7;
+    background-color: #ddfaf7; /* 좌측과 동일한 연한 블루 */
     overflow: hidden;
    
 }
