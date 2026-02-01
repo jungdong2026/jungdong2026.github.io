@@ -148,19 +148,12 @@ pre.article {
 
 /*/////////////////////////////////////////////////////////////////////////////////*/
 /*///////////////네비게이션//////////////////////////////////////////////////////////////////*/ 
-#navMain ul {
-    list-style: none; 
+#navMain > ul { /* 1단 메뉴 */ 
     display: flex; 
     gap: 30px; 
     margin: 20px 0 0; 
     padding: 0; 
-}
-
-#navMain a {
-    text-decoration: none; 
-    color: #fff; 
-    font-weight: 500; 
-    transition: color 0.3s ease; 
+    list-style: none; 
 }
 
 #navMain li {
@@ -185,12 +178,14 @@ pre.article {
   position: absolute;
   top: 100%;                    /* 부모 메뉴 바로 아래 */
   left: 0;
+  margin: 0; 
+  padding: 0;
   background-color: #074788;
-  padding: 10px 0;
   list-style: none;
   min-width: 180px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
   border-radius: 4px;
+  z-index: 1000;
 }
 
 /* hover 시 펼치기 */
@@ -199,12 +194,13 @@ pre.article {
 }
 
 #navMain li ul li {
-  padding: 5px 15px;
+  padding: 8px 15px;
 }
 
 #navMain li ul li a {
   color: #fff;
   font-size: 0.9em;
+  display: block; /* 클릭 영역 넓히기 */
 }
 
 #navMain li ul li a:hover {
