@@ -165,8 +165,8 @@ pre.article {
 /*///////////////네비게이션//////////////////////////////////////////////////////////////////*/ 
 /* 헤더 전체 */
 #navMain {
-  background: #f0f0f0;
-  border-bottom: 2px solid #ccc;
+  background: #074788; /* 헤더와 같은 블루 */
+  border-bottom: 2px solid #03345f;
 }
 
 /* 1단 메뉴 */
@@ -185,13 +185,30 @@ pre.article {
 
 #navMain a {
     text-decoration: none; 
-    color: #333; 
-    font-weight: 500; 
+    color: #fff; /* 기본 흰색 글씨 */
+    font-weight: 500;
+    position: relative; 
     transition: color 0.3s ease; 
 }
 
 #navMain a:hover {
-    color: #007acc;
+    color: #ffd700; /* 노란색 포인트 */
+}
+
+/* 밑줄 애니메이션 */ 
+#navMain a::after {
+    content: ""; 
+    position: absolute; 
+    bottom: -5px; 
+    left: 0; 
+    width: 0%; 
+    height: 2px; 
+    background: #fff; /* 흰색 밑줄 */ 
+    transition: width 0.3s ease; 
+}
+
+navMain a:hover::after {
+     width: 100%; /* 호버 시 밑줄 나타남 */ 
 }
 
 /* 2단 메뉴 */
@@ -200,11 +217,10 @@ pre.article {
   position: absolute;
   top: 100%;
   left: 0;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px; /* 라운드 추가 */
+  background: #074788; /* 블루 배경 */
+  border: 1px solid #03345f;
   min-width: 220px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
   z-index: 1000;
 }
 
@@ -215,12 +231,12 @@ pre.article {
 #navMain li ul li a {
     padding: 10px 15px; 
     display: block; 
-    color: #333;
+    color: #fff; /* 흰색 글씨 */
 }
 
 #navMain li ul li a:hover {
-  background: #e6f7ff; 
-  color: #007acc;
+  background: #03345f; /* 더 진한 블루로 hover 효과 */
+  color: #ffd700; /* 글씨는 노란색 */
 }
 
 /*//////////////툴 팁/////////////////////////////////////////////////////////////////*/ 
