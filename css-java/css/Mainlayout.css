@@ -1029,6 +1029,7 @@ pre {
     text-align: center;
     position: relative;
     padding-top: 5px;
+    margin-top: 120px; /* nav 하위 메뉴 펼칠 공간 확보 */
     margin-bottom: 0px;
     border-radius: 0px;
 }
@@ -1059,13 +1060,14 @@ pre {
 
 /*////navAfter/////////////////////////////////////////////////////////////////////////////*/
 #navAfter {
-    width: 100%;
     position: relative;
     background-color:#074788;
     margin: 65px 0px 0px 0px;
     padding: 0px 0px 20px 0px;
     height: 70px;
     display: block;
+    overflow: visible; /* ✅ 하위 메뉴 표시 */
+    z-index: 100; /* footer보다 위 */
 }
 
 #navAfter a {
@@ -1113,6 +1115,7 @@ pre {
     width: fit-content; /* 글자 길이에 맞는 최소 폭까지만 확장 */ 
     gap: 10px; /* 항목 사이 고정 간격 (10px) */ 
     white-space: nowrap; /* ✅ 줄바꿈 절대 허용 안 함 */ 
+    z-index: 999; /* ✅ footer 위로 */
 }
 
 /* 마우스 올렸을 때 보이기 */ 
