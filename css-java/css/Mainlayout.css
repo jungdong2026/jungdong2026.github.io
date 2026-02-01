@@ -1028,19 +1028,18 @@ pre {
     flex-direction: row; /* ✅ row 방향 */ 
     justify-content: center; /* ✅ 가운데 정렬 */
     align-items: flex-start; /* ✅ 위쪽 기준 정렬 */
-    gap: 100px; /* 왼쪽 블록과 오른쪽 블록 사이 간격 */
 }
 
 .left-block { 
     display: flex; /* ✅ 세로 배치 */ 
     flex-direction: column; 
-    gap: 8px; /* counter와 email 간격 좁힘 */
+    gap: 5px; /* counter와 email 간격 좁힘 */
 }
 
 .counter { 
     font-size: 14px; 
     color: #f9f7f7; 
-    margin-left: -50px; /* ✅ counter만 왼쪽으로 50px 이동 */
+    margin-left: -100px; /* ✅ counter만 왼쪽으로 50px 이동 */
 }
 
 .counter img { 
@@ -1061,12 +1060,14 @@ pre {
 }
 
 #footer-email a:hover {
-    color: #074788;
     background-color: #ffffff;
+    color: #074788;
+}
 
 #footer-info {
     font-size: 10pt; 
     color: #ffffff; 
     text-align: left; 
+    margin-left: 100px; /* ✅ footer-info를 오른쪽으로 100포인트 이동 */
 }
 /*////navAfter/////////////////////////////////////////////////////////////////////////////*/
