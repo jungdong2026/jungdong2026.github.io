@@ -101,12 +101,15 @@ pre.article {
      display: flex;
      gap: 20px; 
      align-items: center; 
-     flex-wrap: nowrap; /* 줄바꿈 방지 */
 } 
 
 /*////////////////한글/ 영문/////////////////////////////////////////////////////////////////*/
 
 /* 언어 선택 */ 
+#nav-korEn, #nav-sns {
+  margin-left: 100px;   /* 왼쪽으로 100px 밀기 */
+}
+
 #nav-korEn a {
     color: #fff;
     font-size: 0.9em; 
