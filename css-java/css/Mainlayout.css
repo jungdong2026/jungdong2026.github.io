@@ -100,9 +100,7 @@ pre.article {
 .header-right {
      display: flex;
      gap: 20px; 
-     flex-wrap: nowrap; /* 줄바꿈 방지 */
      align-items: center; 
-     max-width: 100%;
 } 
 
 
@@ -125,6 +123,12 @@ pre.article {
   list-style: none;    /* 불릿 제거 */
   margin: 0;
   padding: 0;
+  align-items: center; /* 세로 가운데 맞춤 */
+}
+
+#nav-korEn a, #nav-sns a {
+  display: flex;
+  align-items: center; /* 글자/아이콘 모두 세로 가운데 */
 }
 
 /*////////////////트위터,페이스북 블로그/////////////////////////////////////////////////////////////////*/
