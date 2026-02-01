@@ -208,7 +208,7 @@ pre.article {
 }
 
 #navMain a {
-    text-decoration: none; 
+    text-decoration: underline; /* navMain 안의 링크만 밑줄 표시 */
     color: #fff; /* 기본 흰색 글씨 */
     font-weight: 500;
     position: relative; 
