@@ -3,14 +3,14 @@ html {
   scroll-behavior: smooth;
 }
 /* 기본 설정 */
-html, body {
+body {
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', 'Roboto', sans-serif;
     padding: 0;
     background-color: #ddfaf7; /* 원하는 색상으로 변경 */
 	color: #333;
-    } 
+} 
 
 a {
     text-decoration: none;
@@ -196,11 +196,15 @@ pre.article {
 /* 1단 메뉴 */
 #navMain > ul {
   display: flex;
-  justify-content: center;
   gap: 40px;
   margin: 0;
-  padding: 15px 50px;
+  padding: 0;
   list-style: none;
+}
+
+#navMain a {
+    text-decoration: underline; /* 메뉴만 밑줄 */ 
+    color: #fff; 
 }
 
 #navMain li {
@@ -319,17 +323,16 @@ a.tip:hover span {
 /*/////////wrapper/////////////////////////////////////////////////////////////////////////////////*/ 
 #wrapper {
     width: 1200px; /* 중앙 폭 고정 */
-    margin: 0 auto; /* 가운데 정렬 */
-    padding: 0px;
+    margin: 20px auto;
+    display: flex;
     background-color: #ddfaf7; /* 중앙도 블루 */
-    overflow: hidden;
+    justify-content: space-between;
 }
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*좌측 내용/////////////////////////////////////////////////////////////////////////////////*/ 
 #contentLeft {
     position: relative;
-    float: left;
     width: 380px;
     background-color: transparent; /* 흰색 대신 투명 */
     right: 0px;
@@ -400,7 +403,6 @@ a.tip:hover span {
 /*우측 내용/////////////////////////////////////////////////////////////////////////////////*/ 
 #contentRight {
     position: relative;
-    float: right;
     width: 800px;
     background-color: transparent; /* 흰색 대신 투명 */
     padding-top: 20px;
@@ -1014,7 +1016,7 @@ pre {
 /*////footer/////////////////////////////////////////////////////////////////////////////*/
 #footer {
     background-color: #074788;
-    width: 1200px;
+    width: 100%;
     color: #ffffff;
     padding: 20px;
     font-family: Arial, sans-serif;
@@ -1022,7 +1024,6 @@ pre {
     display: flex; /* ✅ 가로 배치 */
     flex-direction: row; /* ✅ row 방향 */ 
     justify-content: center; /* ✅ 가운데 정렬 */
-    align-items: flex-start; /* ✅ 위쪽 기준 정렬 */
 }
 
 .left-block { 
