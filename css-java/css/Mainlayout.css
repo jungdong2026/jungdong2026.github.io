@@ -73,199 +73,126 @@ pre.article {
 }
     
 #header {
+    background-color: #074788;
+    color: #fff;
     width: 100%;
-    min-height: 295px; /* 최소 높이 보장 */
     display: flex;
-    background-color: #5b9ef6; 
     flex-direction: column;
+    padding: 20px 40px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.header-top { 
+    display: flex; 
+    justify-content: space-between; /* 좌: 로고, 우: 언어+SNS */ 
+    align-items: center; margin-bottom: 15px; 
 }
 /*//////////////로 고///////////////////////////////////////////////////////////////////*/
-#logo {
-    height: 256px;
-    width: 100%;
-    /*background:url(Main/Image/digtal_image_processing.jpg) no-repeat top left;*/
-    background-color: #5b9ef6;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
-#logo ul{
-    margin: 0;
-    padding: 0;
-    font-size: 1.5em;
-    color: #ffffff;
-}  
-
-#logo li {
-    list-style: none;
-    margin: 0;
-    padding: 50px 0px 0px 200px;
-    font-size: 1.5em;
-    color: #ffffff;
-}      
-#logo h1 {
-    float: left;
-    margin: 0;
-    padding: 0px 0px 0px 200px;
-    font-size: 4.0em;
-    color: #000000;
-} 
 /*////////////////한글/ 영문/////////////////////////////////////////////////////////////////*/
-#nav-korEn {
-    height: 20px;
-    margin: 0px 0px 0px 0px;
-    padding:00px 0px 0px 0px;
-}
-
-#nav-korEn a{
-    color: #ffffff;
-    height: 30px;
-    text-decoration: none;
-    background-color: #5b9ef6;
-}
-
-#nav-korEn a:hover{
-    color: #000000;
-    background-color: #ffffff;   
-}
-
-#nav-korEn li {
-    font-family: Tahoma;
-    font-size: 10pt;
-    text-indent:3px;
-    text-decoration: none;
-    line-height: 20px;
-    list-style :none;
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 80px;
+#nav-korEn ul, #nav-sns ul { 
+    list-style: none; 
+    display: flex; 
+    gap: 15px; 
+    margin: 0; 
+    padding: 0; 
 }
 
 /*////////////////트위터,페이스북 블로그/////////////////////////////////////////////////////////////////*/
-#nav-sns h5{
-    color: #ffffff;
-    margin: 0px 0px 0px 0px;
-    padding: 30px 0px 0px 0px;
-    font-size: 1.0em;
-    text-indent:10px;
-}
-         
-#nav-sns{
-    float:right;
-    height: 20px;
-    margin: 0px 0px 0px 0px;
-    padding: 00px 100px 0px 0px;
+#nav-sns {
+  margin-left: auto;            /* 오른쪽 끝으로 밀기 */
 }
 
-#nav-sns a{
-    color: #ffffff;
-    height: 40px;
-    text-decoration: none;
-    background-color: #5b9ef6;
-}
-
-#nav-sns a:hover{
-    color: #000000;
-    background-color: #ffffff;
-    border-radius: 6px 6px 0px 0px;
-}
-
-#nav-sns ul, #nav-sns li, #nav-sns ul li{
-    float:left;
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-}
-
-#nav-sns li {
-    height: 20px;
-    font-family: Tahoma;
-    font-size: 13pt;
-    font-weight: bold;
-    text-indent:3px;
-    text-decoration: none;
-    line-height: 20px;
-    list-style :none;
-    position: relative;
-    text-align : left;
-    border-radius: 6px 6px 0px 0px;
-    border-right: gray thin solid;
-    border-bottom: gray thin solid;
-}
-/*/////////////////////////////////////////////////////////////////////////////////*/
-/*///////////////네비게이션//////////////////////////////////////////////////////////////////*/ 
-#navMain {
-    position: relative;
-    width: 100%;
-    height:40px;
-    background-color:#074788;
-    z-index: 2000; /* 박스보다 위에 오도록 */
-    }
-
-#navMain a { 
-    display: block; 
-    font-size: 12pt; 
-    font-weight: bold; 
-    font-family: Verdana, sans-serif; 
-    text-align: center; 
-    color: #fff; 
-    padding: 0 15px; /* 좌우 여백 */ 
-    height: 30px; 
-    line-height: 30px; /* 세로 중앙 */ 
-    width: auto; /* 글자 길이에 맞게 */ 
-}
-
-#navMain a:hover {
-    color: black;
-    background-color: white;
-}          
-
-#navMain ul {
+#nav-sns ul {
+  list-style: none;
   display: flex;
-  background: #074788;
+  gap: 15px;                    /* 아이콘 간격 */
   margin: 0;
   padding: 0;
 }
 
-#navMain li {
-  list-style: none;
+#nav-sns a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 0.9em;
+  transition: color 0.3s ease;
 }
 
-#navMain ul li { 
-    position: relative; /* 하위 메뉴 위치 기준 */ 
-    list-style: none;
-    flex: 0 0 auto; /* ✅ 각 메뉴는 내용 크기만큼 */
+#nav-sns a:hover {
+  color: #00ffff;               /* 포인트 컬러 */
 }
 
-/* 2단 메뉴 */
-#navMain ul li ul { 
-    display: none; 
-    position: absolute; 
-    top: 100%; /* 부모 메뉴 바로 아래 */ 
-    left: 0; 
-    background: #074788;
+/*/////////////////////////////////////////////////////////////////////////////////*/
+/*///////////////네비게이션//////////////////////////////////////////////////////////////////*/ 
+#navMain ul {
+    list-style: none; 
+    display: flex; 
+    gap: 30px; 
+    margin: 20px 0 0; 
     padding: 0; 
-    margin: 0;
-    width: auto; /* ✅ 폭 자동 */ 
-    white-space: nowrap; /* ✅ 줄바꿈 방지 */ 
-    }
-
-
-/* 마우스 올렸을 때 보이기 */ 
-#navMain ul li:hover ul { 
-    display: block; 
 }
 
-/* 하위 메뉴 항목 스타일 */ 
-#navMain ul li ul li { 
-    display: block; 
-    padding: 8px 12px; 
-    white-space: nowrap; /* ✅ 줄바꿈 방지 */
+#navMain a {
+    text-decoration: none; 
+    color: #fff; 
+    font-weight: 500; 
+    transition: color 0.3s ease; 
 }
 
-#navMain ul li ul li a {
-    display: block;
-    text-align: center;   /* 가로 중앙 */
-    padding: 0 15px;      /* 좌우 여백만 */
-    height: 30px;
-    line-height: 30px;    /* 세로 중앙 */
-    width: auto; /* fit-content 대신 auto로도 충분 */
+#navMain li {
+  position: relative;           /* 드롭다운 위치 기준 */
+}
+
+#navMain a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: color 0.3s ease;
+}
+
+#navMain a:hover {
+  color: #00ffff;
+}
+
+/* 2단 메뉴 숨기기 */
+#navMain li ul {
+  display: none;
+  position: absolute;
+  top: 100%;                    /* 부모 메뉴 바로 아래 */
+  left: 0;
+  background-color: #074788;
+  padding: 10px 0;
+  list-style: none;
+  min-width: 180px;
+}
+
+/* hover 시 펼치기 */
+#navMain li:hover ul {
+  display: block;
+}
+
+#navMain li ul li {
+  padding: 5px 15px;
+}
+
+#navMain li ul li a {
+  color: #fff;
+  font-size: 0.9em;
+}
+
+#navMain li ul li a:hover {
+  color: #00ffff;
 }
 
 /*//////////////툴 팁/////////////////////////////////////////////////////////////////*/ 
@@ -1039,7 +966,7 @@ pre {
 .counter { 
     font-size: 14px; 
     color: #f9f7f7; 
-    margin-left: -100px; /* ✅ counter만 왼쪽으로 50px 이동 */
+    margin-left: -80px; /* ✅ counter만 왼쪽으로 50px 이동 */
 }
 
 .counter img { 
