@@ -356,33 +356,31 @@
 </div>
 </content>
 
-    <footer id="footer">
-        <div id="footer">
-            Since Dec. 3rd, 2002<br />
-            COPYRIGHT © by Jang Jung-dong ALL RIGHT RESERVED.<br />
-            This document was last modified on <span id="mod" style="color: #00ffff;"></span>
-            <script>
-                {
-                    var date = new Date(document.lastModified);
-                    var output = '';
-                    output += date.toLocaleString();
-                    document.getElementById("mod").innerHTML = output;
-                }
-            </script>
-
-        </div>
-
-
-        <div class="counter" style="margin-bottom:10px; font-family:Arial, sans-serif; font-size:14px; color:#f9f7f7;">
+<footer id="footer">
+    <!-- 왼쪽 영역: counter + email -->
+    <div class="left-block">
+        <div class="counter">
             방문자 수🧑‍🦯‍➡️: 
             <img src="https://hitwebcounter.com/counter/counter.php?page=123456&style=0006&nbdigits=7&type=page&initCount=1108966"
-                alt="Visitor Counter"
-                style="width:100px; height:15px; vertical-align:middle;">
-            <div id="footer-email" style="width:220px; height:auto; font-family:Arial, sans-serif; font-size:14px; color:#f5f5f5;">
-                <a href="https://outlook.live.com/mail/0/notes">💕E-Mail💕</a>
-            </div>
+                alt="Visitor Counter">
         </div>
-    </content>
+    <!-- 이메일 -->
+        <div id="footer-email">
+            <a href="https://outlook.live.com/mail/0/notes">💕E-Mail💕</a>
+        </div>
+    </div>
+
+    <!-- 오른쪽 영역: footer-info -->
+    <div id="footer-info">
+        Since Dec. 3rd, 2002<br />
+        COPYRIGHT © by Jang Jung-dong ALL RIGHT RESERVED.<br />
+        This document was last modified on 
+        <span id="mod" style="color: #00ffff;"></span>
+        <script> 
+            var date = new Date(document.lastModified); 
+            document.getElementById("mod").innerHTML = date.toLocaleString(); 
+        </script>
+    </div>
 </footer>    
 </body>
 </html>

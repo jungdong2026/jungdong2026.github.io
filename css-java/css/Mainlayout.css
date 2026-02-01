@@ -1019,38 +1019,43 @@ pre {
 
 /*////footer/////////////////////////////////////////////////////////////////////////////*/
 #footer {
-    float: left;
-    width: 100%;
-    height: 70px;
     background-color: #074788;
     color: #ffffff;
+    padding: 20px;
+    font-family: Arial, sans-serif;
     font-size: 10pt;
-    font-weight: bold;
-    text-align: center;
-    position: relative;
-    padding-top: 5px;
-    margin-top: 120px; /* nav 하위 메뉴 펼칠 공간 확보 */
-    margin-bottom: 0px;
-    border-radius: 0px;
+    display: flex; /* ✅ 가로 배치 */
+    flex-direction: row; /* ✅ row 방향 */ 
+    justify-content: center; /* ✅ 가운데 정렬 */
+    align-items: flex-start; /* ✅ 위쪽 기준 정렬 */
 }
 
-#footer > div.counter {
-    position: absolute;
-    top: 0px; left: 0px;
-    padding-top: 15px;
-    margin: 0px 0px 0px 40px;
+.left-block { 
+    display: flex; /* ✅ 세로 배치 */ 
+    flex-direction: column; 
+    gap: 15px; /* counter와 email 간격 */ 
+}
+
+.counter { 
+    font-size: 14px; 
+    color: #f9f7f7; 
+}
+
+.counter img { 
+    width: 100px; 
+    height: 15px; 
+    vertical-align: middle; 
 }
 
 #footer-email a {
-    color: #ffffff;
-    background-color: #074788;
-    border-radius: 6px 6px 0px 0px;
-    border-top: white thin outset;
-    border-left: white thin outset;
-    border-right: gray thin solid;
-    border-bottom: gray thin solid;
-    margin: 0px 0px 0px 80px;
-    padding: 0px 20px 0px 20px;
+    display: inline-block; 
+    padding: 5px 15px; 
+    border-radius: 6px; 
+    background-color: #074788; 
+    color: #f5f5f5; 
+    text-decoration: none; 
+    border: 1px solid #ffffff;
+    transition: all 0.3s ease;
 }
 
 #footer-email a:hover {
@@ -1058,4 +1063,9 @@ pre {
     background-color: #074788;
 }
 
+#footer-info {
+    font-size: 10pt; 
+    color: #ffffff; 
+    text-align: left; 
+}
 /*////navAfter/////////////////////////////////////////////////////////////////////////////*/
