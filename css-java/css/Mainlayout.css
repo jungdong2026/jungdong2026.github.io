@@ -78,6 +78,7 @@ pre.article {
     display: flex;
     flex-direction: column;
     padding: 20px 40px;
+    margin: 0 auto; /* 중앙 고정 */
 }
 /* 상단 로고 + SNS/언어 */
 .header-top { 
@@ -323,7 +324,7 @@ a.tip:hover span {
 /*/////////wrapper/////////////////////////////////////////////////////////////////////////////////*/ 
 #wrapper {
     width: 1200px; /* 중앙 폭 고정 */
-    margin: 20px auto;
+    margin: 0 auto; /* 중앙 고정 */
     display: flex;
     background-color: #ddfaf7; /* 중앙도 블루 */
     justify-content: space-between;
@@ -1017,6 +1018,7 @@ pre {
 #footer {
     background-color: #074788;
     width: 1200px;
+    margin: 0 auto; /* 중앙 고정 */
     color: #ffffff;
     padding: 20px;
     font-family: Arial, sans-serif;
