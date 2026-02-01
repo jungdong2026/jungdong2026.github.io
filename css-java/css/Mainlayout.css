@@ -2,15 +2,13 @@
 html {
   scroll-behavior: smooth;
 }
-
+/* 기본 설정 */
 html, body {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow';
-    width: 1200px;
-    min-height: 100%;
-    position: relative;
+    font-family: 'Montserrat', 'Roboto', sans-serif;
     margin: 0 auto;
+    padding: 0;
     background-color: #fefefe; /* 원하는 색상으로 변경 */
-	padding: 0;
+	color: #333;
     } 
 
 a {
@@ -71,7 +69,7 @@ pre.article {
     background: #ffffff;
     word-wrap: break-word;
 }
-    
+/* 헤더 */    
 #header {
     background-color: #074788;
     color: #fff;
@@ -79,14 +77,12 @@ pre.article {
     display: flex;
     flex-direction: column;
     padding: 20px 40px;
-    font-family: 'Noto Sans KR', sans-serif;
 }
-
+/* 상단 로고 + SNS/언어 */
 .header-top { 
     display: flex; 
     justify-content: space-between; /* 좌: 로고, 우: 언어+SNS */ 
-    align-items: center; margin-bottom: 15px; 
-    margin-bottom: 15px;
+    align-items: center; 
 }
 /*//////////////로 고///////////////////////////////////////////////////////////////////*/
 .logo {
@@ -100,16 +96,13 @@ pre.article {
 
 .header-right {
      display: flex;
-     justify-content: flex-end; 
-     align-items: center;
-     gap: 30px; 
-     padding: 10px 20px; 
+     gap: 20px; 
 } 
 
 .site-title {
     text-align: center; 
     font-size: 2em; 
-    margin: 10px 0 20px; 
+    margin: 15px 0;
     color: #ffffff; 
 }
 
@@ -125,13 +118,13 @@ pre.article {
 } 
 
 #nav-korEn a {
-    text-decoration: none; 
-    color: #333; 
+    color: #fff;
     font-size: 0.9em; 
+    transition: color 0.3s ease;
 } 
 
 #nav-korEn a:hover {
-     color: #00bcd4; 
+     color: #ffd700;
 }
 
 
@@ -154,76 +147,59 @@ pre.article {
 }
 
 #nav-sns a {
+  color: #fff;
+  font-size: 0.9em;
   display: flex;
   align-items: center;
   gap: 5px;
-  text-decoration: none;
-  color: #666;
-  font-size: 0.9em;
   transition: color 0.3s ease;
 }
 
 #nav-sns a:hover {
-  color: #00bcd4;             /* 포인트 컬러 */
+  color: #ffd700;         /* 포인트 컬러 */
 }
 
 /*/////////////////////////////////////////////////////////////////////////////////*/
 /*///////////////네비게이션//////////////////////////////////////////////////////////////////*/ 
 /* 헤더 전체 */
 #navMain {
-  background: #fff;                  /* 화이트 배경 */
-  border-bottom: 1px solid #eee;     /* 얇은 라인 */
-  font-family: 'Roboto', sans-serif; /* 현대적 웹폰트 */
+  background: #f0f0f0;
+  border-bottom: 2px solid #ccc;
 }
 
 /* 1단 메뉴 */
 #navMain > ul {
   display: flex;
+  justify-content: center;
   gap: 40px;
   margin: 0;
   padding: 15px 30px;
   list-style: none;
-  justify-content: center;           /* 중앙 정렬 */
+}
+
+#navMain li {
+    position: relative; /* 서브메뉴 기준점 */ 
 }
 
 #navMain a {
-  text-decoration: none;
-  color: #333;                       /* 기본 다크 그레이 */
-  font-weight: 500;
-  position: relative;
-  transition: color 0.3s ease;
-}
-
-#navMain a::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: #00bcd4;               /* 포인트 컬러 */
-  transition: width 0.3s ease;
+    text-decoration: none; 
+    color: #333; 
+    font-weight: 500; 
+    transition: color 0.3s ease; 
 }
 
 #navMain a:hover {
-  color: #00bcd4;
-}
-
-#navMain a:hover::after {
-  width: 100%;                       /* 밑줄 애니메이션 */
+    color: #007acc;
 }
 
 /* 2단 메뉴 */
 #navMain li ul {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.4s ease;
+  display: none; /* 기본 숨김 */
   position: absolute;
   top: 100%;
   left: 0;
   background: #fff;
-  border: 1px solid #eee;
+  border: 1px solid #ddd;
   border-radius: 6px;
   min-width: 220px;
   box-shadow: 0 6px 12px rgba(0,0,0,0.1);
@@ -231,20 +207,18 @@ pre.article {
 }
 
 #navMain li:hover ul {
-  max-height: 500px;
-  opacity: 1;
+    display: block; /* 호버 시 표시 */
 }
 
 #navMain li ul li a {
-  color: #333;
-  padding: 10px 15px;
-  display: block;
-  white-space: nowrap;
+    padding: 10px 15px; 
+    display: block; 
+    color: #333;
 }
 
 #navMain li ul li a:hover {
-  background: #f5f5f5;
-  color: #00bcd4;
+  background: #e6f7ff; 
+  color: #007acc;
 }
 
 /*//////////////툴 팁/////////////////////////////////////////////////////////////////*/ 
