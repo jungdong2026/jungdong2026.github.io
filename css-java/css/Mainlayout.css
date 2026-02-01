@@ -172,25 +172,28 @@ pre.article {
   color: #00ffff;
 }
 
-/* 2단 메뉴 숨기기 */
+/* 2단 메뉴 기본 상태 */
 #navMain li ul {
-  display: none;
+  max-height: 0;              /* 높이를 0으로 */
+  overflow: hidden;           /* 넘치는 내용 숨김 */
+  opacity: 0;                 /* 투명하게 */
+  transition: max-height 0.4s ease, opacity 0.4s ease; 
+  display: block;             /* 항상 block, 대신 높이로 제어 */
   position: absolute;
-  top: 100%;                    /* 부모 메뉴 바로 아래 */
+  top: 100%;
   left: 0;
-  margin: 0; 
-  padding: 0;
   background-color: #074788;
   list-style: none;
-  min-width: 200px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+  min-width: 220px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   border-radius: 4px;
   z-index: 1000;
 }
 
-/* hover 시 펼치기 */
+/* hover 시 펼침 */
 #navMain li:hover ul {
-  display: block;
+  max-height: 500px;          /* 충분히 큰 값으로 설정 */
+  opacity: 1;                 /* 불투명하게 */
 }
 
 #navMain li ul li {
