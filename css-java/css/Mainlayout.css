@@ -9,6 +9,7 @@ html, body {
     padding: 0;
     background-color: #fefefe; /* 원하는 색상으로 변경 */
 	color: #333;
+    width: 1200px;
     } 
 
 a {
