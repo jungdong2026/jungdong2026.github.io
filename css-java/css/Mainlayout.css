@@ -333,7 +333,7 @@ a.tip:hover span {
     position: relative;
     float: left;
     width: 380px;
-    background-color: #ddfaf7;
+    background-color: transparent; /* 흰색 대신 투명 */
     right: 0px;
     padding: 30px 0px 00px 20px;
     margin-right:0px;
@@ -404,7 +404,7 @@ a.tip:hover span {
     position: relative;
     float: right;
     width: 800px;
-    background-color: #ddfaf7;
+    background-color: transparent; /* 흰색 대신 투명 */
     padding-top: 20px;
     }
 
