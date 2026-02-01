@@ -74,7 +74,7 @@ pre.article {
 #header {
     background-color: #074788;
     color: #fff;
-    width: 100%;
+    width: 1200px;
     display: flex;
     flex-direction: column;
     padding: 20px 40px;
@@ -1016,7 +1016,7 @@ pre {
 /*////footer/////////////////////////////////////////////////////////////////////////////*/
 #footer {
     background-color: #074788;
-    width: 100%;
+    width: 1200px;
     color: #ffffff;
     padding: 20px;
     font-family: Arial, sans-serif;
