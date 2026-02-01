@@ -107,7 +107,7 @@ pre.article {
 
 /* 언어 선택 */ 
 #nav-korEn, #nav-sns {
-  margin-left: 100px;   /* 왼쪽으로 100px 밀기 */
+  margin-left: 50px;   /* 왼쪽으로 100px 밀기 */
 }
 
 #nav-korEn a {
