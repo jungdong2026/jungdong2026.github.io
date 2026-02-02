@@ -3,72 +3,69 @@ html {
 }
 
 #chapterAllmyLife {
-    display: flex; 
-    flex-direction: row; 
-    width: 100%;
-    height: auto;
-    overflow: hidden;
+  display: flex; 
+  flex-direction: row; 
+  width: 100%;
+  height: auto;
+  overflow: hidden;
 }
-  
+
 /* 사이드바 */
 .sidebar-myLife {
-  position: fixed;   /* 화면 왼쪽에 고정 */
-  top: 60px;
+  position: fixed;
+  top: 160px;              /* 기존 60px → 160px (100px 더 아래로) */
   left: 0;
   width: 320px;
-  height: calc(100vh - 60px); /* 헤더 제외 높이 */
+  height: calc(100vh - 160px);
   border-radius: 0 12px 12px 0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   padding: 100px 0;
-  z-index: 2000;     /* 콘텐츠보다 위에 오도록 */
+  z-index: 9999;           /* 가장 위로 올려 클릭 가능하게 */
   overflow-y: auto;
 }
 
 .sidebar-myLife ul {
   list-style: none;
   margin: 0;
-  padding: 5px 0px 0px 0px; /* 위=0 / 오른쪽=0 / 아래=20 / 왼쪽 */
+  padding: 5px 0 0 0;
 }
 .sidebar-myLife li {
-  margin: 0px 0;
+  margin: 0;
 }
 .sidebar-myLife a {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 15px 10px 5px 20px; /* 위 / 오른쪽 / 아래 / 왼쪽 */
-  margin: 15px 10px 5px 10px; /* 위 / 오른쪽 / 아래 / 왼쪽 */
+  padding: 15px 10px 5px 20px;
+  margin: 15px 10px 5px 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  color: #000000;
+  color: #000;
   font-size: 26px;
   font-weight: 500;
   text-decoration: none;
   border-radius: 8px;
   transition: all 0.3s ease;
 }
-
 .sidebar-myLife a:hover {
   background: rgba(117, 117, 117, 0.8);
   transform: translateX(6px);
 }
 
-/* 기본 레이아웃 (데스크탑) */
+/* 본문 레이아웃 */
 .myLife {
-  display: flex;
-  gap: 40px;
-  margin-left: 370px;   /* 사이드바와 간격 */
-  margin-top: 100px;    /* 위에서 100px 내려오기 */
+  display: block;          /* flex 대신 block으로 변경 */
+  margin-left: 370px;      /* 사이드바(320px) + 50px 간격 */
+  margin-top: 200px;       /* 기존 100px → 200px (더 아래로) */
   width: auto;
-  height: auto;
-  max-width: calc(100% - 370px); /* 사이드바 + 50px 간격 */
+  height: auto;            /* 내용에 따라 자동 */
+  max-width: 800px;        /* 최대 너비 제한 */
   border: 2px solid #c0c0c0;
   border-radius: 12px;
   box-sizing: border-box;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);  
-  background-color: #ffffff; 
+  background-color: #fff; 
   transition: all 0.3s ease;
 }
-
 
 @media (max-width: 768px) {
   .sidebar-myLife {
@@ -76,7 +73,7 @@ html {
     width: 100%;
     height: auto;
   }
-  .home-myLife {
+  #home-myLife {
     position: relative;
     margin-left: 0;
     margin-top: 0;
@@ -84,71 +81,69 @@ html {
   }
 }
 
-/* 본문 */
-#premiere, 
-#a poem I wrote, 
+/* 본문 섹션 */
+#home-myLife,
+#selfWritten,
+#premiere,
 #LR-AE-PS {
-  padding-top: 0px; /* 헤더와 메뉴 간격 확보 */
-  /* margin: 0px 0px 0px 0px;  위 / 오른쪽 / 아래 / 왼쪽 */
-  /* background-color: lightblue;  섹션 안 색상 */
-  text-align: left;   /* 섹션 안의 모든 요소를 좌측정렬 */
+  padding-top: 0;
+  text-align: left;
 }
-
 
 #home-myLife h1 {
-  padding-top: 10px;  /* 메뉴와 영상 사이 간격 */
-  margin-bottom: 30px;  /* 제목과 영상 사이 간격 */
-  color: #013cfd;   /* 글자 색상 (주황색) */
-  font-size: 40px;  /* 글자 크기 */
-  font-weight: bold; /* 굵게 */
+  padding-top: 10px;
+  margin-bottom: 30px;
+  color: #013cfd;
+  font-size: 40px;
+  font-weight: bold;
 }
 
-/* 전체 플레이어 래퍼 (팝업) */
+/* 콘텐츠 래퍼 */
 .myLife-wrapper {
   display: none; 
-  background: rgb(254, 255, 255);       /* 원하는 배경색 */
+  background: #fefefe;
 }
 
 .myLife-wrapper.active {
-  display: flex;
+  display: block;          /* flex 대신 block으로 변경 */
   position: relative;
   width: 100%;
-  height: auto;
-  justify-content: center;
-  align-items: flex-start;
-  z-index: 500;   /* 사이드바보다 낮게 */
+  height: auto;            /* 내용에 따라 자동 */
+  z-index: 1;              /* 사이드바보다 낮게 */
 }
 
+/* 콘텐츠 박스 */
 .myLife-box {
-  max-width: 800px;          /* 필요시 최대 너비 제한 */
-  height: auto;
-  transform: scale(1);          /* 전체를 50% 크기로 축소 */
-  transform-origin: top center;   /* 위쪽 중앙 기준으로 줄어듦 */
-  overflow-y: visible;       /* ✅ 내부 스크롤 제거 */
+  max-width: 800px;
+  height: auto;            /* 내용에 따라 자동 */
+  overflow-y: visible;
   border: 5px solid #9d9c9c;
   border-radius: 12px;
-  background: rgb(255, 255, 255);       /* 원하는 배경색 */
+  background: #fff;
   padding: 20px;
   box-sizing: border-box;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.5); 
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .myLife-box video {
-  width: 100%;        /* 부모 박스 너비에 맞게 */
-  max-width: 800px;   /* 최대 크기 제한 */
-  height: auto;       /* 비율 유지 */
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  box-sizing: border-box;
 }
 
 .myLife-box img {
-  max-width: 150px;   /* 앨범 커버 이미지 크기 줄이기 */
+  max-width: 150px;
   height: auto;
   border-radius: 8px;
 }
 
 .myLife-box button {
   font-size: 14px;
-  padding: 6px 10px;   /* 버튼 크기 줄이기 */
+  padding: 6px 10px;
   margin: 2px;
   border-radius: 6px;
 }
@@ -165,11 +160,6 @@ html {
 
 .myLife-box p,
 .player-box span {
-  font-size: 25px;   /* 일반 텍스트 크기 줄이기 */
+  font-size: 25px;
   line-height: 1.4;
 }
-
-
-
-
-
