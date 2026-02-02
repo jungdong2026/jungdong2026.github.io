@@ -239,7 +239,9 @@ pre.article {
 
 navMain a:hover::after {
      width: 100%; /* 호버 시 밑줄 나타남 */ 
-}
+     position: relative; /* 반드시 필요 */ 
+     z-index: 2000; /* myLife보다 높게 */ 
+    }
 
 /* 2단 메뉴 */
 #navMain li ul {
@@ -251,7 +253,7 @@ navMain a:hover::after {
   border: 1px solid #03345f;
   min-width: 220px;
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-  z-index: 1000;
+  z-index: 3000;
 }
 
 #navMain li:hover ul {
