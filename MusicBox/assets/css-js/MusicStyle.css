@@ -22,7 +22,7 @@ html {
   top: 60px;
   left: 0;          /* ← 40px 대신 0으로 */
   width: 320px;
-  height: calc(100vh - 60px); /* 헤더 제외 전체 높이 */
+  height: calc(100vh - 260px); /* 헤더 제외 전체 높이 */
   border-radius: 0 12px 12px 0; /* 왼쪽은 직각, 오른쪽만 둥글게 */
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   padding: 0px 0;
