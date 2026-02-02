@@ -12,17 +12,16 @@ html {
   
 /* 사이드바 */
 .sidebar-myLife {
-  display: flex;
+  position: fixed;   /* 화면 왼쪽에 고정 */
   top: 60px;
-  margin: 0 auto; /* 중앙 고정 */
+  left: 0;
   width: 320px;
-  height: calc(100vh - 260px); /* 헤더 제외 전체 높이 */
-  border-radius: 0 12px 12px 0; /* 왼쪽은 직각, 오른쪽만 둥글게 */
+  height: calc(100vh - 60px); /* 헤더 제외 높이 */
+  border-radius: 0 12px 12px 0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   padding: 100px 0;
-  z-index: 1000;
-  transition: all 0.3s ease; /* 부드러운 애니메이션 */
-  overflow-y: auto; /* 메뉴 스크롤 가능 */
+  z-index: 2000;     /* 콘텐츠보다 위에 오도록 */
+  overflow-y: auto;
 }
 
 .sidebar-myLife ul {
@@ -56,11 +55,12 @@ html {
 /* 기본 레이아웃 (데스크탑) */
 .myLife {
   display: flex;
-  top: 360px;
   gap: 40px;
-  width: auto; /* ✅ 내용에 맞게 자동 */
-  height: auto;         /* ✅ 내용에 맞게 자동 */
-  max-width: calc(100% - 320px); /* 화면 크기 제한 */
+  margin-left: 370px;   /* 사이드바와 간격 */
+  margin-top: 100px;    /* 위에서 100px 내려오기 */
+  width: auto;
+  height: auto;
+  max-width: calc(100% - 370px); /* 사이드바 + 50px 간격 */
   border: 2px solid #c0c0c0;
   border-radius: 12px;
   box-sizing: border-box;
@@ -69,6 +69,7 @@ html {
   transition: all 0.3s ease;
 }
 
+
 @media (max-width: 768px) {
   .sidebar-myLife {
     position: relative;
@@ -76,6 +77,7 @@ html {
     height: auto;
   }
   .home-myLife {
+    position: relative;
     margin-left: 0;
     margin-top: 0;
     width: 100%;
@@ -83,7 +85,6 @@ html {
 }
 
 /* 본문 */
-#home-myLife,
 #premiere, 
 #a poem I wrote, 
 #LR-AE-PS {
@@ -110,12 +111,12 @@ html {
 
 .myLife-wrapper.active {
   display: flex;
-  position: relative; /* fixed 대신 relative */
+  position: relative;
   width: 100%;
   height: auto;
   justify-content: center;
   align-items: flex-start;
-  z-index: 9999;               /* 사이드바보다 낮게 */
+  z-index: 500;   /* 사이드바보다 낮게 */
 }
 
 .myLife-box {
@@ -134,8 +135,9 @@ html {
 }
 
 .myLife-box video {
-  width: 700px;        /* 박스 너비에 맞게 자동 조정 */
+  width: 100%;        /* 부모 박스 너비에 맞게 */
   max-width: 800px;   /* 최대 크기 제한 */
+  height: auto;       /* 비율 유지 */
 }
 
 .myLife-box img {
