@@ -25,7 +25,7 @@ html {
   height: calc(100vh - 260px); /* 헤더 제외 전체 높이 */
   border-radius: 0 12px 12px 0; /* 왼쪽은 직각, 오른쪽만 둥글게 */
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  padding: 0px 0;
+  padding: 100px 0;
   z-index: 1000;
   transition: all 0.3s ease; /* 부드러운 애니메이션 */
   overflow-y: auto; /* 메뉴 스크롤 가능 */
