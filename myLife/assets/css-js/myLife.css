@@ -5,7 +5,7 @@ html {
 #chapterAllmyLife {
     display: flex; 
     flex-direction: row; 
-    width: 85%;
+    width: 100%;
     height: auto;
     overflow: hidden;
 }
@@ -56,8 +56,8 @@ html {
 /* 기본 레이아웃 (데스크탑) */
 .myLife {
   display: flex;
-  top: 160px;
-  gap: 20px;
+  top: 360px;
+  gap: 40px;
   width: auto; /* ✅ 내용에 맞게 자동 */
   height: auto;         /* ✅ 내용에 맞게 자동 */
   max-width: calc(100% - 320px); /* 화면 크기 제한 */
