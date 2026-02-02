@@ -110,7 +110,7 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $('.nav-11 a').click(function () {
-                $('#wrapper').load('https://dong3640.dothome.co.kr/guestbook_list.php', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/GuestBook/GuestBook.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
