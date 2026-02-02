@@ -2,13 +2,7 @@ html {
   scroll-behavior: smooth;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  background-color: #fefefe; /* 원하는 색상으로 변경 */
-}
-
-#chapterAll {
+#chapterAllmusicbox {
     display: flex; 
     flex-direction: row; 
     width: 85%;
@@ -23,7 +17,7 @@ html, body {
 }
 
 /* 사이드바 */
-.sidebar {
+.sidebar-musicbox {
   position: fixed;
   top: 60px;
   left: 0;          /* ← 40px 대신 0으로 */
@@ -37,15 +31,15 @@ html, body {
   overflow-y: auto; /* 메뉴 스크롤 가능 */
 }
 
-.sidebar ul {
+.sidebar-musicbox ul {
   list-style: none;
   margin: 0;
   padding: 5px 0px 0px 0px; /* 위=0 / 오른쪽=0 / 아래=20 / 왼쪽 */
 }
-.sidebar li {
+.sidebar-musicbox li {
   margin: 0px 0;
 }
-.sidebar a {
+.sidebar-musicbox a {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -60,13 +54,13 @@ html, body {
   transition: all 0.3s ease;
 }
 
-.sidebar a:hover {
+.sidebar-musicbox a:hover {
   background: rgba(117, 117, 117, 0.8);
   transform: translateX(6px);
 }
 
 /* 기본 레이아웃 (데스크탑) */
-.content {
+.content-musicbox {
   margin-left: 320px;        /* 사이드바(320px) + 간격(20px) */
   margin-top: 60px;          /*위쪽 여백  */
   flex: 1; /* 남은 공간 자동 확장 */
@@ -86,12 +80,12 @@ html, body {
 }
 
 @media (max-width: 768px) {
-  .sidebar {
+  .sidebar-musicbox {
     position: relative;
     width: 100%;
     height: auto;
   }
-  .content {
+  .content-musicbox {
     margin-left: 0;
     margin-top: 0;
     width: 100%;
