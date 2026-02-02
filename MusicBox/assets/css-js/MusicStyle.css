@@ -61,16 +61,13 @@ html {
 
 /* 기본 레이아웃 (데스크탑) */
 .content-musicbox {
-  margin-left: 320px;        /* 사이드바(320px) + 간격(20px) */
-  margin-top: 60px;          /*위쪽 여백  */
+  display: flex;
+  top: 60px;
+  margin: 0 auto; /* 중앙 고정 */
   flex: 1; /* 남은 공간 자동 확장 */
   width: auto; /* ✅ 내용에 맞게 자동 */
   height: auto;         /* ✅ 내용에 맞게 자동 */
   max-width: calc(100% - 320px); /* 화면 크기 제한 */
-  overflow-y: auto; /* 콘텐츠만 스크롤 */
-  position: relative;
-  display: flow-root;    /*또는 overflow: auto; */
-  padding: 20px;;   /* 내부 여백 조금만 */
   border: 2px solid #c0c0c0;
   border-radius: 12px;
   box-sizing: border-box;
