@@ -31,7 +31,7 @@ const volumeSlider = document.getElementById("volumeSlider");
 const volumeValue = document.getElementById("volumeValue");
 const player = document.getElementById("music");
 const musicBtn = document.getElementById("musicBtn");
-const menuLinks = document.querySelectorAll(".sidebar a");
+const menuLinks = document.querySelectorAll(".sidebar-musicbox a");
 
 let isShuffle = false;
 let isRepeat = false;
@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const targetSection = document.getElementById(targetId);
       if (targetSection) {
         // 모든 섹션 숨기기
-        document.querySelectorAll(".tool-section").forEach(section => {
+        document.querySelectorAll(".player-wrapper").forEach(section => {
           section.classList.remove("active");
         });
         // 선택된 섹션만 표시
@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // 메뉴 클릭 시 모달 전환
-  document.querySelectorAll('.sidebar a').forEach(link => {
+  document.querySelectorAll('.sidebar-musicbox a').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
       const targetId = link.getAttribute('href').substring(1);
