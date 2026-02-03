@@ -1,7 +1,10 @@
 ﻿/* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
 html {
   scroll-behavior: smooth;
+  border-left: 4px solid red;
+  border-right: 4px solid red;
 }
+
 /* 기본 설정 */
 body {
     margin: 0;
@@ -10,9 +13,6 @@ body {
     padding: 0;
     background-color: #ddfaf7; /* 원하는 색상으로 변경 */
 	color: #333;
-    border-left: 2px solid #f82d2d;  /* 좌측 담 */
-    border-right: 2px solid #fb3333; /* 우측 담 */
-
 } 
 
 a {
