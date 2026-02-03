@@ -344,7 +344,7 @@ a.tip:hover span {
     justify-content: space-between;
 
     /* 배경 패턴 적용 */
-background: url('../../Main/Image/pattern-leaves-on-green.png') repeat;    /* 필요하다면 색상도 함께 지정 가능 */
+background: url('../../Main/Image/pattern-texture.png') repeat;    /* 필요하다면 색상도 함께 지정 가능 */
     /* background-color: #ddfaf7;*/
     background-color: rgba(221, 250, 247, 0.2); /* 반투명 블루 */
 }
