@@ -102,7 +102,7 @@ html {
 
 /* 기본으로 Home 섹션 보이기 */
 #home-myLife {
-  display: block;
+  display: none;
 }
 
 /* 콘텐츠 박스 */
