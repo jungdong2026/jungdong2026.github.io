@@ -20,7 +20,7 @@
     <!-- 콘텐츠 영역 -->
     <section class="myLife">
             <!-- 초기화면(Home) -->
-      <div id="home-myLife" class="myLife-wrapper active">
+      <div id="home-myLife" class="myLife-wrapper">
         <div class="myLife-box">
           <h1>방문을 환영합니다</h1>
           <video width="750" controls>
@@ -60,12 +60,6 @@
     </section>
     <script>
   // 처음 로딩 시 홈만 보이게
-  window.addEventListener('load', () => {
-    document.querySelectorAll('.myLife-wrapper').forEach(sec => sec.style.display = 'none');
-    document.querySelector('#home-myLife').style.display = 'block';
-  });
-
-  // 사이드바 클릭 시 해당 섹션만 보이게
   document.querySelectorAll('.sidebar-myLife a').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();

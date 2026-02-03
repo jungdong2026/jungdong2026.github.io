@@ -81,6 +81,10 @@ html {
   text-align: left;
 }
 
+#home-myLife {
+   display: block; 
+}
+
 #home-myLife h1 {
   padding-top: 10px;
   margin-bottom: 30px;
@@ -92,7 +96,7 @@ html {
 /* 콘텐츠 래퍼 */
 .myLife-wrapper {
   display: none; 
-  background: #fefefe;
+  background: #ddfaf7; /* 중앙과 같은 색상 */
 }
 
 /* 클릭된 섹션만 표시 */
