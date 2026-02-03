@@ -96,9 +96,9 @@ body {
 }
 
 #home-myLife h1 {
-  padding-top: 10px;
-  margin-bottom: 30px;
-  color: #b8b8b9;
+  margin-top: 10px; /* 위에서 10px 내려오기 */
+  margin-bottom: 20px;
+  color: #fd2516;
   font-size: 20px;
   font-weight: bold;
   text-align: center; /* 가로 중앙 */ 
