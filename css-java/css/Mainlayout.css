@@ -346,7 +346,7 @@ a.tip:hover span {
     /* 배경 패턴 적용 */
     background: url('Main/Image/pattern-leaves-on-green.png') repeat;
     /* 필요하다면 색상도 함께 지정 가능 */
-    background-color: #ddfaf7;
+    /* background-color: #ddfaf7;*/
 }
 
 
