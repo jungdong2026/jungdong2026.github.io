@@ -81,6 +81,9 @@ html {
   padding-top: 0;
   text-align: left;
 }
+#home-myLife {
+  display: block; 
+}
 
 #home-myLife h1 {
   padding-top: 10px;
@@ -94,6 +97,10 @@ html {
 .myLife-wrapper {
   display: none; 
   background: #fefefe;
+}
+
+.myLife-wrapper:target {
+   display: block; 
 }
 
 .myLife-wrapper.active {
