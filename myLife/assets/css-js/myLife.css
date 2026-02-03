@@ -12,17 +12,13 @@ html {
 
 /* 사이드바 */
 .sidebar-myLife {
-  position: fixed;
-  top: 160px;              /* 기존 60px → 160px (100px 더 아래로) */
-  left: 0;
-  width: 320px;
-  height: calc(100vh - 160px);
+  flex: 0 0 320px;      /* 사이드바 너비 고정 */
+  height: auto;
   border-radius: 0 12px 12px 0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  padding: 100px 0;
-  z-index: 9999;           /* 가장 위로 올려 클릭 가능하게 */
   overflow-y: auto;
 }
+
 
 .sidebar-myLife ul {
   list-style: none;
@@ -53,11 +49,8 @@ html {
 
 /* 본문 레이아웃 */
 .myLife {
-  display: block;          /* flex 대신 block으로 변경 */
-  margin-left: 370px;      /* 사이드바(320px) + 50px 간격 */
-  margin-top: 200px;       /* 기존 100px → 200px (더 아래로) */
-  width: auto;
-  height: auto;            /* 내용에 따라 자동 */
+  flex: 1;              /* 남은 공간을 차지 */
+  margin-left: 20px;    /* 사이드바와 간격 */
   max-width: 800px;        /* 최대 너비 제한 */
   border: 2px solid #c0c0c0;
   border-radius: 12px;
@@ -65,20 +58,17 @@ html {
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);  
   background-color: #fff; 
   transition: all 0.3s ease;
-  position: relative; 
-  z-index: 1; /* 메뉴보다 낮게 */
 }
 
 @media (max-width: 768px) {
   .sidebar-myLife {
     position: relative;
     width: 100%;
-    height: auto;
+    padding: 10px 0;
   }
-  #home-myLife {
-    position: relative;
+  #myLife {
     margin-left: 0;
-    margin-top: 0;
+    margin-top: 20px;
     width: 100%;
   }
 }
