@@ -103,6 +103,11 @@ html {
    display: block; 
 }
 
+/* 다른 섹션이 target일 때 Home 숨기기 */ 
+:target ~ .myLife #home-myLife {
+   display: none; 
+}
+
 .myLife-wrapper.active {
   display: block;          /* flex 대신 block으로 변경 */
   position: relative;
