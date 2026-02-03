@@ -55,7 +55,7 @@ html {
   border-radius: 12px;
   box-sizing: border-box;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);  
-  background-color: #fff; 
+  background-color: #ddfaf7; /* 중앙도 블루 */
   transition: all 0.3s ease;
 }
 
@@ -107,7 +107,7 @@ html {
   overflow-y: visible;
   border: 5px solid #9d9c9c;
   border-radius: 12px;
-  background: #fff;
+  background-color: #ddfaf7; /* 중앙도 블루 */
   padding: 20px;
   box-sizing: border-box;
   box-shadow: 0 6px 18px rgba(0,0,0,0.5);
