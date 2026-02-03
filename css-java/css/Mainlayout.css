@@ -10,8 +10,8 @@ body {
     padding: 0;
     background-color: #ddfaf7; /* 원하는 색상으로 변경 */
 	color: #333;
-    border-left: 2px solid #e5e5e5;  /* 좌측 담 */
-    border-right: 2px solid #e5e5e5; /* 우측 담 */
+    border-left: 2px solid #f82d2d;  /* 좌측 담 */
+    border-right: 2px solid #fb3333; /* 우측 담 */
 
 } 
 
