@@ -100,11 +100,6 @@ html {
   display: block; 
 }
 
-/* 기본으로 Home 섹션 보이기 */
-#home-myLife {
-  display: none;
-}
-
 /* 콘텐츠 박스 */
 .myLife-box {
   max-width: 800px;
