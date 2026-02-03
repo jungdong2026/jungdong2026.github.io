@@ -50,7 +50,7 @@ html {
   flex: 1;              
   margin-left: 20px;    
   max-width: 800px;     
-  border: 2px solid #c0c0c0;
+  border: 2px solid #e5e5e5;
   border-radius: 2px;
   box-sizing: border-box;
   background-color: #e5e5e5; /* 기존 #c0c0c0 → 더 연한 톤 */
@@ -107,7 +107,7 @@ html {
   max-width: 800px;
   height: auto;            
   overflow-y: visible;
-  border: 2px solid #b9b8b8;
+  border: 2px solid #e5e5e5;
   border-radius: 2px;
   background-color: #ddfaf7; /* 중앙도 블루 */
   padding: 20px;
