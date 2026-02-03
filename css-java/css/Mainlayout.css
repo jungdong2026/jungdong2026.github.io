@@ -13,6 +13,10 @@ body {
     border-right: 2px solid #840d0d; /* 우측 담 */
     font-family: 'Montserrat', 'Roboto', sans-serif;
 }
+header, footer {
+    max-width: 1200px; /* body와 동일한 폭 */ 
+    margin: 0 auto; /* 중앙 배치 */ 
+}
 
 a {
     text-decoration: none;
