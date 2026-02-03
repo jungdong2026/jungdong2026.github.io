@@ -10,10 +10,6 @@ body {
   background-color: #ddfaf7;
   font-family: 'Montserrat', 'Roboto', sans-serif;
   box-sizing: border-box;
-
-  /* 좌우 담 추가 */
-  border-left: 2px solid #840808; /* 좌측 벽 */
-  border-right: 2px solid #840d0d; /* 우측 벽 */
 }
 
 #header, #footer {
@@ -23,10 +19,6 @@ body {
   box-sizing: border-box;
   background-color: #074788;
   color: #fff;
-
-  /* 헤더·푸터에도 동일한 담 적용 */
-  border-left: 2px solid #840808;
-  border-right: 2px solid #840d0d;
 }
 
 body, #header, #footer {
@@ -349,9 +341,14 @@ a.tip:hover span {
     width: 1200px; /* 중앙 폭 고정 */
     margin: 0 auto; /* 중앙 고정 */
     display: flex;
-    background-color: #ddfaf7; /* 중앙도 블루 */
     justify-content: space-between;
+
+    /* 배경 패턴 적용 */
+    background: url('Main/Image/pattern-leaves-on-green.png') repeat;
+    /* 필요하다면 색상도 함께 지정 가능 */
+    background-color: #ddfaf7;
 }
+
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*좌측 내용/////////////////////////////////////////////////////////////////////////////////*/ 
