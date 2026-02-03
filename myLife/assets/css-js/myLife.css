@@ -109,12 +109,12 @@ html {
   max-width: 800px;
   height: auto;            
   overflow-y: visible;
-  border: 5px solid #9d9c9c;
-  border-radius: 12px;
+  border: 2px solid #b9b8b8;
+  border-radius: 2px;
   background-color: #ddfaf7; /* 중앙도 블루 */
   padding: 20px;
   box-sizing: border-box;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -150,8 +150,8 @@ html {
   box-shadow: 0 10px 24px rgba(0,0,0,0.2);
 }
 
-.myLife-box p,
-.player-box span {
+.myLife-box p{
   font-size: 25px;
   line-height: 1.4;
+  text-align: center;
 }
