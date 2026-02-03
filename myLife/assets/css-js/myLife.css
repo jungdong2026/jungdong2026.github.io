@@ -19,7 +19,6 @@ html {
   overflow-y: auto;
 }
 
-
 .sidebar-myLife ul {
   list-style: none;
   margin: 0;
@@ -49,9 +48,9 @@ html {
 
 /* 본문 레이아웃 */
 .myLife {
-  flex: 1;              /* 남은 공간을 차지 */
-  margin-left: 20px;    /* 사이드바와 간격 */
-  max-width: 800px;        /* 최대 너비 제한 */
+  flex: 1;              
+  margin-left: 20px;    
+  max-width: 800px;     
   border: 2px solid #c0c0c0;
   border-radius: 12px;
   box-sizing: border-box;
@@ -81,9 +80,6 @@ html {
   padding-top: 0;
   text-align: left;
 }
-#home-myLife {
-  display: block; 
-}
 
 #home-myLife h1 {
   padding-top: 10px;
@@ -99,27 +95,20 @@ html {
   background: #fefefe;
 }
 
+/* 클릭된 섹션만 표시 */
 .myLife-wrapper:target {
-   display: block; 
+  display: block; 
 }
 
-/* 다른 섹션이 target일 때 Home 숨기기 */ 
-:target ~ .myLife #home-myLife {
-   display: none; 
-}
-
-.myLife-wrapper.active {
-  display: block;          /* flex 대신 block으로 변경 */
-  position: relative;
-  width: 100%;
-  height: auto;            /* 내용에 따라 자동 */
-  z-index: 1;              /* 사이드바보다 낮게 */
+/* 기본으로 Home 섹션 보이기 */
+#home-myLife {
+  display: block;
 }
 
 /* 콘텐츠 박스 */
 .myLife-box {
   max-width: 800px;
-  height: auto;            /* 내용에 따라 자동 */
+  height: auto;            
   overflow-y: visible;
   border: 5px solid #9d9c9c;
   border-radius: 12px;
