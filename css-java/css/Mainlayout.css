@@ -347,7 +347,7 @@ a.tip:hover span {
     background: url('pattern-leaves-on-green.png') repeat;
     /* 필요하다면 색상도 함께 지정 가능 */
     /* background-color: #ddfaf7;*/
-    background-color: rgba(221, 250, 247, 0.8); /* 반투명 블루 */
+    background-color: rgba(221, 250, 247, 0.2); /* 반투명 블루 */
 }
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
