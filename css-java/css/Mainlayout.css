@@ -1,19 +1,18 @@
 ﻿/* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
 html {
-  scroll-behavior: smooth;
-  border-left: 4px solid red;
-  border-right: 4px solid red;
+    scroll-behavior: smooth;
+    background-color: transparent; /* html은 투명 */
 }
 
-/* 기본 설정 */
+
 body {
-    margin: 0;
-    padding: 0;
+    max-width: 1200px;             /* 헤더/푸터 폭과 맞춤 */
+    margin: 0 auto;                /* 화면 중앙 배치 */
+    background-color: #ddfaf7;     /* 내부 배경 */
+    border-left: 2px solid #840808; /* 좌측 담 */
+    border-right: 2px solid #840d0d; /* 우측 담 */
     font-family: 'Montserrat', 'Roboto', sans-serif;
-    padding: 0;
-    background-color: #ddfaf7; /* 원하는 색상으로 변경 */
-	color: #333;
-} 
+}
 
 a {
     text-decoration: none;
