@@ -1,6 +1,6 @@
 // 트랙 배열
 const tracksData = [
-  { title: "House of the Rising Sun", artist: "Animals", src: "../MusicBox/assets/mp3/Animals-houseof-rising-sun.mp3", cover: "../MusicBox/assets/images/model001.jpg", icon: "🎸" },
+  { title: "House of the Rising Sun", artist: "Animals", src: "/MusicBox/assets/mp3/Animals-houseof-rising-sun.mp3", cover: "/MusicBox/assets/images/model001.jpg", icon: "🎸" },
 ];
 
 let currentIndex = 0;
