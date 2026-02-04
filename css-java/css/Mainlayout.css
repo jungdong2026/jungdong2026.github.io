@@ -8,7 +8,7 @@ body {
     padding: 0;
     font-family: 'Montserrat', 'Roboto', sans-serif;
     padding: 0;
-    background-color: transparent; /* 흰색 대신 투명 */
+    background-color: white; /* 흰색 대신 투명 */
 	color: #333;
     width: auto; /* 기본값, 화면 전체 폭 */
 } 
