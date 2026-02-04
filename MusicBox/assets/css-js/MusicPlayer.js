@@ -4,6 +4,11 @@ const tracksData = [
   { title: "In A Gadda Da Vida", artist: "Iron Butterfly", src: "MusicBox/assets/mp3/Iron-Butterfly-In-A-Gadda-Da-Vida.mp3", cover: "MusicBox/assets/images/model002.jpg", icon: "🎤" },
   { title: "To Leave Something Behind", artist: "Rowe", src: "MusicBox/assets/mp3/Sean-Rowe-To-Leave-Something-Behind.mp3", cover: "MusicBox/assets/images/model003.jpg", icon: "🎧" },
 ];
+try {
+  buildPlaylist();
+} catch (err) {
+  console.error("플레이리스트 생성 중 에러:", err);
+}
 
 let currentIndex = 0;
 const audio = document.getElementById("audio");
