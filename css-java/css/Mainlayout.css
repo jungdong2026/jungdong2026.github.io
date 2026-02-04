@@ -14,19 +14,22 @@ body {
 } 
 
 .totalContent {
-  background-image: url("../../Main/Image/pattern-texture.png"); /* 패턴 이미지 경로 */
-  background-repeat: repeat;            /* 반복해서 채우기 */
-  background-position: center;          /* 시작 위치 */
-  background-size: auto;                /* 원본 크기 유지 */
   width: 1200px;
   margin: 0 auto; /* 중앙 정렬 */
   box-sizing: border-box; /* 패딩 포함 */ 
-  min-height: 100vh; /* 화면 전체 높이 확보 */
 }
 
 #header, #wrapper, #footer {
   width: 100%;            /* 부모(totalContent) 기준으로 꽉 채움 */
   box-sizing: border-box;
+}
+
+#wrapper {
+  background-image: url("../../Main/Image/pattern-leaves-on-green.png");
+  background-repeat: repeat;
+  background-position: center;
+  background-size: auto;
+  min-height: 600px;        /* 내용이 적어도 패턴이 보이도록 */
 }
 
 a {
@@ -342,7 +345,7 @@ a.tip:hover span {
 #wrapper {
     margin: 0 auto; /* 중앙 고정 */
     display: flex;
-    background-color: #ddfaf7; /* 중앙도 블루 */
+    /* background-color: #ddfaf7;  중앙도 블루 */
     justify-content: space-between;
 }
 
