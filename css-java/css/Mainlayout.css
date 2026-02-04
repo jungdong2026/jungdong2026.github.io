@@ -12,6 +12,15 @@ body {
 	color: #333;
 } 
 
+.totalContent {
+  background-image: url("../../Main/Image/pattern-texture.png"); /* 패턴 이미지 경로 */
+  background-repeat: repeat;            /* 반복해서 채우기 */
+  background-position: center;          /* 시작 위치 */
+  background-size: auto;                /* 원본 크기 유지 */
+  width: 1200px;
+  margin: 0 auto; /* 중앙 정렬 */
+}
+
 a {
     text-decoration: none;
     }
@@ -70,6 +79,7 @@ pre.article {
     background: #ffffff;
     word-wrap: break-word;
 }
+
 /* 헤더 */    
 #header {
     background-color: #074788;
