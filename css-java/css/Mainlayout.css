@@ -432,6 +432,13 @@ a.tip:hover span {
   width: 380px;
 }
 
+#img-experiment {
+    width: 180px;         /* 두 개씩 들어가도록 고정 */
+    height: auto;
+    border: 0;
+    margin: 0;
+}
+
 #photos img {
     width: 180px;         /* 두 개씩 들어가도록 고정 */
     height: auto;
