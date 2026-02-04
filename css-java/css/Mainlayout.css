@@ -366,16 +366,6 @@ a.tip:hover span {
     color: #000000;
 }
 
-/*/////////맨드릴 사진/////////////////////////////////////////////////////////////////////////////////*/ 
-#photos {
-    margin: 0px 0px 150px 0px;
-    padding: 0px 0px 150px 0px;
-}
-#photos img {
-    float: left; 
-    margin: 10px 15px 0px 10px;
-    border: 0px solid #000; 
-}
 
 /*/////////wrapper/////////////////////////////////////////////////////////////////////////////////*/ 
 
@@ -412,19 +402,6 @@ a.tip:hover span {
     text-decoration: none;
     display: block;
     padding: 3px 0px 3px 0px;
-}
-
-#img-experiment {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: 380px;
-}
-#photos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: 380px;
 }
 
 #img-experiment {
