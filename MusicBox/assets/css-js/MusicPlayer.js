@@ -1,18 +1,23 @@
 // 트랙 배열
-document.addEventListener("DOMContentLoaded", () => {
-  const playlist = document.getElementById("playlist");
-  const tracksData = [
-    { title: "Animals", artist: "House of Rising Sun" },
-    { title: "Imagine", artist: "John Lennon" }
-  ];
-
-
+const tracksData = [
+  { title: "House of the Rising Sun", artist: "Animals", src: "assets/mp3/Animals-houseof-rising-sun.mp3", cover: "assets/images/model001.jpg", icon: "🎸" },
+  { title: "In A Gadda Da Vida", artist: "Iron Butterfly", src: "assets/mp3/Iron-Butterfly-In-A-Gadda-Da-Vida.mp3", cover: "assets/images/model002.jpg", icon: "🎤" },
+  { title: "To Leave Something Behind", artist: "Rowe", src: "assets/mp3/Sean-Rowe-To-Leave-Something-Behind.mp3", cover: "assets/images/model003.jpg", icon: "🎧" },
+  { title: "Billie Jean", artist: "Michael Jackson", src: "assets/mp3/Michael-Jackson-Billie-Jean.mp3", cover: "assets/images/model004.jpg", icon: "💃" },
+  { title: "Rain Dance", artist: "Melanie Safka", src: "assets/mp3/Melanie-Safka-Rain-Dance.mp3", cover: "assets/images/model005.jpg", icon: "🎷" },
+  { title: "Heart Of Gold", artist: "Neil Diamond", src: "assets/mp3/Neil-Diamond-Heart-Of-Gold.mp3", cover: "assets/images/model006.jpg", icon: "🎺" },
+  { title: "Broken Vow", artist: "Kenny Rogers", src: "assets/mp3/Kenny-Rogers-Broken-vow.mp3", cover: "assets/images/model007.jpg", icon: "🎻" },
+  { title: "Get Ready", artist: "Rare Earth", src: "assets/mp3/Rare-Earth-Get-Ready.mp3", cover: "assets/images/model008.jpg", icon: "🎶" },
+  { title: "Concierto De Aranjuez", artist: "Rodrigo", src: "assets/mp3/Concierto-De-Aranjuez-Joaquín-Rodrigo.mp3", cover: "assets/images/eye-014.jpg", icon: "🎶" },
+  { title: "Nothing Else Matters", artist: "Metallica", src: "assets/mp3/Metallica-Nothing-Else-Matters.mp3", cover: "assets/images/model009.jpg", icon: "🎷" }
+];
 
 let currentIndex = 0;
 const audio = document.getElementById("audio");
 const cover = document.getElementById("cover");
 const trackTitle = document.getElementById("trackTitle");
 const trackArtist = document.getElementById("trackArtist");
+const playlist = document.getElementById("playlist");
 const playPauseBtn = document.getElementById("playPauseBtn");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
@@ -26,7 +31,7 @@ const volumeSlider = document.getElementById("volumeSlider");
 const volumeValue = document.getElementById("volumeValue");
 const player = document.getElementById("music");
 const musicBtn = document.getElementById("musicBtn");
-const menuLinks = document.querySelectorAll(".sidebar-musicbox a");
+const menuLinks = document.querySelectorAll(".sidebar a");
 
 let isShuffle = false;
 let isRepeat = false;
@@ -40,37 +45,9 @@ function setVolume(value) { bgm.volume = value; }
 // 플레이리스트 생성
 function buildPlaylist() {
   playlist.innerHTML = "";
-
   tracksData.forEach((track, index) => {
     const li = document.createElement("li");
     li.classList.add("playlist-item");
-
-    const img = document.createElement("img");
-    img.src = track.cover;
-    img.alt = track.title;
-    img.classList.add("playlist-cover");
-
-    const icon = document.createElement("span");
-    icon.classList.add("playlist-icon");
-    icon.textContent = track.icon;
-
-    const text = document.createElement("span");
-    text.classList.add("playlist-text");
-    text.textContent = `${index + 1}. ${track.title} - ${track.artist}`;
-
-    li.appendChild(img);
-    li.appendChild(icon);
-    li.appendChild(text);
-
-    li.addEventListener("click", () => {
-      loadTrack(index);
-      audio.play().catch(err => console.error("재생 실패:", err));
-      playPauseBtn.textContent = "⏸";
-    });
-
-    playlist.appendChild(li);
-  });
-}
 
     const img = document.createElement("img");
     img.src = track.cover;
@@ -212,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const targetSection = document.getElementById(targetId);
       if (targetSection) {
         // 모든 섹션 숨기기
-        document.querySelectorAll(".player-wrapper").forEach(section => {
+        document.querySelectorAll(".tool-section").forEach(section => {
           section.classList.remove("active");
         });
         // 선택된 섹션만 표시
@@ -223,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // 메뉴 클릭 시 모달 전환
-  document.querySelectorAll('.sidebar-musicbox a').forEach(link => {
+  document.querySelectorAll('.sidebar a').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
       const targetId = link.getAttribute('href').substring(1);

@@ -3,105 +3,51 @@
 <head>
   <meta charset="utf-8">
   <title>커스텀 음악 플레이어</title>
-  <!-- Font Awesome 아이콘 -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" type="text/css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="assets/css-js/MusicStyle.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div id="chapterAllmusicbox">
-
-    <!-- 좌측 메뉴 -->
-    <nav class="sidebar-musicbox">
-      <ul>
-        <li><a href="#home-MusicBox"><i class="fa-solid fa-house"></i> Home</a></li>
-        <li><a href="#selfWritten"><i class="fa-solid fa-image"></i> a poem I wrote</a></li>
-        <li><a href="#premiere"><i class="fa-solid fa-video"></i> Premiere</a></li>
-        <li><a href="#lightroom"><i class="fa-solid fa-camera"></i> LR/AE/PS</a></li>
-        <li><a href="#music"><i class="fa-solid fa-music"></i> MusicBox</a></li>
-      </ul>
-    </nav>
-
-    <!-- 콘텐츠 영역 -->
-    <section class="home-MusicBox">
-            <!-- 초기화면(Home) -->
-      <div id="home-MusicBox" class="player-wrapper active">
-        <div class="player-box">
-          <h1>방문을 환영합니다</h1>
-          <video width="750" controls>
-            <source src="MusicBox/assets/mp4/골프200528.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <!-- 자작시 -->
-      <div id="selfWritten" class="player-wrapper">
-        <div class="player-box">
-          <h1>a poem I wrote</h1>
-          <p><a href="https://www.youtube.com/watch?v=HzsZ5MoPNuE" target="_blank">♡♡♡11월의 첫날에_허상과실상</a></p>
-          <p><a href="https://www.youtube.com/watch?v=DYs7RjgcJFU" target="_blank">♡♡♡가을은 눈물인가_장정동</a></p>
-          <p><a href="https://www.youtube.com/watch?v=RxmPtac_l88" target="_blank">♡♡♡가을은 지는데_허상과실상</a></p>
-          <!-- 나머지 유튜브 링크 그대로 유지 -->
-        </div>
-      </div>
-
-      <!-- Premiere -->
-      <div id="premiere" class="player-wrapper">
-        <div class="player-box">
-          <h1>Premiere</h1>
-          <p><a href="https://www.youtube.com/watch?v=5Umz5do2aKM" target="_blank">♡♡♡ 분할 CCTV 화면 효과로 인트로</a></p>
-          <!-- 나머지 유튜브 링크 그대로 유지 -->
-        </div>
-      </div>
-
-      <!-- Lightroom -->
-      <div id="lightroom" class="player-wrapper">
-        <div class="player-box">
-          <h1>LR/AE/PS</h1>
-          <p><a href="https://www.youtube.com/watch?v=aleeQA9kU5k" target="_blank">♡♡♡모션 제작 2편(강좌 1-5)</a></p>
-          <!-- 나머지 유튜브 링크 그대로 유지 -->
-        </div>
-      </div>
-      <!-- 음악 플레이어 -->
-      <div id="music" class="player-wrapper">
-        <div class="player-box">
-          <audio id="audio"></audio>
-          <div class="cover-container">
-            <img id="cover" src="MusicBox/assets/images/model004.jpg" alt="앨범 커버 이미지">
-          </div>
-          <div class="progress-container">
-            <i class="fa-regular fa-clock"></i>
-            <label for="progressBar" class="sr-only">재생 위치</label>
-            <input type="range" id="progressBar" min="0" max="100" value="0">
-            <span id="currentTime">00:00</span>
-            <span id="duration">03:45</span>
-          </div>
-          <div class="volume-control">
-            <i class="fa-solid fa-volume-high"></i>
-            <label for="volumeSlider" class="sr-only">볼륨 조절</label>
-            <input type="range" id="volumeSlider" min="0" max="100" value="50">
-            <span id="volumeValue">50%</span>
-          </div>
-          <div class="track-info">
-            <span id="trackTitle">Track Title</span> - <span id="trackArtist">Artist</span>
-          </div>
-          <div class="controls">
-            <button id="prevBtn">⏮</button>
-            <button id="playPauseBtn">▶️</button>
-            <button id="nextBtn">⏭</button>
-            <button id="shuffleBtn">🔀</button>
-            <button id="repeatBtn">🔁</button>
-            <button id="muteBtn">🔊</button>
-            <button id="musicBtn">🎵</button>
-          </div>
-          <ul id="playlist" class="playlist"></ul>
-        </div> <!-- player-box -->
-      </div> <!-- music -->
-
-    </section> <!-- content-musicbox -->
-
-  </div> <!-- chapterAllmusicbox -->
+ <!-- 콘텐츠 영역 -->
+<section class="content">
+<!-- 음악 플레이어 -->
+<div id="music" class="player-wrapper">
+  <div class="player-box">
+    <audio id="audio"></audio>
+    <div class="cover-container">
+      <img id="cover" src="assets/images/model004.jpg" alt="앨범 커버 이미지">
+    </div>
+    <div class="progress-container">
+      <i class="fa-regular fa-clock"></i>
+      <label for="progressBar" class="sr-only">재생 위치</label>
+      <input type="range" id="progressBar" min="0" max="100" value="0">
+      <span id="currentTime">00:00</span>
+      <span id="duration">03:45</span>
+    </div>
+    <div class="volume-control">
+      <i class="fa-solid fa-volume-high"></i>
+      <label for="volumeSlider" class="sr-only">볼륨 조절</label>
+      <input type="range" id="volumeSlider" min="0" max="100" value="50">
+      <span id="volumeValue">50%</span>
+    </div>
+    <div class="track-info">
+      <span id="trackTitle">Track Title</span> - <span id="trackArtist">Artist</span>
+    </div>
+    <div class="controls">
+      <button id="prevBtn">⏮</button>
+      <button id="playPauseBtn">▶️</button>
+      <button id="nextBtn">⏭</button>
+      <button id="shuffleBtn">🔀</button>
+      <button id="repeatBtn">🔁</button>
+      <button id="muteBtn">🔊</button>
+      <button id="musicBtn">🎵</button>
+    </div>
+      <ul id="playlist" class="playlist"></ul>
+  </div>
+</div>
+</section>
 
   <!-- 반드시 body 맨 아래 -->
-  <script src="MusicBox/assets/css-js/MusicPlayer.js"></script>
+<script src="assets/css-js/MusicPlayer.js"></script>
 </body>
 </html>
-
