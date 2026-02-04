@@ -37,6 +37,7 @@ function setVolume(value) { bgm.volume = value; }
 
 // 플레이리스트 생성
 function buildPlaylist() {
+  console.log("플레이리스트 생성 시작"); // 디버깅용  // 
   playlist.innerHTML = "";
   tracksData.forEach((track, index) => {
     const li = document.createElement("li");
