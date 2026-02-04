@@ -24,13 +24,13 @@ body {
   box-sizing: border-box;
 }
 
-#wrapper {
+/* #wrapper {
   background-image: url("../../Main/Image/pattern-leaves-on-green.png");
   background-repeat: repeat;
   background-position: center;
   background-size: auto;
-  min-height: 600px;        /* 내용이 적어도 패턴이 보이도록 */
-}
+  min-height: 600px;         내용이 적어도 패턴이 보이도록 
+}*/
 
 a {
     text-decoration: none;
@@ -345,7 +345,7 @@ a.tip:hover span {
 #wrapper {
     margin: 0 auto; /* 중앙 고정 */
     display: flex;
-    /* background-color: #ddfaf7;  중앙도 블루 */
+    background-color: #ddfaf7;  /* 중앙도 블루 */
     justify-content: space-between;
 }
 
