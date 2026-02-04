@@ -8,8 +8,8 @@ body {
 }
 
 #chapterAllmyLife {
-  border-left: 2px solid #e5e5e5;  /* 좌측 담 */
-  border-right: 2px solid #f70202; /* 우측 담 */
+  /* border-left: 2px solid #e5e5e5;   좌측 담 */
+  /* border-right: 2px solid #f70202;  우측 담 */
   padding: 0 20px;                 /* 내용과 담 사이 여백 */
 }
 
