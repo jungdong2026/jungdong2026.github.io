@@ -2,27 +2,72 @@
 html {
     scroll-behavior: smooth;
     background-color: transparent; /* html은 투명 */
+    box-sizing: border-box;
 }
 
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+/* 전체 페이지 구조 */
 body {
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: #ddfaf7;
-  font-family: 'Montserrat', 'Roboto', sans-serif;
-  box-sizing: border-box;
+    margin: 0;
+    display: flex;
+    flex-direction: column; 
+    width: 1200px;
+    min-height: 100vh; /* 화면 전체 높이 확보 */
+    background-color: #ddfaf7;
+    font-family: 'Montserrat', 'Roboto', sans-serif;
 }
 
-#header, #footer {
-  width: 1200px;
+/* header & footer 공통 */
+#header {
   margin: 0 auto;
+  width: 1200px;
   padding: 20px 40px;
   box-sizing: border-box;
   background-color: #074788;
   color: #fff;
 }
 
-body, #header, #footer {
-  box-sizing: border-box;
+/* wrapper: 좌/우 콘텐츠 영역 */
+#wrapper {
+    flex: 1; /* 남은 공간 채우기 */
+    width: 1200px;
+    margin: 0 auto; /* 중앙 고정 */
+    display: flex;
+    flex-direction: row;  /* 가로 배치 */
+    align-items: flex-start;
+    /* 배경 패턴 적용 */
+    background: url('../../Main/Image/pattern-texture.png') repeat;    /* 필요하다면 색상도 함께 지정 가능 */
+    /* background-color: #ddfaf7;*/
+    background-color: rgba(221, 250, 247, 0.2); /* 반투명 블루 */
+}
+
+/* 좌측 콘텐츠 */
+#contentLeft {
+  flex: 0 0 380px;      /* 고정 너비 */
+  padding: 30px 20px 0 20px;
+  background-color: transparent;
+}
+/* 우측 콘텐츠 */
+#contentRight {
+  flex: 1;              /* 남은 공간 자동 채우기 */
+  padding: 20px;
+  background-color: transparent;
+}
+
+#footer {
+    width: 1200px;
+    margin: 0 auto; /* 중앙 고정 */
+    padding: 20px 40px;
+    background-color: #074788;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+    display: flex; /* ✅ 가로 배치 */
+    flex-direction: row; /* ✅ row 방향 */ 
+    justify-content: center; /* ✅ 가운데 정렬 */
 }
 
 a {
@@ -337,28 +382,9 @@ a.tip:hover span {
 }
 
 /*/////////wrapper/////////////////////////////////////////////////////////////////////////////////*/ 
-#wrapper {
-    width: 1200px; /* 중앙 폭 고정 */
-    margin: 0 auto; /* 중앙 고정 */
-    display: flex;
-    justify-content: space-between;
-
-    /* 배경 패턴 적용 */
-background: url('../../Main/Image/pattern-texture.png') repeat;    /* 필요하다면 색상도 함께 지정 가능 */
-    /* background-color: #ddfaf7;*/
-    background-color: rgba(221, 250, 247, 0.2); /* 반투명 블루 */
-}
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*좌측 내용/////////////////////////////////////////////////////////////////////////////////*/ 
-#contentLeft {
-    position: relative;
-    width: 380px;
-    background-color: transparent; /* 흰색 대신 투명 */
-    right: 0px;
-    padding: 30px 0px 00px 20px;
-    margin-right:0px;
-}
 
 #contentLeft p {
     text-align: justify;
@@ -421,13 +447,6 @@ background: url('../../Main/Image/pattern-texture.png') repeat;    /* 필요하�
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*우측 내용/////////////////////////////////////////////////////////////////////////////////*/ 
-#contentRight {
-    position: relative;
-    width: 800px;
-    background-color: transparent; /* 흰색 대신 투명 */
-    padding-top: 20px;
-    }
-
 #contentRight h1, #contentRight p {
     margin: 0px 12px 0px 12px;
 }
@@ -1037,19 +1056,6 @@ pre {
 /*////GuestBook/////////////////////////////////////////////////////////////////////*/
 
 /*////footer/////////////////////////////////////////////////////////////////////////////*/
-#footer {
-    background-color: #074788;
-    width: 1200px;
-    margin: 0 auto; /* 중앙 고정 */
-    color: #ffffff;
-    padding: 20px 40px;
-    font-family: Arial, sans-serif;
-    font-size: 10pt;
-    display: flex; /* ✅ 가로 배치 */
-    flex-direction: row; /* ✅ row 방향 */ 
-    justify-content: center; /* ✅ 가운데 정렬 */
-}
-
 .left-block { 
     display: flex; /* ✅ 세로 배치 */ 
     flex-direction: column; 
