@@ -1,6 +1,8 @@
 // 트랙 배열
 const tracksData = [
-  { title: "House of the Rising Sun", artist: "Animals", src: "/MusicBox/assets/mp3/Animals-houseof-rising-sun.mp3", cover: "/MusicBox/assets/images/model001.jpg", icon: "🎸" },
+  { title: "House of the Rising Sun", artist: "Animals", src: "MusicBox/assets/mp3/Animals-houseof-rising-sun.mp3", cover: "MusicBox/assets/images/model001.jpg", icon: "🎸" },
+  { title: "In A Gadda Da Vida", artist: "Iron Butterfly", src: "MusicBox/assets/mp3/Iron-Butterfly-In-A-Gadda-Da-Vida.mp3", cover: "MusicBox/assets/images/model002.jpg", icon: "🎤" },
+  { title: "To Leave Something Behind", artist: "Rowe", src: "MusicBox/assets/mp3/Sean-Rowe-To-Leave-Something-Behind.mp3", cover: "MusicBox/assets/images/model003.jpg", icon: "🎧" },
 ];
 
 let currentIndex = 0;
