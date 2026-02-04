@@ -419,14 +419,20 @@ a.tip:hover span {
     padding: 3px 0px 3px 0px;
 }
 
-#img-experiment, #photos {
+#img-experiment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 380px;
+}
+#photos {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   width: 380px;
 }
 
-#img-experiment img, #photos img {
+#photos img {
     width: 180px;         /* 두 개씩 들어가도록 고정 */
     height: auto;
     border: 0;
