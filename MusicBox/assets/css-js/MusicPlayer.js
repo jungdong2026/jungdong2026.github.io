@@ -10,12 +10,6 @@ window.onload = () => {
   loadTrack(0);
 };
 
-try {
-  buildPlaylist();
-} catch (err) {
-  console.error("플레이리스트 생성 중 에러:", err);
-}
-
 let currentIndex = 0;
 const audio = document.getElementById("audio");
 const cover = document.getElementById("cover");
