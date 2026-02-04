@@ -10,7 +10,7 @@ body {
     padding: 0;
     background-color: transparent; /* 흰색 대신 투명 */
 	color: #333;
-    width: 1200px;
+    width: auto; /* 기본값, 화면 전체 폭 */
 } 
 
 .totalContent {
@@ -21,12 +21,7 @@ body {
   width: 1200px;
   margin: 0 auto; /* 중앙 정렬 */
   box-sizing: border-box; /* 패딩 포함 */ 
-}
-
-.totalContent {
-  width: 1200px;
-  margin: 0 auto;         /* 가운데 정렬 */
-  box-sizing: border-box; /* 패딩 포함 */
+  min-height: 100vh; /* 화면 전체 높이 확보 */
 }
 
 #header, #wrapper, #footer {
