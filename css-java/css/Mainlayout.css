@@ -1,70 +1,16 @@
 ﻿/* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
 html {
-    scroll-behavior: smooth;
-    background-color: transparent; /* html은 투명 */
-    box-sizing: border-box;
+  scroll-behavior: smooth;
 }
-
-*, *::before, *::after { box-sizing: inherit;}
-/* 전체 페이지 구조 */
+/* 기본 설정 */
 body {
     margin: 0;
-    display: flex;
-    flex-direction: column; 
-    width: 1200px;
-    min-height: 100vh; /* 화면 전체 높이 확보 */
-    background-color: #ddfaf7;
+    padding: 0;
     font-family: 'Montserrat', 'Roboto', sans-serif;
-    align-items: center; /* 내부 요소를 중앙 정렬 */
-}
-
-/* header & footer 공통 */
-#header {
-  width: 1200px;
-  padding: 20px 40px;
-  box-sizing: border-box;
-  background-color: #074788;
-  color: #fff;
-}
-
-/* wrapper: 좌/우 콘텐츠 영역 */
-#wrapper {
-    flex: 1; /* 남은 공간 채우기 */
-    width: 1200px;
-    margin: 0 auto; /* 중앙 고정 */
-    display: flex;
-    flex-direction: row;  /* 가로 배치 */
-    align-items: flex-start;
-    /* 배경 패턴 적용 */
-    background: url('../../Main/Image/pattern-texture.png') repeat;    /* 필요하다면 색상도 함께 지정 가능 */
-    /* background-color: #ddfaf7;*/
-    background-color: rgba(221, 250, 247, 0.2); /* 반투명 블루 */
-}
-
-/* 좌측 콘텐츠 */
-#contentLeft {
-  flex: 0 0 380px;      /* 고정 너비 */
-  padding: 30px 20px 0 20px;
-  background-color: transparent;
-}
-
-/* 우측 콘텐츠 */
-#contentRight {
-  flex: 1;              /* 남은 공간 자동 채우기 */
-  padding: 20px;
-  background-color: transparent;
-}
-
-#footer {
-  justify-content: center;
-  width: 1200px;
-  padding: 20px 40px;
-  box-sizing: border-box;
-  background-color: #074788;
-  color: #ffffff;
-  font-family: Arial, sans-serif;
-  font-size: 10pt;
-}
+    padding: 0;
+    background-color: #ddfaf7; /* 원하는 색상으로 변경 */
+	color: #333;
+} 
 
 a {
     text-decoration: none;
@@ -293,9 +239,7 @@ pre.article {
 
 navMain a:hover::after {
      width: 100%; /* 호버 시 밑줄 나타남 */ 
-     position: relative; /* 반드시 필요 */ 
-     z-index: 2000; /* myLife보다 높게 */ 
-    }
+}
 
 /* 2단 메뉴 */
 #navMain li ul {
@@ -307,7 +251,7 @@ navMain a:hover::after {
   border: 1px solid #03345f;
   min-width: 220px;
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-  z-index: 3000;
+  z-index: 1000;
 }
 
 #navMain li:hover ul {
@@ -366,11 +310,36 @@ a.tip:hover span {
     color: #000000;
 }
 
+/*/////////맨드릴 사진/////////////////////////////////////////////////////////////////////////////////*/ 
+#photos {
+    margin: 0px 0px 150px 0px;
+    padding: 0px 0px 150px 0px;
+}
+#photos img {
+    float: left; 
+    margin: 10px 15px 0px 10px;
+    border: 0px solid #000; 
+}
 
 /*/////////wrapper/////////////////////////////////////////////////////////////////////////////////*/ 
+#wrapper {
+    width: 1200px; /* 중앙 폭 고정 */
+    margin: 0 auto; /* 중앙 고정 */
+    display: flex;
+    background-color: #ddfaf7; /* 중앙도 블루 */
+    justify-content: space-between;
+}
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*좌측 내용/////////////////////////////////////////////////////////////////////////////////*/ 
+#contentLeft {
+    position: relative;
+    width: 380px;
+    background-color: transparent; /* 흰색 대신 투명 */
+    right: 0px;
+    padding: 30px 0px 00px 20px;
+    margin-right:0px;
+}
 
 #contentLeft p {
     text-align: justify;
@@ -404,20 +373,6 @@ a.tip:hover span {
     padding: 3px 0px 3px 0px;
 }
 
-#img-experiment {
-    width: 180px;         /* 두 개씩 들어가도록 고정 */
-    height: auto;
-    border: 0;
-    margin: 0;
-}
-
-#photos img {
-    width: 180px;         /* 두 개씩 들어가도록 고정 */
-    height: auto;
-    border: 0;
-    margin: 0;
-}
-
 #elevation {
     display: none;
 }
@@ -447,6 +402,13 @@ a.tip:hover span {
 
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*우측 내용/////////////////////////////////////////////////////////////////////////////////*/ 
+#contentRight {
+    position: relative;
+    width: 800px;
+    background-color: transparent; /* 흰색 대신 투명 */
+    padding-top: 20px;
+    }
+
 #contentRight h1, #contentRight p {
     margin: 0px 12px 0px 12px;
 }
@@ -619,48 +581,30 @@ div#galleryTitles li {
 /*////메인화면/////////////////////////////////////////////////////////////////////////////*/
 /*우측 thesis/////////////////////////////////////////////////////////////////////////////////*/ 
 #thesisMain {
-    margin: 0 auto;
+    margin: 30px 0px 0px 0px; 
     width: 700px;
 }
-
-#thesisMain h1 {
-    margin-bottom: 20px; /* 제목과 내용 사이 간격 */ 
-}
-
-.thesisContent {
-    display: flex; 
-    align-items: flex-start; /* 이미지와 리스트 상단 맞춤 */ 
-    gap: 30px; /* 이미지와 리스트 사이 간격 */ 
-}
-
-.thesisContent img {
-    width: 320px; 
-    height: auto; 
-    display: block; 
-}
-
-#thesisList {
-    flex: 1; /* 리스트가 남은 공간을 차지하도록 */ 
+#thesisMain img {
+    float: left;
+    height: auto;
+    margin: 0px;
+    display: block;
 }
 
 #thesisList ul {
     margin: 0px; 
     padding: 0px;
-    list-style-type: disc; /* 기본 불릿 표시 */
 }
 
 #thesisList li {
+    height: auto;
     text-align: justify;
     font-family: Tahoma;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 12px;
-    margin-bottom: 8px; /* 항목 간 간격 */ 
+    list-style-type: circle;
+    padding: 15px 20px 10px 0px;
 }
-
-#thesisList li:first-child {
-  font-weight: bold;
-}
-
 /*////PROFILE////////////////////////////////////////////////////////////////////////////*/
 /* 전체 컨테이너를 가로 배치 */
 #profileAll {
@@ -1054,8 +998,36 @@ pre {
 }
 
 /*////GuestBook/////////////////////////////////////////////////////////////////////*/
+#CPlus {
+    width: 100%;
+    height: 3200px;
+    padding: 10px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}
+#CPlus b{
+    width: 100%;
+    font-size: 1.5em;
+    color: #021472;
+    margin: 0px 0px 0px 0px;
+    padding: 15px 0px 10px 60px;
+    display: block;
+}
+
 
 /*////footer/////////////////////////////////////////////////////////////////////////////*/
+#footer {
+    background-color: #074788;
+    width: 1200px;
+    margin: 0 auto; /* 중앙 고정 */
+    color: #ffffff;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+    display: flex; /* ✅ 가로 배치 */
+    flex-direction: row; /* ✅ row 방향 */ 
+    justify-content: center; /* ✅ 가운데 정렬 */
+}
+
 .left-block { 
     display: flex; /* ✅ 세로 배치 */ 
     flex-direction: column; 
