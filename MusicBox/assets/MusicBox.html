@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>커스텀 음악 플레이어</title>
+  <!-- Font Awesome 아이콘 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css-js/MusicStyle.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+<body>
+<!-- 음악 플레이어 -->
+<div id="music" class="player-wrapper">
+  <div class="player-box">
+    <audio id="audio"></audio>
+    <div class="cover-container">
+      <img id="cover" src="assets/images/model004.jpg" alt="앨범 커버 이미지">
+    </div>
+    <div class="progress-container">
+      <i class="fa-regular fa-clock"></i>
+      <label for="progressBar" class="sr-only">재생 위치</label>
+      <input type="range" id="progressBar" min="0" max="100" value="0">
+      <span id="currentTime">00:00</span>
+      <span id="duration">03:45</span>
+    </div>
+    <div class="volume-control">
+      <i class="fa-solid fa-volume-high"></i>
+      <label for="volumeSlider" class="sr-only">볼륨 조절</label>
+      <input type="range" id="volumeSlider" min="0" max="100" value="50">
+      <span id="volumeValue">50%</span>
+    </div>
+    <div class="track-info">
+      <span id="trackTitle">Track Title</span> - <span id="trackArtist">Artist</span>
+    </div>
+    <div class="controls">
+      <button id="prevBtn">⏮</button>
+      <button id="playPauseBtn">▶️</button>
+      <button id="nextBtn">⏭</button>
+      <button id="shuffleBtn">🔀</button>
+      <button id="repeatBtn">🔁</button>
+      <button id="muteBtn">🔊</button>
+      <button id="musicBtn">🎵</button>
+    </div>
+      <ul id="playlist" class="playlist"></ul>
+  </div>
+</section>
+
+  <!-- 반드시 body 맨 아래 -->
+<script src="assets/css-js/MusicPlayer.js"></script>
+</body>
+</html>

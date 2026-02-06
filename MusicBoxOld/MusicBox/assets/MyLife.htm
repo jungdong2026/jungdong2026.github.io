@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Glassmorphism Audio Player</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+   
+    body { 
+	   margin: 0; 
+	   font-family: 'Poppins', sans-serif; /* 기본 여백 제거 */
+           background: linear-gradient(135deg, #89f7fe, #66a6ff);     /* 예시: 전체 화면 배경 */
+           min-height: 100vh;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+          }
+
+      .glass-player {
+      	width: 400px;
+      	padding: 10px;
+      	border-radius: 10px; /* 테두리 곡선 */
+      	background: rgba(248, 2, 2, 0.15); /* 박스 색상 */
+      	backdrop-filter: blur(12px);
+      	-webkit-backdrop-filter: blur(12px);
+      	border: 3px solid rgba(116, 116, 116, 0.3); /* 음영 크기와 색상 */
+      	box-shadow: 0 8px 25x rgba(0,0,0,0.2);
+      	color: rgb(252, 3, 127); /* 문자 색상 */
+      	font-family: 'Poppins', sans-serif;
+      	display: flex;
+      	flex-direction: column;
+     	gap: 0px;
+    }
+
+
+    .cover {
+      height: 0px;
+      background: url('album-cover.jpg') center/cover no-repeat;
+      border-radius: 15px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* 재생 정지버튼 간격 */
+    }
+
+    button {
+      background: rgba(251, 2, 48, 0.109); /* 버튼 바탕 색상 */
+      border: none;
+      padding: 10px; /* 박스크기 */
+      border-radius: 50%;
+      color: rgb(252, 4, 132); /* 버튼 샥상 */
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.2);
+      background: rgba(255,255,255,0.4);
+    }
+
+    input[type="range"] {
+      flex: 1;
+      accent-color: #eef0f0; /* 재생 다이알 색상 */
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+         }
+
+    .volume {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .volume input[type="range"] {
+      flex: 1;
+      accent-color: #ffffff; /* 볼륨 색상 */
+    }
+
+    header { background:#f0f0f0; padding:0px; position:fixed; top:0px; width:100%; }
+    nav .menu a { padding: 0px 0px; }
+    nav a { margin:50px; text-decoration:none; color:#333; }
+    section { 
+     height:100vh; padding-top:30px; 
+     display: flex; 
+     flex-direction: column;   /* 요소들을 세로로 쌓기 */
+     align-items: center;      /* 가로 가운데 */
+    /* justify-content: center;  /* 세로 가운데 */
+     justify-content: flex-start; /* 중앙 대신 위쪽에서 시작 */
+     height: 100vh;            /* 화면 전체 높이 */
+     text-align: center;       /* 텍스트도 가운데 정렬 */
+     }
+
+    section h1 {
+      margin-bottom: 0px;
+    }
+
+    section p {
+      margin-bottom: 0px;
+    }
+
+    section .links {
+      display: inline-block;    /* 리스트 전체를 중앙에 두기 */
+      text-align: left;         /* 내부 항목은 왼쪽 정렬 */
+      list-style-type: none;    /* ● 점 표시 없애려면 none, 번호(1,2,3...) list-style-type: decimal; */
+      padding-left: 20px;       /* 들여쓰기 효과 */
+      list-style-type: disc;    /* ● 점 표시 (없애려면 none) */
+    }
+
+    section .links li {
+      margin: 5px 0;            /* 항목 간격 */
+    }
+
+    section .links a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    section .links a:hover {
+      color: #e73c80;           /* 마우스 올렸을 때 색상 */
+    }
+    section ul.links {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #home { 
+      background:#ffe0e0; padding-top: 30px; /* 메뉴 높이(50px) + 여유 10px */
+    }
+    #premiere { background:#ffe0e0; }
+    #PhotoShop { background:#ffe0e0; }
+    #LightRoom { background:#ffe0e0; }
+    #AfterEffect { background:#ffe0e0; }
+    #music { background:#ffe0e0; }
+
+    .container {
+      width: 100%;              /* 내용 폭 제한 */
+      margin: 0 30px;             /* 좌우 자동 여백 → 가운데 정렬 */
+      padding: 20px;              /* 안쪽 여백 */
+      background: #fff;           /* 내용 박스 배경 (선택) */
+      border: 4px solid #90f1f6;     /* 내용 박스 테두리 (선택) */
+      box-sizing: border-box;
+    }
+    
+   
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;              /* 기준점을 확실히 왼쪽으로 */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  z-index: 1000;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 브라우저 기본 들여쓰기 제거 */
+nav ul {
+  padding-inline-start: 0;
+}
+nav li {
+  margin: 0 15px; /* 간격은 필요할 때만 */
+}
+
+    nav .menu {
+      display: flex;
+      gap: 0;
+      background: #e73c80;
+      border-radius: 0px;
+      opacity: 1;                  /* 기본은 불투명 */
+      transition: opacity 0.5s;    /* 부드럽게 변화 */
+    }
+
+    nav .menu.scrolled {
+      opacity: 0.7;                /* 스크롤 시 살짝 투명 */
+    }
+
+    nav .menu a {
+      display: block;
+      margin: 0;
+      padding: 4px 12px;         /* 글자 크기에 맞는 버튼 크기 */
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      transition: background 0.3s;
+      border: none;
+      border-radius: 0;          /* 개별 버튼 둥근 모서리 제거 */
+    }
+
+    nav a .icon {
+      color: #fff;           /* 아이콘은 항상 흰색 */
+    }
+    nav a:hover {
+      background: #ff5c4c;     /* 마우스 올렸을 때 밝은 빨강 */
+      color: #fff;           /* 글자는 계속 흰색 */
+    }
+
+    nav a:active {
+      background: #3498db;  /* 클릭 시 파랑 (#3498db) */
+    }
+ 
+    a {
+        color: red; /* 링크 색상 */
+        text-decoration: none; /* 밑줄 제거 */
+      }
+    a:hover {
+      color: green; /* 마우스 올렸을 때 색상 */
+    }
+
+    button:hover {
+        background: #0c58b4;   /* 마우스 올렸을 때 밝은 빨강 */
+      }
+
+    button:active {
+        background: #3498db;   /* 클릭 시 파랑 */
+      }
+
+  </style>
+</head>
+<body class="light">
+
+<div class="container">
+  <header>
+    <!-- 헤더 영역 <button onclick="toggleTheme()">테마 전환</button> -->
+    <nav>
+      <div class="menu">
+        <a href="#home">홈</a>
+        <a href="#premiere">프리미어</a>
+        <a href="#PhotoShop">포토샵</a>
+        <a href="#LightRoom">라이트룸</a>
+        <a href="#AfterEffect">에프터이펙트</a>
+        <a href="#music"><span class="icon">🎵</span> 음악 재생</a>
+      </div>
+     </nav>
+  </header>
+
+  <section id="home">
+    <h1>방문을 환영합니다</h1>
+   <audio id="player" src="Animals-houseof rising sun.mp3"></audio>
+
+  <div class="glass-player">
+    <div class="cover"></div>
+    <div class="controls">
+      <button id="play"><i class="fas fa-play"></i></button>
+      <button id="pause"><i class="fas fa-pause"></i></button>
+      <input type="range" id="seek" value="0" min="0" max="100">
+    </div>
+    <div class="info">
+      <span id="title"> House of the Rising Sun</span>
+      <span id="time">0:00</span>
+    </div>
+    <div class="volume">
+      <button id="mute"><i class="fas fa-volume-mute"></i></button>
+      <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
+    </div>
+  </div>
+
+<div>
+  <!-- <img src="트리251121.png" alt="사진" width="300"> -->
+  <video width="500" controls>
+    <source src="골프210106.mp4" type="video/mp4">
+  </video>
+</div>
+</section>
+
+<section id="premiere">
+       <h1>Premiere</h1>
+       <p>아래를 클릭하면 유투브를 불러 옵니다</p>
+  <ul class="links">
+    <li><a href="https://www.youtube.com/watch?v=5Umz5do2aKM" target="_blank">♡♡♡ 분할 CCTV 화면 효과로 인트로</a></li>
+    <li><a href="https://www.youtube.com/watch?v=4ePFwy1cTKY" target="_blank">♡♡♡ 2/3/4/16/32/144 분할</a></li>
+    <li><a href="https://www.youtube.com/watch?v=w_Op0szI58E" target="_blank">♡♡♡ 프리미어프로 새로운 기능 6 +</a></li>
+    <li><a href="https://www.youtube.com/watch?v=ZLliz_n-9Ow" target="_blank">♡♡♡ 반응형 로딩 바 만들기</a></li>
+    <li><a href="https://www.youtube.com/watch?v=ZBmtmOWJkZ0&list=PL5wb9LgS1DNeEUNpHimTjaHLbnJO_YcZG" target="_blank">♡♡♡ 3D 자막 만들고 뿅뿅 바운싱 모션</a></li>
+    <li><a href="https://www.youtube.com/watch?v=ucl3HLEndYY&t=17s" target="_blank">♡♡♡ 줌인 줌아웃 효과</a></li>
+    <li><a href="https://www.youtube.com/watch?v=5JAuK13qubE" target="_blank">♡♡♡ 5가지 꿀팁</a></li>
+    <li><a href="https://www.youtube.com/watch?v=oncFq7wzKNY&t" target="_blank">♡♡♡ 화면이 열리는 시네마틱 인트로</a></li>
+    <li><a href="https://www.youtube.com/watch?v=O6Uj3R3JodE&t" target="_blank">♡♡♡ 사진에 생동감 UP</a></li>
+    <li><a href="https://www.youtube.com/watch?v=4hrQbphQGTs" target="_blank">♡♡♡ 구겨진 종이가 펼쳐지며 이름 자막 등장</a></li>
+    <li><a href="https://www.youtube.com/watch?v=484LhATTWXg" target="_blank">♡♡♡ 모션 메세지 자막템플릿 9종</a></li>
+    <li><a href="https://www.youtube.com/watch?v=O31XxqiWTm0" target="_blank">♡♡♡ 타자치는 효과 타이핑</a></li>
+    <li><a href="https://www.youtube.com/watch?v=RqCUF89BFUo" target="_blank">♡♡♡ 네온싸인 인트로</a></li>
+    <li><a href="https://www.youtube.com/watch?v=T4ia_2jB38E&t" target="_blank">♡♡♡ 마블 인트로</a></li>
+  </ul>
+</section>
+   
+<section id="PhotoShop"><h1>PhotoShop</h1>
+       <p>아래를 클릭하면 유투브를 불러 옵니다</p>
+
+  	    <a href="https://www.youtube.com/watch?v=8GcO1bqZq68" target="_blank">♡♡♡Gemini 3 Nano Banana Pro </a>
+  	    <a href="https://www.youtube.com/watch?v=rNzqxex2Lyk" target="_blank">♡♡♡다중노출 사진술</a>
+
+</section> 
+<section id="LightRoom"><h1>LightRoom</a></h1>
+    	    <a href="https://www.youtube.com/watch?v=T4ia_2jB38E&t" target="_blank">♡♡♡마블 인트로</a>
+</section>   
+<section id="AfterEffect">
+	<h1>AfterEffect</a></h1>       
+	<p>아래를 클릭하면 유투브를 불러 옵니다</p>
+  <ul class="links">
+    <li><a href="https://www.youtube.com/watch?v=aleeQA9kU5k&list=PLkbzizJk4Ae_DEx8FzPGZJyYTtELUscIx&index=5" target="_blank">♡♡♡모션 제작 2편(강좌 1-5)</a></li>
+    <li><a href="https://www.youtube.com/watch?v=3KC4KKUSFAo" target="_blank">♡♡♡트랙매트와 마스크 기능의 차이</a></li>
+    <li><a href="https://www.youtube.com/watch?v=v-5io0X4AhE" target="_blank">♡♡♡올라오는 글자 효과</a></li>
+    <li><a href="https://www.youtube.com/watch?v=gfq2VyYiH40" target="_blank">♡♡♡텍스트 애니메이션: 바운스</a></li>
+    <li><a href="https://www.youtube.com/watch?v=6ROLdeBl5Zo" target="_blank">♡♡♡모션그래픽 만든다면 절대 필수! 애프터이펙트 효과 5가지</a></li>
+  </ul>
+</section> 
+
+<section id="music">
+    <h1>음악 듣기</h1>
+    <!-- 오디오 플레이어 -->
+    <audio controls autoplay loop>
+      <source src="Animals-houesof rising sun.mp3" type="audio/mpeg">
+      <source src="music.ogg" type="audio/ogg">
+      브라우저가 오디오 태그를 지원하지 않습니다.
+
+    </audio>
+</section>
+
+<script>
+  window.addEventListener("scroll", function() {
+    const menu = document.querySelector("nav .menu");
+    if (window.scrollY > 50) {   // 스크롤이 50px 이상 내려가면
+      menu.classList.add("scrolled");
+    } else {
+      menu.classList.remove("scrolled");
+    }
+  });
+
+    const audio = document.getElementById("player");
+    const playBtn = document.getElementById("play");
+    const pauseBtn = document.getElementById("pause");
+    const seekBar = document.getElementById("seek");
+    const timeLabel = document.getElementById("time");
+    const volumeSlider = document.getElementById("volume");
+    const muteBtn = document.getElementById("mute");
+
+    playBtn.addEventListener("click", () => audio.play());
+    pauseBtn.addEventListener("click", () => audio.pause());
+
+    audio.addEventListener("timeupdate", () => {
+      seekBar.value = (audio.currentTime / audio.duration) * 100;
+      timeLabel.textContent = formatTime(audio.currentTime);
+    });
+
+    seekBar.addEventListener("input", () => {
+      audio.currentTime = (seekBar.value / 100) * audio.duration;
+    });
+
+    // ??? 
+    volumeSlider.addEventListener("input", () => {
+      audio.volume = volumeSlider.value;
+    });
+
+    // ?? 
+    muteBtn.addEventListener("click", () => {
+      if (audio.muted) {
+        audio.muted = false;
+        muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+      } else {
+        audio.muted = true;
+        muteBtn.innerHTML = '<i class="fas fa-volume-off"></i>';
+      }
+    });
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s.toString().padStart(2, "0")}`;
+    }
+
+</script>
+</div>
+</body>
+</html>
