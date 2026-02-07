@@ -110,7 +110,7 @@ $(document).ready(function () {
 
             $(document).ready(function () {
             $('.nav-11 a').click(function () {
-                $('#wrapper').load('https://dong3640.dothome.co.kr/humorboard', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/humorBoard/Humor.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
