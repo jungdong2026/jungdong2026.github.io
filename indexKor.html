@@ -16,6 +16,7 @@
 </head>
 <body>
 <!-- 헤더 영역 -->
+<div class="totalContent">
 <header id="header">
     <div class="header-top">
         <div class="logo">
@@ -65,8 +66,10 @@
                         <li class="nav-6"><a href="#">PAINTING GALLERY</a></li>
                     </ul>
                 </li>
-                <li><a href="MusicBox/MusicBox.html" target="_blank"> MusicBox</a></li>
-                <li><a href="https://dong3640.dothome.co.kr/guestbook_list.php" target="_blank">Guestbook</a></li>
+                <li class="nav-10"><a href="#">myLife</a></li>
+                <li><a href="https://jungdong2026.github.io/MusicBox/MusicBox.html" target="_blank">MusicBox</a></li>
+                <li class="nav-11"><a href="#">HumorBoard</a></li>
+                <li class="nav-12"><a href="#">Guestbook</a></li>
             </ul>
         </nav>
     </header>
@@ -339,15 +342,13 @@
             이 싸이트는 2002년 12월 3일 처음으로 작성되었습니다.<br />
             모든 저작권은 본인에게 있으며,<br />
             이 문서가 마지막으로 수정된 날짜는 <span id="mod" style="color: #00ffff;"></span> 입니다
-            <script>
-                {
-                    var date = new Date(document.lastModified);
-                    var output = '';
-                    output += date.toLocaleString();
-                    document.getElementById("mod").innerHTML = output;
-                }
-            </script>
+        <span id="mod" style="color: #00ffff;"></span>
+        <script> 
+            var date = new Date(document.lastModified); 
+            document.getElementById("mod").innerHTML = date.toLocaleString(); 
+        </script>
     </div>
-</footer>    
+</footer>
+</div>     
 </body>
 </html>
