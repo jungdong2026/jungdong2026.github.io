@@ -110,7 +110,7 @@ $(document).ready(function () {
 
             $(document).ready(function () {
             $('.nav-11 a').click(function () {
-                $('#wrapper').load('https://jungdong2026.github.io/humorBoard/Humor.html', function () {
+                $('#wrapper').load('https://jungdong2026.github.io/bullitinBoard/Bullitin.html', function () {
                     $(this).fadeIn();
                 });
                 return false;
