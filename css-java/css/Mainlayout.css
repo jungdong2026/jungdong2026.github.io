@@ -1009,6 +1009,12 @@ img.top-img3 {
     height: auto; 
 }
 
+img.top-img4 { 
+    display: block; 
+    width:600px; 
+    height: auto; 
+}
+
 pre {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 12px;
