@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>5x8 박스 페이지</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .page {
+      display: none; /* 기본적으로 숨김 */
+    }
+
+    .page.active {
+      display: grid;
+      grid-template-columns: repeat(5, 120px); /* 가로 5칸 */
+      grid-template-rows: repeat(10, 30px);     /* 세로 8칸 */
+      gap: 5px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+
+    .box {
+      border: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f9f9f9;
+      font-size: 11px;
+    }
+
+    .box a {
+      text-decoration: none;
+      color: #0066cc;
+      font-weight: bold;
+    }
+
+    .box a:hover {
+      color: #ff3366;
+      text-decoration: underline;
+    }
+
+    .nav-buttons {
+      margin-top: 20px;
+    }
+
+    .nav-buttons button {
+      border: none;          /* 테두리 제거 */
+      background: none;      /* 배경 제거 */
+      font-size: 11px;       /* 글자 크기 */
+      cursor: pointer;
+      margin: 0 5px;
+    }
+    .nav-buttons button:hover {
+      color: #ff3366;        /* 마우스 올렸을 때 색상 */
+    }
+  </style>
+</head>
+<body>
+  <h3>Domestic and Foreign Travel</h3>
+  <!-- 첫 번째 페이지 -->
+  <div id="page1" class="page active">    <!-- 총 5x8 = 40칸 -->
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/BoSung.pdf">♡보성가는길♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/ChuAmBeach.pdf">♡추암해수욕장♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/ChunAnDamYang.pdf">♡천안에서담양♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/ChungDoHonSinJi.pdf">♡청도혼신지♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/ChungDoNaDaeFall.pdf">♡청도낙대폭포♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/ChungDoNamSAnVallery.pdf">♡청도남산계곡♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/ChungDoSukBingGo.pdf">♡청도석빙고♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/ChungDoUpSung.pdf">♡청도읍성♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/DaDaePo.pdf">♡다대포♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/DaeGuDongSungRoFestival.pdf">♡대구동성로축제♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/DaeGuFlowerExsco.pdf">♡대구꽃박람회♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/DaeGuSuMokWon(1).pdf">♡대구수목원(1)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/DaeGuSuMokWon(2).pdf">♡대구수목원(2)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/DaeGuSuMokWon(3).pdf">♡대구수목원(3)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/DaeJun.pdf">♡대전♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/DalSungTomatoFestival.pdf">♡달성토마토축제</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/EssayGraduate.pdf">♡수필대학 수료여행♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/GiJangDaeByunHang.pdf">♡기장대변항♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/GiJangJukSungDream.pdf">♡기장죽성드림성당♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/GimHaeGunSulGongGo.pdf">♡김해건설공고♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/gujeGotsum.pdf">♡거제 갓섬♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/gujeGungnongHang.pdf">♡거제 궁농항♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/gujeMaemiSum.pdf">♡거제 매미성♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/gujeHakDong.pdf">♡거제 학동♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/gujeHaeGumGang.pdf">♡거제 해금강♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/GuraeBanGogMaUL.pdf">♡구례반곡마을♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/GuRaeHyunChunMaUL.pdf">♡구례현천마을♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/DomesticHadongKwangPoJiSwan.pdf">♡하동광포지백조♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/InchunToWalkWill.pdf">♡인천에서워커힐♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/JinHaebutFlower.pdf">♡진해벗꽃♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/JoMunGukHistory.pdf">♡조문국역사♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/JoMunGukJakYak.pdf">♡조문국작약♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/ktx.pdf">♡KTX♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/KwangYangMaeHwaMaUl.pdf">♡광양매화마을♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/KyungJuSnow.pdf">♡경주설경♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/NakDongGangJungBo.pdf">♡낙동강정보♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/DomesticNamHaeMulGunRi.pdf">♡남해물건리♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/NamWon.pdf">♡남원♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/ObongSanPalgongSnow.pdf">♡오봉산팔공산설경♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/PalGongSanSkyPark.pdf">♡팔공산하늘정원♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/PalGongSanSnow.pdf">♡팔공산설경♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/PyungChang.pdf">♡평창♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/RohTaeWoo.pdf">♡노태우생가♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/SuckChon.pdf">♡석촌호수♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/TaeBaekSan.pdf">♡태백산♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/UlJinJukByunHang.pdf">♡울진죽변항♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/UynHaRiDungDae.pdf">♡연화리등대♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/YungDukDaegae.pdf">♡영덕대게♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Domestic/YungDukMongDol.pdf">♡영덕몽돌♡</a></div>
+    <div class="box"><a href="#">#</a></div>
+  </div>
+
+  <!-- 두 번째 페이지 -->
+  <div id="page2" class="page">
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/America(1).pdf">♡America(1)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/America(2).pdf">♡America(1)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/America(3).pdf">♡America(1)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/America(4).pdf">♡America(1)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/America(5).pdf">♡America(1)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/America(6).pdf">♡America(1)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/America(All).pdf">♡America(All)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/AmericaLa.pdf">♡AmericaLA♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Bangladesh(photo).pdf">♡Bangladesh(photo)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Bangladesh(Text).pdf">♡Bangladesh(Text)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/ChinaWyenYang.pdf">♡ChinaWyenYang♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/FranceCannes(1).pdf">♡FranceCannes(1)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/FranceCannes(2).pdf">♡FranceCannes(2)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/FranceCannes(3).pdf">♡FranceCannes(3)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/FranceCannes(4).pdf">♡FranceCannes(4)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/FranceCannes(5).pdf">♡FranceCannes(5)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/FranceCannes(6).pdf">♡FranceCannes(6)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/FranceCannes(All).pdf">♡FranceCannes(All)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/InDo.pdf">♡InDo♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/InDosouth.pdf">♡InDosouth♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Japan.pdf">♡Japan♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/MiyanMa.pdf">♡MiyanMa♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Mogolia(1).pdf">♡Mogolia(1)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Mogolia(2).pdf">♡Mogolia(2)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Mogolia(3).pdf">♡Mogolia(3)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Mogolia(4).pdf">♡Mogolia(4)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Mogolia(5).pdf">♡Mogolia(5)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Mogolia(6).pdf">♡Mogolia(6)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Mogolia(7).pdf">♡Mogolia(7)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Mogolia(8).pdf">♡Mogolia(8)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Mogolia(9).pdf">♡Mogolia(9)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Mogolia(1).pdf">♡Mogolia(All)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Swiss(1).pdf">♡Swiss(1)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Swiss(2).pdf">♡Swiss(2)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Swiss(3).pdf">♡Swiss(3)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Swiss(4).pdf">♡Swiss(4)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Swiss(5).pdf">♡Swiss(5)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Swiss(6).pdf">♡Swiss(6)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Swiss(7).pdf">♡Swiss(7)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Swiss(8).pdf">♡Swiss(8)♡</a></div>
+    <div class="box"><a href="https://dong3640.dothome.co.kr/Foreign/Swiss(All).pdf">♡Swiss(All)♡</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+  </div>
+
+  <!-- 페이지 이동 버튼 -->
+  <div class="nav-buttons">
+    <button onclick="showPage(1)">Domestic</button>
+    <button onclick="showPage(2)">Foreign</button>
+  </div>
+
+  <script>
+    function showPage(pageNumber) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById('page' + pageNumber).classList.add('active');
+    }
+  </script>
+</body>
+</html>
