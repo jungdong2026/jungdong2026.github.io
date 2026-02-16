@@ -148,6 +148,7 @@ body {
 }
 
 .myLife-box p{
+  color: white;
   font-size: 20px;
   line-height: 1.4;
   text-align: left;     /* 좌측 정렬 */
