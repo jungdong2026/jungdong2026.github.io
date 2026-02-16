@@ -110,7 +110,7 @@ body {
 /* 콘텐츠 박스 */
 .myLife-box {
   max-width: 800px;
-  height: 600PX;  
+  height: auto;  
   background-size: cover;
   background-position: center;
   margin-right: 50px !important; /* 오른쪽으로 이동 */
