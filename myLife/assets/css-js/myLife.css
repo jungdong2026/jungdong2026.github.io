@@ -110,7 +110,9 @@ body {
 /* 콘텐츠 박스 */
 .myLife-box {
   max-width: 800px;
-  height: 400PX;            
+  height: 400PX;  
+  background-size: cover;
+  background-position: center;
   margin-right: 50px !important; /* 오른쪽으로 이동 */
   overflow-y: visible;
   border: 2px solid #e5e5e5;
@@ -119,6 +121,10 @@ body {
   padding: 20px;
   box-sizing: border-box;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.myLife-box.travel {
+  background-image: url('https://dong3640.dothome.co.kr/mp4/828.jpg');
 }
 
 .myLife-box video {
