@@ -127,7 +127,7 @@ body {
   margin: 0 auto;
   width: 100%;
   max-width: 800px;
-  height: auto;
+  height: 600px; /* auto는 배경에 적용되지 않으므로 고정 높이 필요 */
   background-size: cover; 
   background-position: center;
   box-sizing: border-box;
