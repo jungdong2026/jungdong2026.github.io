@@ -121,13 +121,15 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.myLife-box travel {
+.myLife-box .travel {
   background-image: url('https://dong3640.dothome.co.kr/mp4/828.jpg');
   display: block;
   margin: 0 auto;
   width: 100%;
   max-width: 800px;
   height: auto;
+  background-size: cover; 
+  background-position: center;
   box-sizing: border-box;
 }
 
