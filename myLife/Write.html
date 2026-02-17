@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>a poem I wrote</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .page {
+      display: none; /* 기본적으로 숨김 */
+    }
+
+    .page.active {
+      display: grid;
+      grid-template-columns: repeat(5, 120px); /* 가로 5칸 */
+      grid-template-rows: repeat(5, 30px);     /* 세로 8칸 */
+      gap: 5px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+
+    .box {
+      border: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f9f9f9;
+      font-size: 11px;
+    }
+
+    .box a {
+      text-decoration: none;
+      color: #0066cc;
+      font-weight: bold;
+    }
+
+    .box a:hover {
+      color: #ff3366;
+      text-decoration: underline;
+    }
+
+    .nav-buttons {
+      margin-top: 20px;
+    }
+
+    .nav-buttons button {
+      border: none;          /* 테두리 제거 */
+      background: none;      /* 배경 제거 */
+      font-size: 11px;       /* 글자 크기 */
+      cursor: pointer;
+      margin: 0 5px;
+    }
+    .nav-buttons button:hover {
+      color: #ff3366;        /* 마우스 올렸을 때 색상 */
+    }
+  </style>
+</head>
+<body>
+
+  <h3>a poem I wrote</h3>
+  <!-- 첫 번째 페이지 -->
+  <div id="page1" class="page active">    <!-- 총 5x5 = 25칸 -->
+    <div class="box"><a href="https://www.youtube.com/watch?v=HzsZ5MoPNuE">♡11월의 첫날에♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=DYs7RjgcJFU">♡가을은 눈물인가♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=RxmPtac_l88">♡가을은 지는데♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=yJo6rHYFw68">♡가을은 슬프지 않다♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=4llFrQvRMJ0">♡가을연가♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=xJR6B9tFdPc">♡가을찬가♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=GwvtWey5zVc">♡강양항2026♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=-I73ox27j2E">♡눈오는 날♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=5QmDZuAIXdU">♡이별♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=1XIanoWoSgE">♡선운사♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=iEiKu5KkE8o">♡수성못♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=KkcU2JH46LY">♡수성못의 휴일♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=hb5IFwI6iHI">♡순간에머무는행복♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=K2u7cx8ROsU">♡송년의마음♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=2bISV60Lkts">♡자유의 상실♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=9aRsTbSRpqc">♡잠못드는밤♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=NR_gVU4wcaE">♡텅빈마음♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=dXlQNQhPjKQ">♡황혼의설계♡</a></div>
+    <div class="box"><a href="https://www.youtube.com/watch?v=0Q-NKSsD3NE">♡황혼은아름답다♡</a></div>
+    <div class="box"><a href="https://youtu.be/CwL3tSMEvwY?si=c-mxEX2uZMmSCYAl">♡황혼의약속♡</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+  </div>
+
+  <!-- 두 번째 페이지 -->
+  <div id="page2" class="page">
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+    <div class="box"><a href="#">#</a></div>
+  </div>
+
+  <!-- 페이지 이동 버튼 -->
+  <div class="nav-buttons">
+    <button onclick="showPage(1)">[1]</button>
+    <button onclick="showPage(2)">[2]</button>
+  </div>
+
+  <script>
+    function showPage(pageNumber) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById('page' + pageNumber).classList.add('active');
+    }
+  </script>
+</body>
+</html>
