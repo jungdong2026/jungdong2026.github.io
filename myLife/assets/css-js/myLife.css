@@ -144,7 +144,7 @@ body {
 }
 
 .myLife-box a {
-  color: white;
+  color: rgb(6, 6, 6);
   font-size: 1.5em;
   text-decoration: none;
   background-color: rgba(0,0,0,0.5); /* 글자 뒤 반투명 배경 */
